@@ -1,0 +1,111 @@
+.design-survey {
+    display: flex;
+    flex-direction: column;
+    background: rgb(233,233,233);
+    width: 100%;
+    height: 100vh;
+}
+
+.design-survey-container {
+    width: 100%;
+    margin: 40px auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.design-survey-section-title {
+    width: 98%;
+    height: 35px;
+    margin: 0 auto;
+    font-family: 'Open Sans Light', sans-serif;
+    font-size: 24px;
+    text-transform: uppercase;
+    color: rgb(0,77,113);
+}
+
+.design-survey-left {
+    width: 35%;
+    height: 73vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.suggested-frame {
+    width: 95%;
+    height: 48%;
+    background: white;
+    border: 1px solid rgb(84,87,90);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.suggested-items {
+    width: 98%;
+    height: 85%;
+    margin: 0 auto;
+}
+
+.discussion-frame {
+    width: 95%;
+    height: 48%;
+    background: white;
+    border: 1px solid rgb(84,87,90);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.discussion-message-frame {
+    width: 98%;
+    margin: 0 auto;
+    height: 75%;
+    overflow-y: scroll;
+}
+
+.discussion-input-frame {
+    width: 98%;
+    height: 35px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgb(84,87,90);
+}
+
+.discussion-input {
+    width: 93%;
+    height: 25px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    border: 1px solid rgb(200,199,199);
+}
+
+.discussion-submit-button {
+    height: 30px;
+    width: 40px;
+    background: none;
+    border: none;
+    text-align: center;
+}
+
+.discussion-submit-button:hover {
+    height: 35px;
+    width: 45px;
+}
+
+.design-survey-right {
+    width: 65%;
+}
+
+.survey-frame {
+    width: 95%;
+    height: 100%;
+    margin: 0 auto;
+    background: white;
+    border: 1px solid rgb(84,87,90);
+}

@@ -1,0 +1,39 @@
+.header {
+    box-sizing: border-box;
+   background: rgb(84,87,90);
+   height: 100px;
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 0 20px;
+}
+
+.header-nav-menu {
+    width: 90px;
+    height: 90px;
+    color: white;
+    text-align: center;
+}
+
+.header-account-info {
+    width: 500px;
+    height: 90px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.header-user-name {
+    margin-right: 10px;
+    font-family: 'Open Sans Light', sans-serif;
+    font-size: 20px;
+    text-transform: uppercase;
+    text-align: right;
+    color: white;
+}
+
+.header-user-image {
+    height: 80%;
+}

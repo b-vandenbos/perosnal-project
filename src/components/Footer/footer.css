@@ -1,0 +1,12 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-logo {
+    height: 75px;
+    width: 75px;
+    float: right;
+    margin: 0 30px 10px 0;
+}

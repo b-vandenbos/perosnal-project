@@ -1,0 +1,28 @@
+.admin {
+    display: flex;
+    flex-direction: column;
+    background: rgb(233,233,233);
+    width: 100%;
+    height: 100vh;
+}
+
+.admin-container {
+    width: 100%;
+    margin: 40px auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.company-container {
+    width: 80%;
+    border: 1px solid red;
+}
+
+.user-container {
+    width: 80%;
+    border: 1px solid blue;
+}
+
+.user {
+    border: 1px solid orange;
+}

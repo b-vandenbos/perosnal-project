@@ -1,0 +1,40 @@
+.discussion-message {
+    width: 98%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+}
+
+.discussion-message-image {
+    height: 50px;
+    margin: 0 10px 0 5px;
+    padding: 3px 0;
+
+}
+
+.discussion-message-content {
+    width: 90%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background: rgb(0,77,113);
+    border-radius: 10px;
+    padding: 5px 0;
+
+}
+
+.discussion-message-timestamp {
+    width: 10%;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    color: rgb(84,87,90);
+    text-align: right;
+    align-items: center;    
+}
+
+.discussion-message-text {
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+}

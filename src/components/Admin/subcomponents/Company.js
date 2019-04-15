@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import '../admin.css';
+import './company.css';
+import logo from './mask-star.svg';
 
 
 export default class Company extends Component {
@@ -8,7 +9,8 @@ export default class Company extends Component {
         let {company} = this.props;
         return (
             <div className='company'>
-                <p>{company.company_name}</p>
+                <img className='company-image' src={company.company_logo || logo} alt={company.company_name}/>
+                <div className='company-label'>{company.id}: {company.company_name}</div>
             </div>
         )
     }

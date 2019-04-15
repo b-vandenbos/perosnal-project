@@ -67,6 +67,20 @@
     overflow-y: scroll;
 }
 
+.discussion-message-frame::-webkit-scrollbar {
+    width: 5px;
+}
+.discussion-message-frame::-webkit-scrollbar-track {
+    background: none; 
+}
+.discussion-message-frame::-webkit-scrollbar-thumb {
+    background: #004d71;
+    border-radius: 10px;
+}
+.discussion-message-frame::-webkit-scrollbar-thumb:hover {
+    background: #53575a;
+}
+
 .discussion-input-frame {
     width: 98%;
     height: 35px;

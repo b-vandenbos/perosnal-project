@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import '../admin.css';
+import './user.css';
 
 
 export default class User extends Component {
@@ -7,11 +7,13 @@ export default class User extends Component {
     render() {
         let {user} = this.props;
         return (
-            <div className='user'>
-                <p>{user.company_name}</p>
-                <p>{user.user_name}</p>
-                <p>{user.user_email}</p>
-            </div>
+            <ul className='user-list'>
+                <li>{user.user_name}</li>
+                <li>{user.user_email}</li>
+                <li>{user.company_name}</li>
+                <li><button className='user-list-button'>Reset</button></li>
+                <li><button className='user-list-button'>Send</button></li>
+            </ul>
         )
     }
 }

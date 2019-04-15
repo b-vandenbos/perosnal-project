@@ -1,0 +1,48 @@
+.user {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.user-list {
+    border-bottom: 1px solid rgb(200,199,199);
+    width: 100%;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+}
+
+.user-list > li {
+    width: 20%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #53575a;
+}
+
+.user-list-button {
+    border: none;
+    background: none;
+    color: rgb(0,77,113);
+    text-transform: uppercase;
+    font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.user-list-button:hover {
+    color: #53575a;
+}
+
+.user-list-button:focus {
+    outline: none;
+}

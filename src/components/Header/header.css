@@ -1,7 +1,7 @@
 .header {
     box-sizing: border-box;
    background: rgb(84,87,90);
-   height: 100px;
+   height: 75px;
    width: 100%;
    display: flex;
    justify-content: space-between;
@@ -35,5 +35,5 @@
 }
 
 .header-user-image {
-    height: 80%;
+    height: 60%;
 }

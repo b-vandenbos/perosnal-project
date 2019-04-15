@@ -30,6 +30,10 @@ export default class DesignSurvey extends Component {
                             <div className='design-survey-section-title'>Discussion</div>
                             <div id='discussion-scroll' className='discussion-message-frame'>
                                 <DiscussionMessage />
+                                <DiscussionMessage />
+                                <DiscussionMessage />
+                                <DiscussionMessage />
+                                <DiscussionMessage />
                             </div>
                             <div className='discussion-input-frame'>
                                 <input className='discussion-input' placeholder='ENTER MESSAGE HERE'/>

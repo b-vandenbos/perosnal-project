@@ -10,19 +10,257 @@
     width: 100%;
     margin: 40px auto;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
 }
 
 .company-container {
-    width: 80%;
-    border: 1px solid red;
+    display: flex;
+    justify-content: space-between;
+    width: 98%;
+    margin: 0 auto;
+}
+
+.company-display {
+    background: white;
+    border: 1px solid rgb(84,87,90);
+    width: 75%;
+    height: 25vh;
+    display: flex;
+    align-items: center;
+    overflow-x: scroll;
+}
+    .company-display::-webkit-scrollbar {
+        width: 2px;
+  }
+    .company-display::-webkit-scrollbar-track {
+        background: none; 
+  }
+    .company-display::-webkit-scrollbar-thumb {
+        background: #004d71;
+        border-radius: 10px;
+  }
+    .company-display::-webkit-scrollbar-thumb:hover {
+        background: #53575a;
+  }
+
+.company-add-container {
+    width: 24%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.company-input {
+    width: 100%;
+    margin: 0 auto 5px;
+    border-radius: 5px;
+    border: 2px solid rgb(0,77,113);
+    height: 30px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    text-align: center;
+}
+
+.company-add-container > p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(0,77,113);
+    text-align: center;
+    margin: 0 auto;
+}
+
+.add-company-button {
+    width: 40%;
+    margin: 20px 0 0;
+    text-transform: uppercase;
+    font-family: 'Open Sans Light', sans-serif;
+    font-size: 100%;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    background: rgb(0,77,113);
+    color: white;
+}
+
+.add-company-button:hover {
+    background: rgb(84, 87, 90);
+}
+
+.add-company-button:focus {
+    outline: none;
 }
 
 .user-container {
-    width: 80%;
-    border: 1px solid blue;
+    display: flex;
+    justify-content: space-between;
+    width: 98%;
+    margin: 80px auto 0;
 }
 
-.user {
-    border: 1px solid orange;
+.user-display {
+    background: white;
+    border: 1px solid rgb(84,87,90);
+    width: 75%;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
 }
+
+.user-display::-webkit-scrollbar {
+    width: 10px;
+}
+.user-display::-webkit-scrollbar-track {
+    background: none; 
+}
+.user-display::-webkit-scrollbar-thumb {
+    background: #004d71;
+    border-radius: 10px;
+}
+.user-display::-webkit-scrollbar-thumb:hover {
+    background: #53575a;
+}
+
+.user-display-titles {
+    width: 100%;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    box-sizing: border-box;
+    font-family: 'Open Sans Light', sans-serif;
+    text-transform: uppercase;
+    font-size: 14px;
+    background: rgb(0,77,113);
+}
+
+li {
+    width: 20%;
+    align-self: center;
+    text-align: center;
+    color: white;
+}
+
+.user-add-container {
+    width: 24%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.user-input-row3 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-user-button {
+    width: 40%;
+    margin: 20px 0 0;
+    text-transform: uppercase;
+    font-family: 'Open Sans Light', sans-serif;
+    font-size: 100%;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    background: rgb(0,77,113);
+    color: white;
+}
+
+.add-user-button:hover {
+    background: rgb(84, 87, 90);
+}
+
+.add-user-button:focus {
+    outline: none;
+}
+
+.user-input {
+    width: 100%;
+    margin: 0 auto 5px;
+    border-radius: 5px;
+    border: 2px solid rgb(0,77,113);
+    height: 30px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    text-align: center;
+}
+
+.row3-password {
+    width: 50%;
+    margin: 0;
+    padding: 0;
+}
+
+.row3-companyid {
+    width: 20%;
+    margin: 0;
+    padding: 0;
+}
+
+.user-input-checkbox {
+    display: block;
+    align-items: center;
+    position: relative;
+    padding-left: 25px;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    color: rgb(84, 87, 90);
+    text-transform: uppercase;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .user-input-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background: rgb(0,77,113);
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .user-input-checkbox input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .user-input-checkbox .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }

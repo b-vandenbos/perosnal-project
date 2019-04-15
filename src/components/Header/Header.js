@@ -17,7 +17,7 @@ class Header extends Component {
                 <div className='header-nav-menu'>MENU</div>
                 <div className='header-account-info'>
                     <div className='header-user-name'>{this.props.user.user_name}</div>
-                    <img className='header-user-image' src={logo} alt='' />
+                    <img className='header-user-image' src={this.props.user.user_image || logo} alt='' />
                 </div>
                 
             </div>
@@ -25,6 +25,6 @@ class Header extends Component {
     }
 }
 
-const mapState = (reduxState) => reduxState.user;
+const mapState = (reduxState) => reduxState;
 
 export default connect(mapState, {getUser})(Header);

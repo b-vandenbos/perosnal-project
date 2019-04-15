@@ -3,9 +3,10 @@ import axios from 'axios';
 const initialState = {
     allCompany: [],
     newCompany: {},
-    activeCompany: ''
+    activeCompany: {}
 }
 
+export const GET_COMPANY = 'GET_COMPANY';
 export const GET_ALL_COMPANY = 'GET_ALL_COMPANY';
 export const ADD_NEW_COMPANY = 'ADD_NEW_COMPANY';
 
@@ -23,12 +24,23 @@ export function addNewCompany(company) {
         type: ADD_NEW_COMPANY,
         payload: data
     }
+};
+
+export function getCompany(id) {
+    let data = axios.get(`/company/${id}`).then(res => res.data);
+    return {
+        type: GET_COMPANY,
+        payload: data
+    }
 }
+
 
 export default function reducer(state = initialState, action) {
     switch(action.type) {
         case GET_ALL_COMPANY + '_FULFILLED':
             return {allCompany: action.payload};
+        case GET_COMPANY + '_FULFILLED':
+            return {activeCompany: action.payload};
         default:
             return state;
     }

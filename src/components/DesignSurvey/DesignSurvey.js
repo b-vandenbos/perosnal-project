@@ -4,10 +4,23 @@ import Footer from '../Footer/Footer';
 import './designsurvey.css';
 import message from './message.svg';
 import DiscussionMessage from './subcomponents/DiscussionMessage';
+import Dimension from './subcomponents/Dimension';
+import AddSurveyItem from './subcomponents/AddSurveyItem';
+import {connect} from 'react-redux';
+import {getSurvey, getSuggested, getDimensions} from './../../ducks/surveyReducer';
 
-export default class DesignSurvey extends Component {
+class DesignSurvey extends Component {
+    constructor() {
+        super();
+        
+        this.state = {
+            addNew: false
+        }
+    }
     componentDidMount() {
         this.discussionScrollbar();
+        this.props.getDimensions();
+        this.props.getSuggested();
     }
 
     discussionScrollbar() {
@@ -16,23 +29,28 @@ export default class DesignSurvey extends Component {
     }
     
     render() {
+        const {dimensions, suggested} = this.props.survey;
+        let dimensionsList = dimensions.map((dimension, index) => {
+            return <Dimension key={index} dimension={dimension} />
+        })
+        let suggestedSurvey = suggested.map((item, index) => {
+            return <p key={index}>{item.q_text}</p>
+        })
         return (
             <div className='design-survey'>
                 <Header />
                 <div className='design-survey-container'>
+                    {this.state.addNew ? <AddSurveyItem addNew={this.addNew}/> : null}
                     <div className='design-survey-left'>
                         <div className='suggested-frame'>
                             <div className='design-survey-section-title'>Suggested Survey Items</div>
                             <div className='suggested-items'>
+                                {suggestedSurvey}
                             </div>
                         </div>
                         <div className='discussion-frame'>
                             <div className='design-survey-section-title'>Discussion</div>
                             <div id='discussion-scroll' className='discussion-message-frame'>
-                                <DiscussionMessage />
-                                <DiscussionMessage />
-                                <DiscussionMessage />
-                                <DiscussionMessage />
                                 <DiscussionMessage />
                             </div>
                             <div className='discussion-input-frame'>
@@ -44,6 +62,7 @@ export default class DesignSurvey extends Component {
                     </div>
                     <div className='design-survey-right'>
                         <div className='survey-frame'>
+                        {dimensionsList}
                         </div>
 
                     </div>
@@ -53,3 +72,11 @@ export default class DesignSurvey extends Component {
         )
     }
 }
+
+const mapState = (reduxState) => {
+    return {
+        survey: reduxState.survey
+    }
+}
+
+export default connect(mapState, {getSurvey, getSuggested, getDimensions})(DesignSurvey);

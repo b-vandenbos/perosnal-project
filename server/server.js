@@ -6,6 +6,7 @@ const app = express();
 const authController = require('./controllers/authController');
 const companyController = require('./controllers/companyController');
 const userController = require('./controllers/userController');
+const surveyController = require('./controllers/surveyController');
 const headlineController = require('./controllers/headlineController');
 
 const {SERVER_PORT, SESSION_SECRET, CONNECTION_STRING} = process.env;
@@ -31,5 +32,12 @@ app.get('/auth/logout', authController.logout);
 
 app.post('/company', companyController.newCompany);
 app.get('/company', companyController.getAllCompany);
+app.get('/company/:id', companyController.getCompany);
 
 app.get('/users', userController.getAllUsers);
+
+app.get('/survey', surveyController.getSurvey);
+app.get('/suggested', surveyController.getSuggested);
+app.get('/dimensions', surveyController.getDimensions);
+app.put('/survey/:id', surveyController.updateSurveyItem);
+app.post('/survey', surveyController.addSurveyItem);

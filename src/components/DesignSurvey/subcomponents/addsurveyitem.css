@@ -1,0 +1,75 @@
+.add-item-frame {
+    position: absolute;
+    width: 100%;
+    height: 73vh;
+    margin: 0 auto;
+    background: rgba(84,87,90, .7);
+    display: flex;
+}
+
+.add-item {
+    width: 500px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    background: rgb(233,233,233);
+}
+
+.cancel-add-item {
+    width: 25px;
+    height: 25px;
+    background: none;
+    border: none;
+    align-self: flex-end;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: rgb(84,87,90);
+}
+
+.cancel-add-item:hover {
+    color: #ee7625;
+}
+
+.cancel-add-item:focus {
+    outline: 0;
+}
+
+.add-item-input {
+    width: 80%;
+    margin: 5px auto;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 5px;
+    border: 2px solid rgb(0,77,113);
+}
+
+.add-item-select {
+    width: 40%;
+    margin: 5px auto;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    border-radius: 5px;
+}
+
+.add-item-button {
+    width: 40%;
+    margin: 20px auto;
+    text-transform: uppercase;
+    font-family: 'Open Sans Light', sans-serif;
+    font-size: 90%;
+    height: 25px;
+    border: none;
+    border-radius: 5px;
+    background: rgb(0,77,113);
+    color: white;
+}
+
+.add-item-button:hover {
+    background: rgb(84, 87, 90);
+}
+
+.add-item-button:focus {
+    outline: none;
+}

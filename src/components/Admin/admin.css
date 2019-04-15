@@ -107,7 +107,7 @@
     height: 40vh;
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .user-display::-webkit-scrollbar {
@@ -195,7 +195,7 @@ li {
 }
 
 .row3-password {
-    width: 50%;
+    width: 40%;
     margin: 0;
     padding: 0;
 }
@@ -204,6 +204,16 @@ li {
     width: 20%;
     margin: 0;
     padding: 0;
+}
+
+.user-select-company {
+    border: 2px solid rgb(0,77,113);
+    width: 35%;
+    height: 30px;
+    border-radius: 5px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    color: rgb(84, 87, 90);
 }
 
 .user-input-checkbox {

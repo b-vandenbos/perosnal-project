@@ -1,0 +1,68 @@
+.survey-item {
+    border: 1px solid rgb(200,199,199);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 98%;
+    margin: 0 auto 3px;
+    font-family: 'Open Sans', sans-serif;
+    padding: 5px 0;
+}
+
+.survey-item-id {
+    width: 25px;
+    margin-left: 5px;
+}
+
+.survey-item-text {
+    width: 80%;
+    font-size: 12px;
+    margin: 0 5px;
+    border-right: 1px solid rgb(0,77,113);
+}
+
+.survey-item-category {
+    width: 15%;
+    text-transform: uppercase;
+    text-align: left;
+    font-size: 12px;
+    margin: 0 5px;
+}
+
+.survey-item-delete {
+    border: none;
+    background: none;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    color: rgb(84,87,90);
+}
+
+.survey-item-delete:hover {
+    color: #ee7625;
+}
+
+.survey-item-delete:focus {
+    outline: 0;
+}
+
+.edit {
+    border: 1px solid rgb(200,199,199);
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+}
+
+.survey-item-edit {
+    border: none;
+    background: none;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    color: rgb(0,77,113);
+}
+
+.survey-item-edit:hover {
+    color: rgb(84,87,90);
+}
+
+.survey-item-edit:focus {
+    outline: 0;
+}

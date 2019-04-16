@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './surveyitem.css';
 import {connect} from 'react-redux';
-import {getSurvey, getDimensions, updateSurveyItem} from './../../../ducks/surveyReducer';
+import {getSurvey, getDimensions, updateSurveyItem, deleteSurveyItem} from './../../../../ducks/surveyReducer';
 
 class SurveyItem extends Component {
     constructor() {
@@ -17,6 +17,7 @@ class SurveyItem extends Component {
 
         this.editMode = this.editMode.bind(this);
         this.submitEdit = this.submitEdit.bind(this);
+        this.deleteSurveyItem = this.deleteSurveyItem.bind(this);
     }
 
     componentDidMount() {
@@ -51,6 +52,11 @@ class SurveyItem extends Component {
         this.props.getSurvey();
     }
 
+    async deleteSurveyItem(id) {
+        this.props.deleteSurveyItem(id);
+        this.props.getSurvey();
+    }
+
     render() {
         let dimensions = this.props.survey.dimensions.map((dimension, index) => {
             return <option key={index} value={dimension.id}>{dimension.q_dimension}</option>
@@ -81,7 +87,8 @@ class SurveyItem extends Component {
             <div className='survey-item'>
                 <div className='survey-item-text' onClick={this.editMode}>{item.q_text}</div>
                 {item.q_category ? <div className='survey-item-category'>{item.q_category}</div> : null}
-                <button className='survey-item-delete'>X</button>
+                <button className='survey-item-delete'
+                        onClick={() => this.deleteSurveyItem(item.id)}>X</button>
             </div>
         )
     }
@@ -93,4 +100,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {getSurvey, getDimensions, updateSurveyItem})(SurveyItem);
+export default connect(mapState, {getSurvey, getDimensions, updateSurveyItem, deleteSurveyItem})(SurveyItem);

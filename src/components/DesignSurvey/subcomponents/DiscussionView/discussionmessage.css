@@ -8,31 +8,43 @@
 
 .discussion-message-image {
     height: 30px;
+    width: 30px;
     margin: 0 10px 0 5px;
+    border-radius: 50%;
 }
 
 .discussion-message-content {
     width: 90%;
     height: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    background: rgb(0,77,113);
     border-radius: 10px;
     padding: 5px 0;
+}
 
+.self {
+    background: rgb(0,77,113);
+    color: white;
+}
+
+.other {
+    border: 1px solid rgb(84,87,90);
+    color: rgb(84,87,90);
 }
 
 .discussion-message-timestamp {
-    width: 10%;
+    width: 8%;
     font-family: 'Open Sans', sans-serif;
-    font-size: 11px;
+    font-size: 60%;
     color: rgb(84,87,90);
-    text-align: right;
-    align-items: center;    
+    text-align: center;
+    align-items: center;
 }
 
 .discussion-message-text {
-    color: white;
     font-family: 'Open Sans', sans-serif;
     font-size: 11px;
+    width: 90%;
+    margin: 0 5px;
 }

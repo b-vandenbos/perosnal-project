@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Company from './Company';
 import '../admin.css';
 import {connect} from 'react-redux';
-import {getAllCompany, addNewCompany} from './../../../ducks/companyReducer';
+import {getAllCompany, addNewCompany, getCompany} from './../../../ducks/companyReducer';
 
 class CompanyView extends Component {
     constructor() {
@@ -43,11 +43,10 @@ class CompanyView extends Component {
     }
 
     render() {
-        console.log(this.props);
         let {allCompany} = this.props.company;
         let companies = allCompany.map((company, index) => {
             if (company.company_name.toLowerCase().includes(this.state.searchInput)) {
-                return <Company key={index} company={company} />
+                return <Company key={index} company={company} getCompanyInfo={this.props.getCompany}/>
             }
         })
         
@@ -87,4 +86,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {getAllCompany, addNewCompany})(CompanyView);
+export default connect(mapState, {getAllCompany, addNewCompany, getCompany})(CompanyView);

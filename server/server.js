@@ -7,6 +7,7 @@ const authController = require('./controllers/authController');
 const companyController = require('./controllers/companyController');
 const userController = require('./controllers/userController');
 const surveyController = require('./controllers/surveyController');
+const discussionController = require('./controllers/discussionController');
 const headlineController = require('./controllers/headlineController');
 
 const {SERVER_PORT, SESSION_SECRET, CONNECTION_STRING} = process.env;
@@ -37,7 +38,12 @@ app.get('/company/:id', companyController.getCompany);
 app.get('/users', userController.getAllUsers);
 
 app.get('/survey', surveyController.getSurvey);
-app.get('/suggested', surveyController.getSuggested);
 app.get('/dimensions', surveyController.getDimensions);
 app.put('/survey/:id', surveyController.updateSurveyItem);
 app.post('/survey', surveyController.addSurveyItem);
+app.delete('/delete/:id',surveyController.deleteSurveyItem);
+app.get('/suggested', surveyController.getSuggested);
+app.delete('/delete-suggested/:id', surveyController.deleteSuggestedItem);
+
+app.get('/discussion', discussionController.getDiscussion);
+app.post('/discussion', discussionController.createMessage);

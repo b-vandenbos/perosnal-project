@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import SurveyItem from './SurveyItem';
 import {connect} from 'react-redux';
-import {getSurvey} from './../../../ducks/surveyReducer';
+import {getSurvey} from './../../../..//ducks/surveyReducer';
 
 class Dimension extends Component {
     componentDidMount() {
@@ -28,7 +28,8 @@ class Dimension extends Component {
 
 const mapState = (reduxState) => {
     return {
-        survey: reduxState.survey
+        survey: reduxState.survey,
+        user: reduxState.user
     }
 }
 

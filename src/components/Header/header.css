@@ -28,7 +28,7 @@
 .header-user-name {
     margin-right: 10px;
     font-family: 'Open Sans Light', sans-serif;
-    font-size: 20px;
+    font-size: 14px;
     text-transform: uppercase;
     text-align: right;
     color: white;
@@ -36,4 +36,7 @@
 
 .header-user-image {
     height: 60%;
+    width: 60px;
+    object-fit: cover;
+    border-radius: 50%;
 }

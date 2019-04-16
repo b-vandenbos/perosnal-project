@@ -25,7 +25,7 @@
 
 .design-survey-left {
     width: 35%;
-    height: 73vh;
+    height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -43,10 +43,56 @@
     align-items: center;
 }
 
+.suggested-frame-titlebar {
+    width: 98%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.add-suggested-item-button {
+    background: rgb(0,77,113);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 25px;
+    height: 25px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    font-size: 100%;
+    text-align: center;
+    margin-right: 5px;
+}
+
+.add-suggested-item-button:hover {
+    background: rgb(84, 87, 90);
+}
+
+.add-suggested-item-button:focus {
+    outline: none;
+}
+
 .suggested-items {
     width: 98%;
     height: 85%;
     margin: 0 auto;
+    overflow-y: auto;
+}
+
+.suggested-items::-webkit-scrollbar {
+    width: 10px;
+}
+.suggested-items::-webkit-scrollbar-track {
+    background: none; 
+}
+.suggested-items::-webkit-scrollbar-thumb {
+    background: #004d71;
+    border-radius: 10px;
+}
+.suggested-items::-webkit-scrollbar-thumb:hover {
+    background: #53575a;
 }
 
 .discussion-frame {
@@ -92,28 +138,20 @@
 }
 
 .discussion-input {
-    width: 93%;
+    width: 100%;
     height: 25px;
     font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     border: 1px solid rgb(200,199,199);
 }
 
-.discussion-submit-button {
-    height: 30px;
-    width: 40px;
-    background: none;
-    border: none;
-    text-align: center;
-}
-
-.discussion-submit-button:hover {
-    height: 35px;
-    width: 45px;
+textarea {
+    resize: none;
 }
 
 .design-survey-right {
     width: 65%;
+    height: 80vh;
 }
 
 .survey-frame {
@@ -122,4 +160,19 @@
     margin: 0 auto;
     background: white;
     border: 1px solid rgb(84,87,90);
+    overflow-y: auto;
+}
+
+.survey-frame::-webkit-scrollbar {
+    width: 5px;
+}
+.survey-frame::-webkit-scrollbar-track {
+    background: none; 
+}
+.survey-frame::-webkit-scrollbar-thumb {
+    background: #004d71;
+    border-radius: 10px;
+}
+.survey-frame::-webkit-scrollbar-thumb:hover {
+    background: #53575a;
 }

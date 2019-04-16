@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import './addsurveyitem.css';
 import {connect} from 'react-redux';
-import {getDimensions, addSurveyItem} from './../../../ducks/surveyReducer';
+import {getDimensions, addSurveyItem, getSuggested} from './../../../../ducks/surveyReducer';
+import {getUser} from './../../../../ducks/userReducer';
 
 class AddSurveyItem extends Component {
     constructor() {
@@ -15,13 +16,26 @@ class AddSurveyItem extends Component {
         }
 
         this.addSurveyItem = this.addSurveyItem.bind(this);
+        this.cancel = this.cancel.bind(this);
     }
 
-    addSurveyItem() {
+    componenntDidMount() {
+        this.props.getUser();
+    }
+
+    async addSurveyItem() {
         let {q_id, q_dimension_id, q_category, q_text} = this.state;
-        let newItem = {q_id, q_dimension_id, q_category, q_text};
-        this.props.addSurveyItem(newItem);
+        let {company_id, id} = this.props.user.user;
+        let newItem = {company_id, user_id: id, q_id, q_dimension_id, q_category, q_text};
+        await this.props.addSurveyItem(newItem);
+        await this.props.getSuggested();
+        this.cancel();
         this.setState({q_id: '', q_dimension_id: '', q_category: '', q_text: ''});
+    }
+
+    cancel() {
+        let {addNewToggle} = this.props;
+        addNewToggle();
     }
 
     watchId(val) {
@@ -41,13 +55,15 @@ class AddSurveyItem extends Component {
     }
     
     render() {
-        let dimensionOptions = this.props.survey.dimensions.map((dimension, index) => {
+        const {survey} = this.props;
+        let dimensionOptions = survey.dimensions.map((dimension, index) => {
             return <option key={index} value={dimension.id}>{dimension.q_dimension}</option>
         })
         return (
             <div className='add-item-frame'>
                 <div className='add-item'>
-                    <button className='cancel-add-item'>X</button>
+                    <button className='cancel-add-item'
+                            onClick={() => this.cancel()}>X</button>
                     <input  className='add-item-input'
                             value={this.state.q_id}
                             placeholder='qid'
@@ -77,8 +93,9 @@ class AddSurveyItem extends Component {
 
 const mapState = (reduxState) => {
     return {
-        survey: reduxState.survey
+        survey: reduxState.survey,
+        user: reduxState.user
     }
 }
 
-export default connect(mapState, {getDimensions, addSurveyItem})(AddSurveyItem);
+export default connect(mapState, {getUser, getDimensions, addSurveyItem, getSuggested})(AddSurveyItem);

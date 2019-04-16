@@ -27,7 +27,7 @@ export function getUser() {
 };
 
 export function getAllUsers() {
-    let data = axios.get('/users').then(res => res.data);
+    let data = axios.get(`/users`).then(res => res.data);
     return {
         type: GET_ALL_USERS,
         payload: data
@@ -37,12 +37,9 @@ export function getAllUsers() {
 export default function reducer(state = initialState, action) {
     switch(action.type) {
         case GET_USER + '_FULFILLED':
-            return {user: action.payload};
-        case GET_ALL_USERS + '_PENDING':
-            return {...state, loading: true};
+            return {...state, user: action.payload};
         case GET_ALL_USERS + '_FULFILLED':
-            return {allUsers: action.payload, loading: false};
-       
+            return {...state, allUsers: action.payload};
         default:
             return state;
     }

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
+import icon from './single-neutral-circle.svg';
 import './userdashboard.css';
 import Headline from './Headline/Headline';
 import {connect} from 'react-redux';
@@ -24,17 +25,18 @@ class UserDashboard extends Component {
     }
   
     render() {
+        const {user} = this.props.user;
         return (
             <div className='user-dashboard'>
                 <div className='user-info'>
-                    <img className='user-image' name='user-image' src={this.props.user.user_image} alt='' />
+                    <img className='user-image' name='user-image' src={user.user_image || icon} alt='' />
                     <div className='user-welcome'>
-                        <h1>Welcome, {this.props.user.user_name}.</h1>
+                        <h1>Welcome, {user.user_name}.</h1>
                         <p>Click on the links below to design your survey or compose survey notification emails.</p>
                     </div>
                     <div className='user-links'>
                         <Link to={'/design-survey'}>Design Your Survey</Link>
-                        <Link to={'/emails'}>Compose Survey Emails</Link>
+                        <Link to={'/admin'}>Admin</Link>
                     </div>
                     <button className='user-logout-button' onClick={() => this.logout()}>Logout</button>
                 </div>
@@ -48,6 +50,10 @@ class UserDashboard extends Component {
     }
 }
 
-const mapState = (reduxState) => reduxState.user;
+const mapState = (reduxState) => {
+    return {
+        user: reduxState.user
+    }
+}
 
 export default connect(mapState, {getUser})(UserDashboard);

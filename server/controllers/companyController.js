@@ -6,8 +6,10 @@ module.exports = {
         if (companyArr[0]) {
             return res.status(200).send({message: 'Company account already exists.'});
         }
-        db.create_company([company_name, company_logo]);
-        return res.status(200).send({message: 'Company account has been created.'});
+        let newCompany = await db.create_company([company_name, company_logo]);
+        let newCompanyId = newCompany[0].id;
+        await db.new_company_survey_template(newCompanyId);
+        return res.status(200).send(newCompany);
     },
 
     getAllCompany: async (req, res) => {

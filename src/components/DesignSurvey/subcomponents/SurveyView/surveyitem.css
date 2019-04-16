@@ -19,6 +19,7 @@
     font-size: 12px;
     margin: 0 5px;
     border-right: 1px solid rgb(0,77,113);
+    cursor: pointer;
 }
 
 .survey-item-category {

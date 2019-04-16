@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const initialState = {
     allCompany: [],
-    newCompany: {},
     activeCompany: {}
 }
 
@@ -19,7 +18,7 @@ export function getAllCompany() {
 };
 
 export function addNewCompany(company) {
-    let data = axios.post('/company', company);
+    let data = axios.post('/company', company).then(res => res.data);
     return {
         type: ADD_NEW_COMPANY,
         payload: data
@@ -38,9 +37,11 @@ export function getCompany(id) {
 export default function reducer(state = initialState, action) {
     switch(action.type) {
         case GET_ALL_COMPANY + '_FULFILLED':
-            return {allCompany: action.payload};
+            return {...state, allCompany: action.payload};
         case GET_COMPANY + '_FULFILLED':
-            return {activeCompany: action.payload};
+            return {...state, activeCompany: action.payload};
+        case ADD_NEW_COMPANY + '_FULFILLED':
+            return {...state, allCompany: action.payload};
         default:
             return state;
     }

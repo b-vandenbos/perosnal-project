@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import './addsurveyitem.css';
 import {connect} from 'react-redux';
 import {getDimensions, addSurveyItem, getSuggested} from './../../../../ducks/surveyReducer';
-import {getUser} from './../../../../ducks/userReducer';
 
 class AddSurveyItem extends Component {
     constructor() {
@@ -19,16 +18,11 @@ class AddSurveyItem extends Component {
         this.cancel = this.cancel.bind(this);
     }
 
-    componenntDidMount() {
-        this.props.getUser();
-    }
-
     async addSurveyItem() {
         let {q_id, q_dimension_id, q_category, q_text} = this.state;
         let {company_id, id} = this.props.user.user;
         let newItem = {company_id, user_id: id, q_id, q_dimension_id, q_category, q_text};
         await this.props.addSurveyItem(newItem);
-        await this.props.getSuggested();
         this.cancel();
         this.setState({q_id: '', q_dimension_id: '', q_category: '', q_text: ''});
     }
@@ -71,7 +65,7 @@ class AddSurveyItem extends Component {
                     <select className='add-item-select'
                             value={this.state.q_dimension_id}
                             onChange={e => this.watchDimension(e.target.value)}>
-                        <option value=''>Select Dimension</option>
+                        <option value='' selected disabled hidden>Select Dimension</option>
                         {dimensionOptions}
                     </select>
                     <input  className='add-item-input'
@@ -98,4 +92,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {getUser, getDimensions, addSurveyItem, getSuggested})(AddSurveyItem);
+export default connect(mapState, {getDimensions, addSurveyItem, getSuggested})(AddSurveyItem);

@@ -8,8 +8,17 @@ module.exports = {
         }
         let newCompany = await db.create_company([company_name, company_logo]);
         let newCompanyId = newCompany[0].id;
-        await db.new_company_survey_template(newCompanyId);
-        return res.status(200).send(newCompany);
+        let dimensions = await db.new_company_dimension_template(newCompanyId);
+
+        let myJob = dimensions[0].id;
+        let mySupervisor = dimensions[1].id;
+        let myTeam = dimensions[2].id;
+        let myOrganization = dimensions[3].id;
+
+        await db.new_company_survey_template(newCompanyId, myJob, myTeam, mySupervisor, myOrganization);
+        
+        let companyList = await db.get_all_company();
+        return res.status(200).send(companyList);
     },
 
     getAllCompany: async (req, res) => {

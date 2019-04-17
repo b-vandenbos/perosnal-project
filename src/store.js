@@ -1,4 +1,5 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
 import promiseMiddleware from 'redux-promise-middleware';
 import userReducer from './ducks/userReducer';
 import headlineReducer from './ducks/headlineReducer';
@@ -14,4 +15,4 @@ const rootReducer = combineReducers({
     discussion: discussionReducer
 });
 
-export default createStore(rootReducer, applyMiddleware(promiseMiddleware));
+export default createStore(rootReducer, composeWithDevTools(applyMiddleware(promiseMiddleware)));

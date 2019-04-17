@@ -28,7 +28,7 @@ export default function reducer(state = initialState, action) {
         case GET_DISCUSSION + '_FULFILLED':
             return {...state, discussion: action.payload};
         case NEW_MESSAGE + '_FULFILLED':
-            return {...state, discussion: [...state.discussion, action.payload]};
+            return {...state, discussion: action.payload};
         default:
             return state;
     }

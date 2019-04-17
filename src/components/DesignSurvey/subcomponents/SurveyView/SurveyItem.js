@@ -1,27 +1,22 @@
 import React, {Component} from 'react';
 import './surveyitem.css';
 import {connect} from 'react-redux';
-import {getSurvey, getDimensions, updateSurveyItem, deleteSurveyItem} from './../../../../ducks/surveyReducer';
+import {updateSurveyItem, deleteSurveyItem} from './../../../../ducks/surveyReducer';
 
 class SurveyItem extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             edit: false,
-            q_text: '',
-            q_category: '',
-            q_dimension_id: '',
-            q_id: ''
+            q_text: this.props.item.q_text,
+            q_category: this.props.item.q_category,
+            q_dimension_id: this.props.item.q_dimension_id,
+            q_id: this.props.item.q_id
         };
 
         this.editMode = this.editMode.bind(this);
         this.submitEdit = this.submitEdit.bind(this);
-        this.deleteSurveyItem = this.deleteSurveyItem.bind(this);
-    }
-
-    componentDidMount() {
-        this.props.getDimensions();
     }
 
     editMode() {
@@ -44,24 +39,20 @@ class SurveyItem extends Component {
         this.setState({q_dimension_id: val})
     }
 
-    async submitEdit(id) {
+    async submitEdit(item) {
         let {q_id, q_dimension_id, q_text, q_category} = this.state;
-        let updatedSurveyItem = {id, q_id, q_dimension_id, q_text, q_category}
+        let {id, company_id} = item;
+        let updatedSurveyItem = {id, q_id, q_dimension_id, q_text, q_category, company_id}
         await this.props.updateSurveyItem(updatedSurveyItem);
         this.setState({edit: false});
-        this.props.getSurvey();
-    }
-
-    async deleteSurveyItem(id) {
-        this.props.deleteSurveyItem(id);
-        this.props.getSurvey();
     }
 
     render() {
         let dimensions = this.props.survey.dimensions.map((dimension, index) => {
-            return <option key={index} value={dimension.id}>{dimension.q_dimension}</option>
+            return <option  key={index} value={dimension.id}>{dimension.q_dimension}</option>
         })
         const {item} = this.props;
+        
         return this.state.edit ? (
             <div className='survey-item'>
                 <input className='survey-item-id edit'
@@ -74,21 +65,21 @@ class SurveyItem extends Component {
                         name='survey-item-dimension-edit'
                         value={this.state.q_dimension}
                         onChange={e => this.watchDimension(e.target.value)}>
-                    <option value=''>Select Dimension</option>
+                    <option value='' selected disabled hidden>Select Dimension</option>
                     {dimensions}
                 </select>
                 <input  className='survey-item-category edit'
                         placeholder='category'
                         value={this.state.q_category}
                         onChange={e => this.watchCategory(e.target.value)}/>
-                <button className='survey-item-edit' onClick={() => this.submitEdit(item.id)}>G</button>
+                <button className='survey-item-edit' onClick={() => this.submitEdit(item)}>G</button>
             </div>
             ) : (
             <div className='survey-item'>
                 <div className='survey-item-text' onClick={this.editMode}>{item.q_text}</div>
                 {item.q_category ? <div className='survey-item-category'>{item.q_category}</div> : null}
                 <button className='survey-item-delete'
-                        onClick={() => this.deleteSurveyItem(item.id)}>X</button>
+                        onClick={() => this.props.deleteSurveyItem(item)}>X</button>
             </div>
         )
     }
@@ -100,4 +91,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {getSurvey, getDimensions, updateSurveyItem, deleteSurveyItem})(SurveyItem);
+export default connect(mapState, {updateSurveyItem, deleteSurveyItem})(SurveyItem);

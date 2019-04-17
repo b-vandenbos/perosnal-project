@@ -19,6 +19,7 @@ CREATE TABLE survey (
     id serial primary key,
     company_id integer,
     user_id integer,
+    index integer,
     q_id varchar(10),
     q_dimension_id integer,
     q_text varchar(255),

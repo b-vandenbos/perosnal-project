@@ -13,3 +13,7 @@ INSERT INTO suggested (
     $5,
     $6
 );
+
+SELECT * FROM suggested 
+JOIN dimension ON dimension.id = suggested.q_dimension_id
+WHERE suggested.company_id = $1;

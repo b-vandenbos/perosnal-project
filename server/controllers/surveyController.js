@@ -22,31 +22,40 @@ module.exports = {
 
     updateSurveyItem: async (req, res) => {
         const {id} = req.params;
-        const {q_id, q_dimension_id,q_text, q_category} = req.body;
+        const {q_id, q_dimension_id,q_text, q_category, company_id} = req.body;
         const db = req.app.get('db');
-        await db.update_survey_item([id, q_id, q_dimension_id, q_text, q_category]);
-        res.status(200).send('Survey Item Updated');
+        let survey = await db.update_survey_item([id, q_id, q_dimension_id, q_text, q_category, company_id]);
+        res.status(200).send(survey);
     },
 
     addSurveyItem: async (req, res) => {
         const {company_id, user_id, q_id, q_dimension_id, q_text, q_category} = req.body;
         const db = req.app.get('db');
-        let newItem = await db.add_survey_item([company_id, user_id, q_id, q_dimension_id, q_text, q_category]);
-        res.status(200).send(newItem);
+        let survey = await db.add_survey_item([company_id, user_id, q_id, q_dimension_id, q_text, q_category]);
+        res.status(200).send(survey);
     },
 
     deleteSurveyItem: async (req, res) => {
         const {id} = req.params;
+        const {company_id} = req.body;
         const db = req.app.get('db');
-        await db.delete_survey_item(id);
-        res.status(200).send('Survey Item Deleted');
+        let survey = await db.delete_survey_item([id, company_id]);
+        res.status(200).send(survey);
     },
 
     deleteSuggestedItem: async (req, res) => {
         const {id} = req.params;
+        const {company_id} = req.body;
         const db = req.app.get('db');
-        await db.delete_suggested_item(id);
-        res.status(200).send('Suggested Item Deleted');
-    }
+        let suggested = await db.delete_suggested_item([id, company_id]);
+        res.status(200).send(suggested);
+    },
 
+    transferSurveyItem: async (req, res) => {
+        const db = req.app.get('db');
+        const {company_id, user_id, q_id, q_dimension_id, q_text, q_category, id} = req.body;
+        let survey = await db.move_suggested_to_survey([company_id, user_id, q_id, q_dimension_id, q_text, q_category]);
+        let suggested = await db.delete_suggested_item([id, company_id]);
+        res.status(200).send({survey, suggested});
+    }
 }

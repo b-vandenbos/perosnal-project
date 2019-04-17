@@ -41,9 +41,10 @@ app.get('/survey', surveyController.getSurvey);
 app.get('/dimensions', surveyController.getDimensions);
 app.put('/survey/:id', surveyController.updateSurveyItem);
 app.post('/survey', surveyController.addSurveyItem);
-app.delete('/delete/:id',surveyController.deleteSurveyItem);
+app.post('/delete/:id',surveyController.deleteSurveyItem);
 app.get('/suggested', surveyController.getSuggested);
-app.delete('/delete-suggested/:id', surveyController.deleteSuggestedItem);
+app.post('/delete-suggested/:id', surveyController.deleteSuggestedItem);
+app.post('/transfer-item', surveyController.transferSurveyItem);
 
 app.get('/discussion', discussionController.getDiscussion);
 app.post('/discussion', discussionController.createMessage);

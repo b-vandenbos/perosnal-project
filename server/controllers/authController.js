@@ -11,8 +11,8 @@ module.exports = {
 
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
-        db.create_user([company_id, user_name, user_email, hash, isadmin]);
-        return res.status(200).send({message: 'User has been created.'});
+        let users = await db.create_user([company_id, user_name, user_email, hash, isadmin]);
+        return res.status(200).send(users);
     },
 
     login: async (req, res) => {
@@ -41,11 +41,10 @@ module.exports = {
         const db = req.app.get('db');
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
-
         const userArr = await db.user_password_reset(hash, user_email);
+        console.log(userArr);
         let user = userArr[0];
         req.session.user = user;
-        console.log(req.session.user);
         res.status(200).send({message: 'Password Has Been Reset', user: req.session.user, loggedIn: true});
     },
 

@@ -11,3 +11,5 @@ INSERT INTO discussion (
     $4,
     $5
 );
+
+SELECT * FROM discussion WHERE company_id = $1;

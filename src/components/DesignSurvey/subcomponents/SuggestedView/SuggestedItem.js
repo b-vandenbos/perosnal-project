@@ -1,19 +1,9 @@
 import React, {Component} from 'react';
 import './suggesteditem.css';
 import {connect} from 'react-redux';
-import {getSuggested, deleteSuggestedItem} from './../../../../ducks/surveyReducer';
+import {deleteSuggestedItem, transferSurveyItem} from './../../../../ducks/surveyReducer';
 
 class SuggestedItem extends Component {
-    constructor() {
-        super();
-
-        this.deleteSuggestedItem = this.deleteSuggestedItem.bind(this);
-    }
-
-async deleteSuggestedItem(id) {
-    this.props.deleteSuggestedItem(id);
-    this.props.getSuggested();
-}
 
 render() {
     const {item} = this.props;
@@ -24,7 +14,9 @@ render() {
                 <div className='suggested-item-text'>{item.q_text}</div>
                 {item.q_category ? <div className='suggested-item-category'>{item.q_category}</div> : null}
                 <button className='suggested-item-delete'
-                        onClick={() => this.deleteSuggestedItem(item.id)}>X</button>
+                        onClick={() => this.props.transferSurveyItem(item)}>A</button>
+                <button className='suggested-item-delete'
+                        onClick={() => this.props.deleteSuggestedItem(item)}>X</button>
             </div>
         </div>
     )
@@ -38,4 +30,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {getSuggested, deleteSuggestedItem})(SuggestedItem);
+export default connect(mapState, {deleteSuggestedItem, transferSurveyItem})(SuggestedItem);

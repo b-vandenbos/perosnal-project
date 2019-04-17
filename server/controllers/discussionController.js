@@ -22,7 +22,7 @@ module.exports = {
         const message_date = `${month} ${day}`;
         const message_time = time;
         const db = req.app.get('db');
-        await db.create_message([company_id, user_id, message, message_date, message_time]);
-        res.status(200).send('Message has been created.');
+        let messages = await db.create_message([company_id, user_id, message, message_date, message_time]);
+        res.status(200).send(messages);
     }
 }

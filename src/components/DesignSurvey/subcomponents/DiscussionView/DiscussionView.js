@@ -3,7 +3,6 @@ import '../../designsurvey.css';
 import DiscussionMessage from './DiscussionMessage';
 import {connect} from 'react-redux';
 import {getDiscussion, newMessage} from './../../../../ducks/discussionReducer';
-import {getUser} from './../../../../ducks/userReducer';
 
 
 class DiscussionView extends Component {
@@ -11,13 +10,12 @@ class DiscussionView extends Component {
         super();
         
         this.state = {
-            message: undefined
+            message: ''
         }
 
         this.createMessage = this.createMessage.bind(this);
     }
     componentDidMount() {
-        this.props.getUser();
         this.props.getDiscussion();
         this.discussionScrollbar();
     }
@@ -35,7 +33,6 @@ class DiscussionView extends Component {
 
             await this.props.newMessage(newMessage);
             this.setState({message: ''});
-            this.props.getDiscussion();
             this.discussionScrollbar();
         }
     }
@@ -76,4 +73,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {getUser, getDiscussion, newMessage})(DiscussionView);
+export default connect(mapState, {getDiscussion, newMessage})(DiscussionView);

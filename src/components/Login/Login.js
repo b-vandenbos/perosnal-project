@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
 import './login.css';
-import dwlogo from './dwlogo.svg';
+import dwlogo from './survey-wise-logo.svg';
 import axios from 'axios';
+import {connect} from 'react-redux';
+import {getSuggested, getSurvey, getDimensions} from './../../ducks/surveyReducer';
+import {getUser, getAllUsers} from './../../ducks/userReducer';
+import {getDiscussion} from './../../ducks/discussionReducer';
+import {getAllCompany} from './../../ducks/companyReducer';
 
-export default class Login extends Component {
+class Login extends Component {
     constructor() {
         super();
 
@@ -32,14 +37,21 @@ export default class Login extends Component {
     async login() {
         const {user_email, password} = this.state;
         const res = await axios.post('/auth/login', {user_email, password})
-        console.log(res);
         if (!res.data.user.passwordset) {
-            this.props.history.push('/password-reset');
+            await this.props.getUser();
+            await this.props.history.push('/password-reset');
         }
         if (res.data.loggedIn) {
-            this.props.history.push('/dashboard');
+            await this.props.getUser();
+            this.props.getAllUsers();
+            this.props.getAllCompany();
+            this.props.getSuggested();
+            this.props.getSurvey();
+            this.props.getDimensions();
+            this.props.getDiscussion();
+
+            await this.props.history.push('/dashboard');
         } 
-        this.setState({email: '', password: ''});
     }
 
     enterPressed(event) {
@@ -52,7 +64,7 @@ export default class Login extends Component {
         return (
             <div className='login'>
                 <div className='login-frame'>
-                <img className='login-logo' name='dw-logo' src={dwlogo} alt='dw-logo' />
+                <img className='login-logo' name='dw-logo' src={dwlogo} alt='dw-logo'/>
                     <input  className='login-input'
                             name='email'
                             value={this.state.user_email}
@@ -72,3 +84,13 @@ export default class Login extends Component {
         )
     }
 }
+
+const mapState = (reduxState) => {
+    return {
+        survey: reduxState.survey,
+        user: reduxState.user,
+        discussion: reduxState.discussion
+    }
+}
+
+export default connect(mapState, {getUser, getAllUsers, getSuggested, getSurvey, getDimensions, getDiscussion, getAllCompany})(Login);

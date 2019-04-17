@@ -2,27 +2,29 @@ import React, {Component} from 'react';
 import '../../designsurvey.css';
 import Dimension from './Dimension';
 import {connect} from 'react-redux';
-import {getSurvey, getDimensions} from './../../../../ducks/surveyReducer';
-import {getUser} from './../../../../ducks/userReducer';
+import {getDimensions} from './../../../../ducks/surveyReducer';
 
 
 class SurveyView extends Component {
   
-    async componentDidMount() {
-        this.props.getUser();
+    componentDidMount() {
         this.props.getDimensions();
     }
     
     render() {
-        let {user} = this.props.user;
         const {dimensions} = this.props.survey;
-        let dimensionsList = dimensions.map((dimension, index) => {
-                return <Dimension key={index} dimension={dimension}/>
+        let dimensionsList = dimensions.map(dimension => {
+                return <Dimension key={dimension.id} dimension={dimension}/>
         })
 
         return (
             <div className='survey-frame'>
-                {dimensionsList}
+                <div className='survey-frame-titlebar'>
+                    <button className='add-dimension-button'>Add Frame of Reference</button>
+                </div>
+                <div className='survey-body'>
+                    {dimensionsList}
+                </div>
             </div>
         )
     }
@@ -30,9 +32,8 @@ class SurveyView extends Component {
 
 const mapState = (reduxState) => {
     return {
-        survey: reduxState.survey,
-        user: reduxState.user
+        survey: reduxState.survey
     }
 }
 
-export default connect(mapState, {getUser, getSurvey, getDimensions})(SurveyView);
+export default connect(mapState, {getDimensions})(SurveyView);

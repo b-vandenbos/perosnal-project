@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Company from './Company';
 import '../admin.css';
 import {connect} from 'react-redux';
-import {getAllCompany, addNewCompany, getCompany} from './../../../ducks/companyReducer';
+import {getAllCompany, addNewCompany} from './../../../ducks/companyReducer';
 
 class CompanyView extends Component {
     constructor() {
@@ -36,13 +36,12 @@ class CompanyView extends Component {
 
     async addCompany() {
         let {company_name, company_logo} = this.state;
-        let newCompany = {company_name, company_logo};
-        await this.props.addNewCompany(newCompany);
-        this.props.getAllCompany();
+        await this.props.addNewCompany({company_name, company_logo});
         this.setState({company_name: '', company_logo: ''});
     }
 
     render() {
+        let {company_name, company_logo} = this.state;
         let {allCompany} = this.props.company;
         let companies = allCompany.map((company, index) => {
             if (company.company_name.toLowerCase().includes(this.state.searchInput)) {
@@ -73,7 +72,7 @@ class CompanyView extends Component {
                             placeholder='company logo'
                             onChange={e => this.watchLogo(e.target.value)}/>
                     <button className='add-company-button'
-                            onClick={() => this.addCompany()}>Add Company</button>
+                            onClick={() => this.addCompany({company_name, company_logo})}>Add Company</button>
                 </div>
             </div>
         )
@@ -86,4 +85,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {getAllCompany, addNewCompany, getCompany})(CompanyView);
+export default connect(mapState, {getAllCompany, addNewCompany})(CompanyView);

@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import './login.css';
-import dwlogo from './dwlogo.svg';
+import dwlogo from './survey-wise-logo.svg';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import {getUser} from './../../ducks/userReducer';
+import {getSuggested, getSurvey, getDimensions} from './../../ducks/surveyReducer';
+import {getUser, getAllUsers} from './../../ducks/userReducer';
+import {getDiscussion} from './../../ducks/discussionReducer';
+import {getAllCompany} from './../../ducks/companyReducer';
 
 class CreatePassword extends Component {
     constructor() {
@@ -27,9 +30,17 @@ class CreatePassword extends Component {
 
     async setPassword() {
         const {password} = this.state;
-        const {user_email} = this.props.user;
+        const {user_email} = this.props.user.user;
         const res = await axios.post('/auth/password-reset', {user_email, password});
         if (res.data.loggedIn) {
+            await this.props.getUser();
+            this.props.getAllUsers();
+            this.props.getAllCompany();
+            this.props.getSuggested();
+            this.props.getSurvey();
+            this.props.getDimensions();
+            this.props.getDiscussion();
+
             this.props.history.push('/dashboard');
         }
         else {
@@ -44,6 +55,7 @@ class CreatePassword extends Component {
     }
 
     render() {
+        console.log(this.props.user);
         return (
             <div className='login'>
                 <div className='login-frame'>
@@ -62,6 +74,12 @@ class CreatePassword extends Component {
     }
 }
 
-const mapState = (reduxState) => reduxState.user;
+const mapState = (reduxState) => {
+    return {
+        survey: reduxState.survey,
+        user: reduxState.user,
+        discussion: reduxState.discussion
+    }
+}
 
-export default connect(mapState, {getUser})(CreatePassword);
+export default connect(mapState, {getUser, getAllUsers, getSuggested, getSurvey, getDimensions, getDiscussion, getAllCompany})(CreatePassword);

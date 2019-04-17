@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import User from './User';
 import '../admin.css';
 import {connect} from 'react-redux';
-import {addUser, getUser, getAllUsers} from './../../../ducks/userReducer';
+import {addUser, getAllUsers} from './../../../ducks/userReducer';
 import {getAllCompany, getCompany} from './../../../ducks/companyReducer';
 
 class Admin extends Component {
@@ -25,7 +25,6 @@ class Admin extends Component {
     }
 
     componentDidMount() {
-        this.props.getUser();
         this.props.getAllUsers();
     }
 
@@ -58,7 +57,6 @@ class Admin extends Component {
         let isadmin = checked;
         let newUser = {company_id: user_company, user_name, user_email, password: user_password, isadmin};
         await this.props.addUser(newUser);
-        this.props.getAllUsers();
         this.setState({user_name: '', user_email: '', user_password: '', user_company: '', checked: false});
     }
 
@@ -81,8 +79,8 @@ class Admin extends Component {
             }
         })
         
-        let companyOptions = allCompany.map((company, index) => {
-            return <option key={index} value={company.id}>{company.company_name}</option>
+        let companyOptions = allCompany.map(company => {
+            return <option key={company.id} value={company.id}>{company.company_name}</option>
         })
         return (
             <div>
@@ -156,4 +154,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {addUser, getUser, getAllUsers, getAllCompany, getCompany})(Admin);
+export default connect(mapState, {addUser, getAllUsers, getAllCompany, getCompany})(Admin);

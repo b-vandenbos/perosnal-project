@@ -160,19 +160,52 @@ textarea {
     margin: 0 auto;
     background: white;
     border: 1px solid rgb(84,87,90);
+}
+
+.survey-body {
+    height: 95%;
     overflow-y: auto;
 }
 
-.survey-frame::-webkit-scrollbar {
+.survey-frame-titlebar {
+    width: 98%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 5px auto;
+    padding: 0;
+}
+
+.add-dimension-button {
+    background: rgb(0,77,113);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    height: 25px;
+    font-family: 'Open Sans Light', sans-serif;
+    font-size: 70%;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.add-dimension-button:hover {
+    background: rgb(84, 87, 90);
+}
+
+.add-dimension-button:focus {
+    outline: none;
+}
+
+.survey-body::-webkit-scrollbar {
     width: 5px;
 }
-.survey-frame::-webkit-scrollbar-track {
+.survey-body::-webkit-scrollbar-track {
     background: none; 
 }
-.survey-frame::-webkit-scrollbar-thumb {
+.survey-body::-webkit-scrollbar-thumb {
     background: #004d71;
     border-radius: 10px;
 }
-.survey-frame::-webkit-scrollbar-thumb:hover {
+.survey-body::-webkit-scrollbar-thumb:hover {
     background: #53575a;
 }

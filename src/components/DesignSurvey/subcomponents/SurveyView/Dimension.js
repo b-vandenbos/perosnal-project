@@ -14,9 +14,9 @@ class Dimension extends Component {
             <div className='dimension'>
                 <div className='design-survey-section-title'>{dimension.q_dimension}</div>
                 {
-                    survey.survey.map((item, index) => {
+                    survey.survey.map(item => {
                         if (item.q_dimension_id === dimension.id) {
-                            return <SurveyItem key={index} item={item} />
+                            return <SurveyItem key={item.id} item={item} dimensionId={dimension.id}/>
                         }
                     })
                 }
@@ -28,8 +28,7 @@ class Dimension extends Component {
 
 const mapState = (reduxState) => {
     return {
-        survey: reduxState.survey,
-        user: reduxState.user
+        survey: reduxState.survey
     }
 }
 

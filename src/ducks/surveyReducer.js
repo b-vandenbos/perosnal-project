@@ -13,6 +13,7 @@ export const UPDATE_SURVEY_ITEM = 'UPDATE_SURVEY_ITEM';
 export const ADD_SURVEY_ITEM = 'ADD_SURVEY_ITEM';
 export const DELETE_SURVEY_ITEM = 'DELETE_SURVEY_ITEM';
 export const DELETE_SUGGESTED_ITEM = 'DELETE_SUGGESTED_ITEM';
+export const TRANSFER_SURVEY_ITEM = 'TRANSFER_SURVEY_ITEM';
 
 export function getSurvey() {
     let data = axios.get(`/survey`).then(res => res.data);
@@ -39,9 +40,10 @@ export function getDimensions() {
 };
 
 export function updateSurveyItem(item) {
-    axios.put(`/survey/${item.id}`, item).then(res => res.data);
+    let data = axios.put(`/survey/${item.id}`, item).then(res => res.data);
     return {
-        type: UPDATE_SURVEY_ITEM
+        type: UPDATE_SURVEY_ITEM,
+        payload: data
     };
 };
 
@@ -53,17 +55,27 @@ export function addSurveyItem(item) {
     };
 };
 
-export function deleteSurveyItem(id) {
-    axios.delete(`/delete/${id}`).then(res => res.data);
+export function deleteSurveyItem(item) {
+    let data = axios.post(`/delete/${item.id}`, item).then(res => res.data);
     return {
-        type: DELETE_SURVEY_ITEM
+        type: DELETE_SURVEY_ITEM,
+        payload: data
     };
 };
 
-export function deleteSuggestedItem(id) {
-    axios.delete(`/delete-suggested/${id}`).then(res => res.data);
+export function deleteSuggestedItem(item) {
+    let data = axios.post(`/delete-suggested/${item.id}`, item).then(res => res.data);
     return {
-        type: DELETE_SUGGESTED_ITEM
+        type: DELETE_SUGGESTED_ITEM,
+        payload: data
+    };
+};
+
+export function transferSurveyItem(item) {
+    let data = axios.post('/transfer-item', item).then(res => res.data);
+    return {
+        type: TRANSFER_SURVEY_ITEM,
+        payload: data
     };
 };
 
@@ -78,11 +90,13 @@ export default function reducer(state = initialState, action) {
         case UPDATE_SURVEY_ITEM + '_FULFILLED':
             return {...state, survey: action.payload};
         case ADD_SURVEY_ITEM + '_FULFILLED':
-            return {...state, suggested: [...state.suggested, action.payload]};
+            return {...state, suggested: action.payload};
         case DELETE_SURVEY_ITEM + '_FULFILLED':
-            return {...state};
+            return {...state, survey: action.payload};
         case DELETE_SUGGESTED_ITEM + '_FULFILLED':
-            return {...state};
+            return {...state, suggested: action.payload};
+        case TRANSFER_SURVEY_ITEM + '_FULFILLED':
+            return {...state, survey: action.payload.survey, suggested: action.payload.suggested};
         default:
             return state;
     }

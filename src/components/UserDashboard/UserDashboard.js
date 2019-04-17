@@ -5,23 +5,36 @@ import icon from './single-neutral-circle.svg';
 import './userdashboard.css';
 import Headline from './Headline/Headline';
 import {connect} from 'react-redux';
-import {getUser} from './../../ducks/userReducer';
+import {getUser, logout} from './../../ducks/userReducer';
 
 class UserDashboard extends Component {
     constructor() {
         super();
 
+        this.state = {
+            addImage: false,
+            user_image: ''
+        }
+
         this.logout = this.logout.bind(this);
+        this.toggleAdd = this.toggleAdd.bind(this);
     }
 
     componentDidMount() {
         this.props.getUser();
     }
 
+    watchImage(val) {
+        this.setState({user_image: val});
+    }
+
     logout() {
         this.props.history.push('/');
-        axios.get('/auth/logout')
-            .catch(err => console.log(`There was an error in logging out: ${err}`));
+        this.props.logout();
+    }
+
+    toggleAdd() {
+        this.setState({addImage: !this.state.addImage});
     }
   
     render() {
@@ -29,14 +42,21 @@ class UserDashboard extends Component {
         return (
             <div className='user-dashboard'>
                 <div className='user-info'>
-                    <img className='user-image' name='user-image' src={user.user_image || icon} alt='' />
+                    <img    className='user-image'
+                            name='user-image'
+                            src={user.user_image || icon}
+                            alt=''
+                            onClick={this.toggleAdd}/>
+                    {this.state.addImage ? <input   className='user-image-input'
+                                                    placeholder='upload profile image'
+                                                    value={this.state.user_image}
+                                                    onChange={e => this.watchImage(e.target.value)}/> : null}
                     <div className='user-welcome'>
                         <h1>Welcome, {user.user_name}.</h1>
-                        <p>Click on the links below to design your survey or compose survey notification emails.</p>
                     </div>
                     <div className='user-links'>
-                        <Link to={'/design-survey'}>Design Your Survey</Link>
-                        <Link to={'/admin'}>Admin</Link>
+                        <Link to={'/design-survey'} className='user-link-style'>Design Your Survey</Link>
+                        {this.props.user.user.isadmin ? <Link to={'/admin'} className= 'user-link-style'>Admin</Link> : null}
                     </div>
                     <button className='user-logout-button' onClick={() => this.logout()}>Logout</button>
                 </div>
@@ -56,4 +76,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {getUser})(UserDashboard);
+export default connect(mapState, {getUser, logout})(UserDashboard);

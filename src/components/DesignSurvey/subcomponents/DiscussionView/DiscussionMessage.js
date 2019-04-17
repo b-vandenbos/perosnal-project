@@ -6,9 +6,6 @@ import {getUser} from './../../../../ducks/userReducer';
 
 
 class DiscussionMessage extends Component {
-    componentDidMount() {
-        this.props.getUser();
-    }
   
     render() {
         let {message} = this.props;

@@ -3,7 +3,7 @@ import User from './User';
 import '../admin.css';
 import {connect} from 'react-redux';
 import {addUser, getAllUsers} from './../../../ducks/userReducer';
-import {getAllCompany, getCompany} from './../../../ducks/companyReducer';
+import {getAllCompany} from './../../../ducks/companyReducer';
 
 class Admin extends Component {
     constructor() {
@@ -154,4 +154,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {addUser, getAllUsers, getAllCompany, getCompany})(Admin);
+export default connect(mapState, {addUser, getAllUsers, getAllCompany})(Admin);

@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
 import icon from './single-neutral-circle.svg';
 import './userdashboard.css';
 import Headline from './Headline/Headline';
 import {connect} from 'react-redux';
-import {getUser, logout} from './../../ducks/userReducer';
+import {getUser, addUserImage, logout} from './../../ducks/userReducer';
 
 class UserDashboard extends Component {
     constructor() {
@@ -18,6 +17,7 @@ class UserDashboard extends Component {
 
         this.logout = this.logout.bind(this);
         this.toggleAdd = this.toggleAdd.bind(this);
+        this.addImage = this.addImage.bind(this);
     }
 
     componentDidMount() {
@@ -26,6 +26,17 @@ class UserDashboard extends Component {
 
     watchImage(val) {
         this.setState({user_image: val});
+    }
+
+    async addImage(event) {
+        if (event.key === 'Enter') {
+            const {user_image} = this.state;
+            const {id} = this.props.user.user;
+            let userImage = {user_image, id}
+            await this.props.addUserImage(userImage)
+            this.setState({user_image: ''});
+            this.props.getUser();
+        }
     }
 
     logout() {
@@ -50,12 +61,13 @@ class UserDashboard extends Component {
                     {this.state.addImage ? <input   className='user-image-input'
                                                     placeholder='upload profile image'
                                                     value={this.state.user_image}
-                                                    onChange={e => this.watchImage(e.target.value)}/> : null}
+                                                    onChange={e => this.watchImage(e.target.value)}
+                                                    onKeyPress={this.addImage}/> : null}
                     <div className='user-welcome'>
                         <h1>Welcome, {user.user_name}.</h1>
                     </div>
                     <div className='user-links'>
-                        <Link to={'/design-survey'} className='user-link-style'>Design Your Survey</Link>
+                        <Link to={`/design-survey`} className='user-link-style'>Design Your Survey</Link>
                         {this.props.user.user.isadmin ? <Link to={'/admin'} className= 'user-link-style'>Admin</Link> : null}
                     </div>
                     <button className='user-logout-button' onClick={() => this.logout()}>Logout</button>
@@ -76,4 +88,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {getUser, logout})(UserDashboard);
+export default connect(mapState, {getUser, addUserImage, logout})(UserDashboard);

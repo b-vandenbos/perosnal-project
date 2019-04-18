@@ -8,7 +8,7 @@ import DiscussionView from './subcomponents/DiscussionView/DiscussionView';
 
 
 class DesignSurvey extends Component {
-    
+
     render() {
     
         return (

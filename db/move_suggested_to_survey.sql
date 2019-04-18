@@ -16,4 +16,6 @@ INSERT INTO survey (
     ((SELECT max(index) FROM survey WHERE company_id = $1) + 1)
 );
 
-SELECT * from survey where company_id = $1;
+SELECT * FROM survey
+WHERE company_id = $1
+ORDER BY survey.index asc;

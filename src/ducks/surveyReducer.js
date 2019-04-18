@@ -14,6 +14,8 @@ export const ADD_SURVEY_ITEM = 'ADD_SURVEY_ITEM';
 export const DELETE_SURVEY_ITEM = 'DELETE_SURVEY_ITEM';
 export const DELETE_SUGGESTED_ITEM = 'DELETE_SUGGESTED_ITEM';
 export const TRANSFER_SURVEY_ITEM = 'TRANSFER_SURVEY_ITEM';
+export const ADD_DIMENSION = 'ADD_DIMENSION';
+
 
 export function getSurvey() {
     let data = axios.get(`/survey`).then(res => res.data);
@@ -79,6 +81,14 @@ export function transferSurveyItem(item) {
     };
 };
 
+export function addDimension(newDim) {
+    let data = axios.post('/add-dimension', newDim).then(res => res.data);
+    return {
+        type: ADD_DIMENSION,
+        payload: data
+    };
+};
+
 export default function reducer(state = initialState, action) {
     switch(action.type) {
         case GET_SURVEY + '_FULFILLED':
@@ -97,6 +107,8 @@ export default function reducer(state = initialState, action) {
             return {...state, suggested: action.payload};
         case TRANSFER_SURVEY_ITEM + '_FULFILLED':
             return {...state, survey: action.payload.survey, suggested: action.payload.suggested};
+        case ADD_DIMENSION + '_FULFILLED':
+            return {...state, dimensions: action.payload};
         default:
             return state;
     }

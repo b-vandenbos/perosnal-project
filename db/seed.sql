@@ -43,29 +43,10 @@ CREATE TABLE survey (
 CREATE TABLE dimension (
     id serial primary key,
     company_id integer,
+    index integer,
     q_dimension varchar(100)
 );
 
-        insert into dimension (
-            company_id,
-            q_dimension
-            ) values (
-                1,
-                'My Job'
-            ), (
-                1,
-                'My Team'
-            ), (
-                1,
-                'My Supervisor'
-            ), (
-                1,
-                'My Organization'
-            );
-
-
-
-Select * from survey;
 
 INSERT INTO survey (
     q_id,

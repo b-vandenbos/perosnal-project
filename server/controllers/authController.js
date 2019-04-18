@@ -33,7 +33,8 @@ module.exports = {
             return res.status(200).send({message: 'User has been redirected to reset password.', user: req.session.user, loggedIn: false})
         } 
         req.session.user.loggedIn = true;
-        res.status(200).send({message: 'Login Successful', user: req.session.user, loggedIn: true});
+        const survey = await db.get_survey_by_company_id(req.session.user.company_id);
+        res.status(200).send({survey, user: req.session.user, loggedIn: true});
     },
 
     resetPassword: async (req, res) => {

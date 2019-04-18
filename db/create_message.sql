@@ -12,4 +12,6 @@ INSERT INTO discussion (
     $5
 );
 
-SELECT * FROM discussion WHERE company_id = $1;
+SELECT discussion.id, discussion.company_id, discussion.user_id, message, message_date, message_time, users.user_image FROM discussion
+JOIN users ON users.id = discussion.user_id
+WHERE discussion.company_id = $1;

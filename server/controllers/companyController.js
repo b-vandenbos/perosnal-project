@@ -27,7 +27,7 @@ module.exports = {
         res.status(200).send(allCompany);
     },
 
-    getCompany: async (req, res) => {
+    setActiveCompany: async (req, res) => {
         let {id} = req.params;
         const db = req.app.get('db');
         const companyArr = await db.get_company_by_id([id]);

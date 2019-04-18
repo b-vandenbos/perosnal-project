@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import Company from './Company';
 import '../admin.css';
 import {connect} from 'react-redux';
-import {getAllCompany, addNewCompany} from './../../../ducks/companyReducer';
+import {getAllCompany, addNewCompany, setActiveCompany} from './../../../ducks/companyReducer';
+import {updateAdminUser} from './../../../ducks/userReducer';
+
 
 class CompanyView extends Component {
     constructor() {
@@ -15,6 +17,7 @@ class CompanyView extends Component {
         };
 
         this.addCompany = this.addCompany.bind(this);
+        this.selectActiveCompany = this.selectActiveCompany.bind(this);
     }
 
     componentDidMount() {
@@ -40,16 +43,24 @@ class CompanyView extends Component {
         this.setState({company_name: '', company_logo: ''});
     }
 
+    async selectActiveCompany(company) {
+        await this.props.setActiveCompany(company);
+        // let comp_id = this.props.company.activeCompany.id;
+        // await this.props.updateAdminUser(comp_id);
+
+    }
+
     render() {
         let {company_name, company_logo} = this.state;
         let {allCompany} = this.props.company;
         let companies = allCompany.map((company, index) => {
             if (company.company_name.toLowerCase().includes(this.state.searchInput)) {
-                return <Company key={index} company={company} getCompanyInfo={this.props.getCompany}/>
+                return <Company key={index} company={company} setActive={this.selectActiveCompany}/>
             }
         })
         
         return (
+            <div>
             <div className='company-container'>
                 <div className='company-display'>
                     {companies}
@@ -75,14 +86,16 @@ class CompanyView extends Component {
                             onClick={() => this.addCompany({company_name, company_logo})}>Add Company</button>
                 </div>
             </div>
+            </div>
         )
     }
 }
 
 const mapState = (reduxState) => {
     return {
-        company: reduxState.company
-    }
-}
+        company: reduxState.company,
+        user: reduxState.user
+    };
+};
 
-export default connect(mapState, {getAllCompany, addNewCompany})(CompanyView);
+export default connect(mapState, {updateAdminUser, getAllCompany, addNewCompany, setActiveCompany})(CompanyView);

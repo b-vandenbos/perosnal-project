@@ -145,10 +145,6 @@
     border: 1px solid rgb(200,199,199);
 }
 
-textarea {
-    resize: none;
-}
-
 .design-survey-right {
     width: 65%;
     height: 80vh;
@@ -194,6 +190,26 @@ textarea {
 
 .add-dimension-button:focus {
     outline: none;
+}
+
+.add-dimension-input {
+    width: 84%;
+    height: 25px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    border: 1px solid rgb(200,199,199);
+}
+
+.cancel-add-dimension {
+    border: none;
+    background: none;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    color: rgb(84,87,90);
+}
+
+.cancel-add-dimension:focus {
+    outline: 0;
 }
 
 .survey-body::-webkit-scrollbar {

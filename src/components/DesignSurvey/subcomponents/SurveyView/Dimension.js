@@ -28,7 +28,8 @@ class Dimension extends Component {
 
 const mapState = (reduxState) => {
     return {
-        survey: reduxState.survey
+        survey: reduxState.survey,
+        user: reduxState.user
     }
 }
 

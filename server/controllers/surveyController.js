@@ -57,5 +57,12 @@ module.exports = {
         let survey = await db.move_suggested_to_survey([company_id, user_id, q_id, q_dimension_id, q_text, q_category]);
         let suggested = await db.delete_suggested_item([id, company_id]);
         res.status(200).send({survey, suggested});
+    },
+
+    addDimension: async (req, res) => {
+        const db = req.app.get('db');
+        const {company_id, newDimension} = req.body;
+        let dimensions = await db.add_dimension([company_id, newDimension]);
+        res.status(200).send(dimensions);
     }
 }

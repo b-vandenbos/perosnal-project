@@ -33,11 +33,13 @@ app.get('/auth/logout', authController.logout);
 
 app.post('/company', companyController.newCompany);
 app.get('/company', companyController.getAllCompany);
-app.get('/company/:id', companyController.getCompany);
+app.post('/company/:id', companyController.setActiveCompany);
 
 app.get('/users', userController.getAllUsers);
+app.post('/add-image', userController.addUserImage);
+app.post('/update-admin', userController.updateAdminUser);
 
-app.get('/survey', surveyController.getSurvey);
+app.get('/survey/', surveyController.getSurvey);
 app.get('/dimensions', surveyController.getDimensions);
 app.put('/survey/:id', surveyController.updateSurveyItem);
 app.post('/survey', surveyController.addSurveyItem);
@@ -45,6 +47,7 @@ app.post('/delete/:id',surveyController.deleteSurveyItem);
 app.get('/suggested', surveyController.getSuggested);
 app.post('/delete-suggested/:id', surveyController.deleteSuggestedItem);
 app.post('/transfer-item', surveyController.transferSurveyItem);
+app.post('/add-dimension', surveyController.addDimension);
 
 app.get('/discussion', discussionController.getDiscussion);
 app.post('/discussion', discussionController.createMessage);

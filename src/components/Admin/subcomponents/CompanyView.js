@@ -3,7 +3,9 @@ import Company from './Company';
 import '../admin.css';
 import {connect} from 'react-redux';
 import {getAllCompany, addNewCompany, setActiveCompany} from './../../../ducks/companyReducer';
-import {updateAdminUser} from './../../../ducks/userReducer';
+import {updateAdminUser, getAllUsers, getAllAdmins} from './../../../ducks/userReducer';
+import {getSurvey, getDimensions, getSuggested} from './../../../ducks/surveyReducer';
+import {getDiscussion} from './../../../ducks/discussionReducer';
 
 
 class CompanyView extends Component {
@@ -44,18 +46,22 @@ class CompanyView extends Component {
     }
 
     async selectActiveCompany(company) {
-        await this.props.setActiveCompany(company);
-        // let comp_id = this.props.company.activeCompany.id;
-        // await this.props.updateAdminUser(comp_id);
-
+        let user_id = this.props.user.user.id;
+        let userInfo = {id: user_id, company_id: company.id}
+        await this.props.updateAdminUser(userInfo);
+        this.props.getSurvey();
+        this.props.getDimensions();
+        this.props.getDiscussion();
+        this.props.getSuggested();
+        this.props.getAllAdmins();
     }
 
     render() {
         let {company_name, company_logo} = this.state;
         let {allCompany} = this.props.company;
-        let companies = allCompany.map((company, index) => {
+        let companies = allCompany.map((company) => {
             if (company.company_name.toLowerCase().includes(this.state.searchInput)) {
-                return <Company key={index} company={company} setActive={this.selectActiveCompany}/>
+                return <Company key={company.id} company={company} setActive={this.selectActiveCompany}/>
             }
         })
         
@@ -98,4 +104,4 @@ const mapState = (reduxState) => {
     };
 };
 
-export default connect(mapState, {updateAdminUser, getAllCompany, addNewCompany, setActiveCompany})(CompanyView);
+export default connect(mapState, {getAllUsers, getAllAdmins, getDiscussion, getSurvey, getDimensions, getSuggested, updateAdminUser, getAllCompany, addNewCompany, setActiveCompany})(CompanyView);

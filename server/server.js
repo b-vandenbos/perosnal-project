@@ -33,15 +33,16 @@ app.get('/auth/logout', authController.logout);
 
 app.post('/company', companyController.newCompany);
 app.get('/company', companyController.getAllCompany);
-app.post('/company/:id', companyController.setActiveCompany);
 
 app.get('/users', userController.getAllUsers);
+app.get('/admins', userController.getAllAdmins);
 app.post('/add-image', userController.addUserImage);
-app.post('/update-admin', userController.updateAdminUser);
+app.put('/update-admin', userController.updateAdminUser);
 
-app.get('/survey/', surveyController.getSurvey);
+app.get('/survey', surveyController.getSurvey);
 app.get('/dimensions', surveyController.getDimensions);
 app.put('/survey/:id', surveyController.updateSurveyItem);
+app.put('/dimensions/:id', surveyController.updateDimension);
 app.post('/survey', surveyController.addSurveyItem);
 app.post('/delete/:id',surveyController.deleteSurveyItem);
 app.get('/suggested', surveyController.getSuggested);

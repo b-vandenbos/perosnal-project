@@ -18,20 +18,18 @@ class Header extends Component {
     }
     
     render() {
-        console.log(this.props);
         const {user} = this.props.user;
-        const {activeCompany} = this.props.company;
         return (
             <div className='header'>
                 <div className='header-nav-menu'>
                     <Link to={'/dashboard'} style={{ textDecoration: 'none' }}><div className='header-nav-link'>Dashboard</div></Link>
                     <Link to={`/design-survey`} style={{ textDecoration: 'none' }}><div className='header-nav-link'>Design Your Survey</div></Link>
-                    <Link to={'/admin'} style={{ textDecoration: 'none' }}><div className='header-nav-link'>Admin</div></Link>
+                    {user.isadmin ? <Link to={'/admin'} style={{ textDecoration: 'none' }}><div className='header-nav-link'>Admin</div></Link> : null}
                 </div>
-                <h1>{this.props.company.activeCompany.company_name ? `Active Company: ${this.props.company.activeCompany.company_name}` : 'Select a Company' }</h1>
                 <div className='header-account-info'>
                     <div className='header-account-info-text'>
                         <div className='header-user-name'>{user.user_name}</div>
+                        {user.isadmin ? <div className='header-user-name'>Viewing: {user.company_name}</div> : null}
                         <div className='header-logout-button' onClick={() => this.logout()}>Logout</div>
                     </div>
                     <img className='header-user-image' src={user.user_image || logo} alt='' />
@@ -49,4 +47,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {getUser, logout})(Header);
+export default withRouter(connect(mapState, {getUser, logout})(Header));

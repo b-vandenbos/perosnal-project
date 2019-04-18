@@ -1,18 +1,55 @@
 import React, {Component} from 'react';
 import SurveyItem from './SurveyItem';
 import {connect} from 'react-redux';
-import {getSurvey} from './../../../..//ducks/surveyReducer';
+import {getSurvey, updateDimension} from './../../../..//ducks/surveyReducer';
 
 class Dimension extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            edit: false,
+            updatedDimension: this.props.dimension.q_dimension
+        };
+
+        this.updateDimension = this.updateDimension.bind(this);
+    };
+
     componentDidMount() {
         this.props.getSurvey();
+    };
+
+    watchDimension(val) {
+        this.setState({updatedDimension: val})
+    };
+
+    async updateDimension(event) {
+        if (event.key === 'Enter') {
+            let {id, company_id} = this.props.dimension;
+            let {updatedDimension} = this.state;
+            const updateInfo = {id, company_id, updatedDimension}
+            await this.props.updateDimension(updateInfo);
+            this.setState({edit: !this.state.edit});
+        }
     }
 
     render() {
         const {dimension, survey} = this.props;
         return (
             <div className='dimension'>
-                <div className='design-survey-section-title'>{dimension.q_dimension}</div>
+            {this.state.edit ? 
+                                <div className='dimension-edit'>
+                                    <button className='dimension-button'
+                                            onClick={() => this.setState({edit: !this.state.edit})}>X</button>
+                                    <input className='dimension-title'
+                                            value={this.state.updatedDimension}
+                                            onChange={e => this.watchDimension(e.target.value)}
+                                            onKeyPress={this.updateDimension}
+                                            />
+                                </div>
+                : 
+                                <div className='design-survey-section-title dimension' onClick={() => this.setState({edit: !this.state.edit})}>{dimension.q_dimension}</div>
+            }                    
                 {
                     survey.survey.map(item => {
                         if (item.q_dimension_id === dimension.id) {
@@ -33,4 +70,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {getSurvey})(Dimension);
+export default connect(mapState, {getSurvey, updateDimension})(Dimension);

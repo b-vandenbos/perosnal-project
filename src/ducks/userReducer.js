@@ -2,13 +2,15 @@ import axios from 'axios';
 
 const initialState = {
     user: {},
-    allUsers: []
+    allUsers: [],
+    allAdmins: []
 }
 
 export const ADD_USER = 'ADD_USER';
 export const ADD_USER_IMAGE = 'ADD_USER_IMAGE';
 export const GET_USER = 'GET_USER';
 export const GET_ALL_USERS = 'GET_ALL_USERS';
+export const GET_ALL_ADMINS = 'GET_ALL_ADMINS';
 export const LOGOUT = 'LOGOUT';
 export const UPDATE_ADMIN_USER = 'UPDATE_ADMIN_USER';
 
@@ -44,15 +46,24 @@ export function getAllUsers() {
     };
 };
 
-export function logout() {
-    axios.get('/auth/logout').then(res => res.data);
+export function getAllAdmins() {
+    let data = axios.get('/admins').then(res => res.data);
     return {
-        type: LOGOUT
+        type: GET_ALL_ADMINS,
+        payload: data
     };
 };
 
-export function updateAdminUser(id) {
-    let data = axios.get('/update-admin', id).then(res => res.data);
+export function logout() {
+    let data = axios.get('/auth/logout').then(res => res.data);
+    return {
+        type: LOGOUT,
+        payload: data
+    };
+};
+
+export function updateAdminUser(userInfo) {
+    let data = axios.put(`/update-admin`, userInfo).then(res => res.data);
     return {
         type: UPDATE_ADMIN_USER,
         payload: data
@@ -70,10 +81,12 @@ export default function reducer(state = initialState, action) {
             return {...state, user: action.payload};
         case GET_ALL_USERS + '_FULFILLED':
             return {...state, allUsers: action.payload};
+        case GET_ALL_ADMINS + '_FULFILLED':
+            return {...state, allAdmins: action.payload};
         case LOGOUT + '_FULFILLED':
             return {...state, user: {}};
         case UPDATE_ADMIN_USER + '_FULFILLED':
-            return {...state, user: action.payload};
+            return {...state, user: action.payload.user, allAdmins: action.payload.allAdmins};
         default:
             return state;
     };

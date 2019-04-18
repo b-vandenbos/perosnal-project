@@ -6,6 +6,12 @@ module.exports = {
         res.status(200).send(allUsers);
     },
 
+    getAllAdmins: async (req, res) => {
+        const db = req.app.get('db');
+        let allAdmins = await db.get_all_admins();
+        res.status(200).send(allAdmins);
+    },
+
     addUserImage: async (req, res) => {
         const db = req.app.get('db');
         const {id, user_image} = req.body;
@@ -15,10 +21,11 @@ module.exports = {
 
     updateAdminUser: async (req, res) => {
         const db = req.app.get('db');
-        const {id} = req.body;
-        const {user} = req.session;
-        const updatedAdmin = await db.set_admin_company([user.id, id]);
+        const{id, company_id} = req.body;
+        const updatedAdmin = await db.set_admin_company([id, company_id]);
         req.session.user = updatedAdmin[0];
-        res.status(200).send(req.session.user);
+        let user = req.session.user;
+        let allAdmins = await db.get_all_admins();
+        res.status(200).send({user, allAdmins});
     }
 }

@@ -4,7 +4,7 @@ import dwlogo from './survey-wise-logo.svg';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {getSuggested, getSurvey, getDimensions} from './../../ducks/surveyReducer';
-import {getUser, getAllUsers} from './../../ducks/userReducer';
+import {getUser, getAllUsers, getAllAdmins} from './../../ducks/userReducer';
 import {getDiscussion} from './../../ducks/discussionReducer';
 import {getAllCompany} from './../../ducks/companyReducer';
 
@@ -44,6 +44,7 @@ class Login extends Component {
         if (res.data.loggedIn) {
             await this.props.getUser();
             this.props.getAllUsers();
+            this.props.getAllAdmins();
             this.props.getAllCompany();
             this.props.getSuggested();
             this.props.getSurvey();
@@ -93,4 +94,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {getUser, getAllUsers, getSuggested, getSurvey, getDimensions, getDiscussion, getAllCompany})(Login);
+export default connect(mapState, {getUser, getAllUsers, getAllAdmins, getSuggested, getSurvey, getDimensions, getDiscussion, getAllCompany})(Login);

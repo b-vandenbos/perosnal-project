@@ -6,6 +6,16 @@
     height: 100vh;
 }
 
+.header-company-title {
+    width: 100%;
+    height: 35px;
+    margin: 10px auto;
+    font-family: 'Open Sans Light', sans-serif;
+    font-size: 24px;
+    text-transform: uppercase;
+    color: rgb(0,77,113);
+}
+
 .design-survey-container {
     width: 100%;
     margin: 40px auto;
@@ -210,6 +220,39 @@
 
 .cancel-add-dimension:focus {
     outline: 0;
+}
+
+.dimension:hover {
+    cursor: pointer;
+}
+
+.dimension-edit {
+    display: flex;
+    align-items: center;
+    margin: 0 0 5px 5px;
+}
+
+.dimension-button {
+    background: none;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    color: rgb(84,87,90);
+    border: none;
+}
+
+.dimension-button:hover {
+    color: #ee7625;
+}
+
+.dimension-button:focus {
+    outline: 0;
+}
+
+.dimension-title {
+    font-family: 'Open Sans Light', sans-serif;
+    font-size: 24px;
+    text-transform: uppercase;
+    color: rgb(0,77,113);
 }
 
 .survey-body::-webkit-scrollbar {

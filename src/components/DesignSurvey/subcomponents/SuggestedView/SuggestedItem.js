@@ -3,6 +3,13 @@ import './suggesteditem.css';
 import {connect} from 'react-redux';
 import {deleteSuggestedItem, transferSurveyItem} from './../../../../ducks/surveyReducer';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faCheck);
+
+
 class SuggestedItem extends Component {
 
 render() {
@@ -14,7 +21,7 @@ render() {
                 <div className='suggested-item-text'>{item.q_text}</div>
                 {item.q_category ? <div className='suggested-item-category'>{item.q_category}</div> : null}
                 <button className='suggested-item-delete'
-                        onClick={() => this.props.transferSurveyItem(item)}>A</button>
+                        onClick={() => this.props.transferSurveyItem(item)}><FontAwesomeIcon icon="check" /></button>
                 <button className='suggested-item-delete'
                         onClick={() => this.props.deleteSuggestedItem(item)}>X</button>
             </div>

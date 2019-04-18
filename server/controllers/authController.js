@@ -43,7 +43,6 @@ module.exports = {
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
         const userArr = await db.user_password_reset(hash, user_email);
-        console.log(userArr);
         let user = userArr[0];
         req.session.user = user;
         res.status(200).send({message: 'Password Has Been Reset', user: req.session.user, loggedIn: true});
@@ -59,6 +58,7 @@ module.exports = {
 
     logout: (req, res) => {
         req.session.destroy();
-        res.status(200).send({message: 'Log out has been successful.'})
+        let user = {};
+        res.status(200).send(user);
     }
 }

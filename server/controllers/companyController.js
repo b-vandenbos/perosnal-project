@@ -25,13 +25,6 @@ module.exports = {
         const db = req.app.get('db');
         const allCompany = await db.get_all_company();
         res.status(200).send(allCompany);
-    },
-
-    setActiveCompany: async (req, res) => {
-        let {id} = req.params;
-        const db = req.app.get('db');
-        const companyArr = await db.get_company_by_id([id]);
-        const company = companyArr[0];
-        res.status(200).send(company);
     }
+    
 }

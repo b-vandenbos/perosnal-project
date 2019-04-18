@@ -64,5 +64,13 @@ module.exports = {
         const {company_id, newDimension} = req.body;
         let dimensions = await db.add_dimension([company_id, newDimension]);
         res.status(200).send(dimensions);
+    },
+
+    updateDimension: async (req, res) => {
+        const {id} = req.params;
+        const {company_id, updatedDimension} = req.body;
+        const db = req.app.get('db');
+        let dimensions = await db.update_dimension([id, company_id, updatedDimension]);
+        res.status(200).send(dimensions);
     }
 }

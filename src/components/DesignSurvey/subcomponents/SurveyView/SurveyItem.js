@@ -3,6 +3,12 @@ import './surveyitem.css';
 import {connect} from 'react-redux';
 import {updateSurveyItem, deleteSurveyItem} from './../../../../ducks/surveyReducer';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faCheck);
+
 class SurveyItem extends Component {
     constructor(props) {
         super(props);
@@ -72,7 +78,7 @@ class SurveyItem extends Component {
                         placeholder='category'
                         value={this.state.q_category}
                         onChange={e => this.watchCategory(e.target.value)}/>
-                <button className='survey-item-edit' onClick={() => this.submitEdit(item)}>G</button>
+                <button className='survey-item-edit' onClick={() => this.submitEdit(item)}><FontAwesomeIcon icon='check' /></button>
             </div>
             ) : (
             <div className='survey-item'>

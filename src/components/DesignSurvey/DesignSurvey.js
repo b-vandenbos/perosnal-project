@@ -5,7 +5,7 @@ import './designsurvey.css';
 import SurveyView from './subcomponents/SurveyView/SurveyView';
 import SuggestedView from './subcomponents/SuggestedView/SuggestedView';
 import DiscussionView from './subcomponents/DiscussionView/DiscussionView';
-
+import {connect} from 'react-redux';
 
 class DesignSurvey extends Component {
 
@@ -29,4 +29,11 @@ class DesignSurvey extends Component {
     }
 }
 
-export default DesignSurvey;
+const mapState = (reduxState) => {
+    return {
+        user: reduxState.user,
+        company: reduxState.company
+    }
+}
+
+export default connect(mapState, {})(DesignSurvey);

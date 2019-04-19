@@ -60,7 +60,7 @@ class CreatePassword extends Component {
             <div className='login'>
                 <div className='login-frame'>
                 <img className='login-logo' name='dw-logo' src={dwlogo} alt='dw-logo' />
-                    <div className='login-user-email'>{this.props.user.user_email}</div>
+                    <div className='login-user-email'>{this.props.user.user.user_email}</div>
                     <input  className='login-input'
                             name='password'
                             type='password'

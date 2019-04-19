@@ -14,10 +14,10 @@ class Admin extends Component {
             companySearchInput: '',
             user_name: '',
             user_email: '',
-            user_password: '',
             user_company: '',
             checked: false,
             adminView: false
+            // user_password: ''
         };
 
         this.getUserList = this.getUserList.bind(this);
@@ -46,10 +46,6 @@ class Admin extends Component {
         this.setState({user_email: val});
     }
 
-    watchPassword(val) {
-        this.setState({user_password: val});
-    }
-
     watchCompanyId(val) {
         this.setState({user_company: val});
     }
@@ -58,12 +54,16 @@ class Admin extends Component {
         this.setState({checked: !this.state.checked});
     }
 
+    // watchPassword(val) {
+    //     this.setState({user_password: val})
+    // }
+
     async addUser() {
-        let {user_name, user_email, user_password, user_company, checked} = this.state;
+        let {user_name, user_email, user_company, checked} = this.state;
         let isadmin = checked;
-        let newUser = {company_id: user_company, user_name, user_email, password: user_password, isadmin};
+        let newUser = {company_id: user_company, user_name, user_email, isadmin};
         await this.props.addUser(newUser);
-        this.setState({user_name: '', user_email: '', user_password: '', user_company: '', checked: false});
+        this.setState({user_name: '', user_email: '', user_company: '', checked: false});
     }
 
     async getUserList() {
@@ -81,12 +81,12 @@ class Admin extends Component {
         let {allCompany} = this.props.company;
         let users = allUsers.map(user => {
             if (user.user_name.toLowerCase().includes(this.state.userSearchInput) && user.company_name.toLowerCase().includes(this.state.companySearchInput)) {
-                return <User key={user.id} user={user}/>
+                return <User key={user.id} user={user} />
             }
         })
         let admins = allAdmins.map(user => {
             if (user.user_name.toLowerCase().includes(this.state.userSearchInput) && user.company_name.toLowerCase().includes(this.state.companySearchInput)) {
-                return <User key={user.id} user={user}/>
+                return <User key={user.id} user={user} />
             }
         })
         let companyOptions = allCompany.map(company => {
@@ -108,7 +108,6 @@ class Admin extends Component {
                             <li>Email Address</li>
                             <li>{this.state.adminView ? 'Last Viewed' : 'Company'}</li>
                             <li>Password Reset</li>
-                            <li>Send Login Info</li>
                         </ul>
                         {this.state.adminView ? admins : users}
                     </div>
@@ -137,11 +136,11 @@ class Admin extends Component {
                                     placeholder='user email'
                                     onChange={e => this.watchUserEmail(e.target.value)}/>
                             <div className='user-input-row3'>
-                                <input  className='user-input row3-password'
+                                {/* <input  className='user-input row3-password'
                                         name='user-password'
                                         value={this.state.user_password}
                                         placeholder='temporary password'
-                                        onChange={e => this.watchPassword(e.target.value)}/>
+                                        onChange={e => this.watchPassword(e.target.value)}/> */}
                                 <select className='user-select-company'
                                     name='user-select-company'
                                     placeholder='select company'

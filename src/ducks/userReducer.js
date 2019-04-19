@@ -74,7 +74,7 @@ export function updateAdminUser(userInfo) {
 export default function reducer(state = initialState, action) {
     switch(action.type) {
         case ADD_USER + '_FULFILLED':
-            return {...state, allUsers: action.payload};
+            return {...state, allUsers: action.payload.users, allAdmins: action.payload.admins};
         case GET_USER + '_FULFILLED':
             return {...state, user: action.payload};
         case ADD_USER_IMAGE + '_FULFILLED':

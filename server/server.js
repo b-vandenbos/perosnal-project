@@ -3,6 +3,7 @@ const express = require('express');
 const massive = require('massive');
 const session = require('express-session');
 const app = express();
+
 const authController = require('./controllers/authController');
 const companyController = require('./controllers/companyController');
 const userController = require('./controllers/userController');

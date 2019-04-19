@@ -39,50 +39,52 @@ module.exports = {
           
           let output = `
           
-          <div style="height:55px;
-          background-color:rgb(0,77,113);
-          font-family: 'Open Sans Light', sans-serif;
-                      font-size: 18px">
-                      <h1 style="color:white;
-                      margin-left: 5px;
-                      text-align: center;">Welcome to SurveyWise!</h1>
-          
-                      </div>
+          <div style="  height:55px;
+                        background-color:rgb(0,77,113);
+                        font-family: 'Open Sans Light', sans-serif;
+                        font-size: 18px">
+                      <h1 style="   color:white;
+                                    margin-left: 5px;
+                                    text-align: center;">
+                            Welcome to SurveyWise!
+                        </h1>
+            </div>
           <p style="font-family: 'Open Sans', sans-serif;
                       font-size: 14px;
                       color: rgb(84,87,90)">
-                      Hello, ${user_name}.<br><br>Our mission is simple: <em>to improve individuals and organizations by turning feedback into results.</em> To do this, we start by understanding your organization and what you need to measure. What is the current culture? What is ${companyName} going through? What's most important to you now, and in the future? We understand what matters most to your success, and we plan on customizing a survey based on those needs. With a strong survey and effective administrative process (let us do the work!), we get strong, actionable survey data. <br><br>Use the username and password below to get started!
+                Hello, ${user_name}.<br><br>Our mission is simple: <em>to improve individuals and organizations by turning feedback into results.</em> To do this, we start by understanding your organization and what you need to measure. What is the current culture? What is ${companyName} going through? What's most important to you now, and in the future? We understand what matters most to your success, and we plan on customizing a survey based on those needs. With a strong survey and effective administrative process (let us do the work!), we get strong, actionable survey data. <br><br>Use the username and password below to get started!
           </p>
           <ul style="   list-style: none;
                         font-family: 'Open Sans', sans-serif;
                         font-size: 14px;
                         color: rgb(84,87,90)">
-                    <li style="list-style: none;"><strong>Username: ${user_email}</strong></li>
-                    <li style="list-style: none;"><strong>Temporary Password: ${password}</strong></li>
+                <li style="list-style: none;"><strong>Username: ${user_email}</strong></li>
+                <li style="list-style: none;"><strong>Temporary Password: ${password}</strong></li>
           </ul><br><br>
           <a href=''
-          style=" font-family: 'Open Sans Light', sans-serif;
-                      font-size:18px;
-                      background: rgb(0,77,113);
-                      color: white;
-                      border-radius: 5px;
-                      padding: 10px;
-                      text-align: center;
-                      display: block;
-                      margin: auto;
-                      width: 300px;">SurveyWise</a>
-                      <p style="font-family: 'Open Sans', sans-serif;
-                      font-size: 14px;
-                      color: rgb(84,87,90)"><br><br>
+                style=" font-family: 'Open Sans Light', sans-serif;
+                        font-size:18px;
+                        background: rgb(0,77,113);
+                        color: white;
+                        border-radius: 5px;
+                        padding: 10px;
+                        text-align: center;
+                        display: block;
+                        margin: auto;
+                        width: 300px;
+                        cursor: pointer">SurveyWise</a>
+                <p style="  font-family: 'Open Sans', sans-serif;
+                            font-size: 14px;
+                            color: rgb(84,87,90)"><br><br>
                       If you have any questions or have trouble logging in, please respond to this email.
-                      </p>
-                      <p style="font-family: 'Open Sans', sans-serif;
-                      font-size: 14px;
-                      color: rgb(84,87,90)">
-                      ${user.user_name}<br>
-                      ${user.user_email}<br>
-                  DecisionWise
-                  </p>
+                </p>
+                <p style="  font-family: 'Open Sans', sans-serif;
+                            font-size: 14px;
+                            color: rgb(84,87,90)">
+                    ${user.user_name}<br>
+                    ${user.user_email}<br>
+                    DecisionWise
+                </p>
           `
           
           const mailOptions = {
@@ -137,7 +139,7 @@ module.exports = {
         res.status(200).send({message: 'Password Has Been Reset', user: req.session.user, loggedIn: true});
     },
 
-    userData: (req, res) => {
+    userData: async (req, res) => {
         if (req.session.user) {
             res.status(200).send(req.session.user);
         } else {

@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const massive = require('massive');
 const session = require('express-session');
+
 const app = express();
 
 const authController = require('./controllers/authController');
@@ -12,6 +13,7 @@ const discussionController = require('./controllers/discussionController');
 const headlineController = require('./controllers/headlineController');
 
 const {SERVER_PORT, SESSION_SECRET, CONNECTION_STRING} = process.env;
+
 
 app.use(express.json());
 massive(CONNECTION_STRING).then(db => {
@@ -25,7 +27,6 @@ app.use(session({
     resave: false
 }));
 
-
 app.post('/auth/register', authController.register);
 app.post('/auth/login', authController.login);
 app.post('/auth/password-reset', authController.resetPassword);
@@ -34,11 +35,15 @@ app.get('/auth/logout', authController.logout);
 
 app.post('/company', companyController.newCompany);
 app.get('/company', companyController.getAllCompany);
+app.put('/company/:id', companyController.updateCompany);
+// app.delete('/company/:id', companyController.deleteCompany);
 
 app.get('/users', userController.getAllUsers);
 app.get('/admins', userController.getAllAdmins);
 app.post('/add-image', userController.addUserImage);
 app.put('/update-admin', userController.updateAdminUser);
+app.put('/update-user', userController.updateUser);
+app.delete('/delete-user/:id', userController.deleteUser);
 
 app.get('/survey', surveyController.getSurvey);
 app.get('/dimensions', surveyController.getDimensions);
@@ -53,3 +58,5 @@ app.post('/add-dimension', surveyController.addDimension);
 
 app.get('/discussion', discussionController.getDiscussion);
 app.post('/discussion', discussionController.createMessage);
+
+app.get('https://rxapi.decwise.com/manager/engagement/all', headlineController.getHeadlines);

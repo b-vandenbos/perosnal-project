@@ -27,5 +27,24 @@ module.exports = {
         let user = req.session.user;
         let allAdmins = await db.get_all_admins();
         res.status(200).send({user, allAdmins});
+    },
+
+    updateUser: async (req, res) => {
+        const db = req.app.get('db');
+        const {id, user_name, user_email, company} = req.body;
+        await db.update_user([id, user_name, user_email, company]);
+        let allUsers = await db.get_all_users();
+        let allAdmins = await db.get_all_admins();
+        res.status(200).send({allUsers, allAdmins});
+    },
+
+    deleteUser: async (req, res) => {
+        const db = req.app.get('db');
+        const {id} = req.params;
+        console.log(id);
+        await db.delete_user(id);
+        let allUsers = await db.get_all_users();
+        let allAdmins = await db.get_all_admins();
+        res.status(200).send({allUsers, allAdmins});
     }
 }

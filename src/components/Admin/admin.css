@@ -141,7 +141,7 @@
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     list-style: none;
     box-sizing: border-box;
@@ -174,7 +174,6 @@ li {
 
 .add-user-button {
     width: 40%;
-    margin: 20px 0 0;
     text-transform: uppercase;
     font-family: 'Open Sans Light', sans-serif;
     font-size: 100%;

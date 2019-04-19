@@ -61,7 +61,7 @@ class CompanyView extends Component {
         let {allCompany} = this.props.company;
         let companies = allCompany.map((company) => {
             if (company.company_name.toLowerCase().includes(this.state.searchInput)) {
-                return <Company key={company.id} company={company} setActive={this.selectActiveCompany}/>
+                return <Company key={company.id} comp={company} setActive={this.selectActiveCompany}/>
             }
         })
         

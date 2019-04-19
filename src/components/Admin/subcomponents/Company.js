@@ -1,18 +1,99 @@
 import React, {Component} from 'react';
 import './company.css';
 import logo from './mask-star.svg';
+import {connect} from 'react-redux';
+import {updateCompany} from './../../../ducks/companyReducer';
+import {getAllUsers, getAllAdmins, getUser} from './../../../ducks/userReducer';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
-export default class Company extends Component {
+library.add(faUndo);
+library.add(faEdit);
+library.add(faMinusCircle);
+
+class Company extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            edit: false,
+            company_name: this.props.comp.company_name,
+            company_logo: this.props.comp.company_logo
+        };
+
+        this.updateCompany = this.updateCompany.bind(this);
+        // this.deleteCompany = this.deleteCompany.bind(this);
+    };
+
+   async updateCompany(event) {
+        if (event.key === 'Enter') {
+            let {id} = this.props.comp;
+            let {company_name, company_logo} = this.state;
+            let updatedComp = {id, company_name, company_logo};
+            await this.props.updateCompany(updatedComp);
+            await this.props.getAllUsers();
+            await this.props.getAllAdmins();
+            this.props.setActive(this.props.comp);
+            this.setState({edit: !this.state.edit});
+        }
+    };
+
+    // async deleteCompany(id) {
+    //     await this.props.deleteCompany(id);
+    //     await this.props.getUser();
+    //     await this.props.getAllUsers();
+    //     await this.props.getAllAdmins();
+    // }
   
     render() {
-        let {company, setActive} = this.props;
+        let {comp, setActive} = this.props;
         return (
-            <div className='company' onClick={() => setActive(company)}>
-                <img className='company-image' src={company.company_logo || logo} alt={company.company_name}/>
-                <div className='company-label'>{company.company_name}</div>
+            !this.state.edit ? (
+            <div className='company' onClick={() => setActive(comp)}>
+                <img className='company-image' src={comp.company_logo || logo} alt={comp.company_name}/>
+                <div className='company-label-frame'>
+                    <div    className='company-label'
+                            onClick={() => this.setState({edit: !this.state.edit})}>{comp.company_name}</div>
+                    <button className='delete-company-button'
+                            onClick={() => alert('delete company')}><FontAwesomeIcon icon='minus-circle' /></button>
+                </div>
             </div>
+            ) : (
+                <div className='company-edit'>
+                    <div className='company-edit-row1'>
+                        <input  className='company-edit-input row1'
+                                value={this.state.company_logo}
+                                onChange={e => this.setState({company_logo: e.target.value})}
+                                onKeyPress={this.updateCompany}/>
+                        <button className='company-edit-undo'
+                                onClick={() => this.setState({edit: !this.state.edit, company_name: this.props.comp.company_name, company_logo: this.props.comp.company_logo})}>
+                                <FontAwesomeIcon icon='undo' />
+                        </button>
+                    </div>
+                    <img    className='company-edit-image'
+                            src={this.state.company_logo || logo}
+                            alt='logo' />
+                    <input  className='company-edit-input'
+                            value={this.state.company_name}
+                            onChange={e => this.setState({company_name: e.target.value})}
+                            onKeyPress={this.updateCompany}/>
+                
+                
+                </div>
+            )
         )
     }
 }
+
+const mapState = (reduxState) => {
+    return {
+        company: reduxState.company
+    };
+};
+
+export default connect(mapState, {updateCompany, getUser, getAllUsers, getAllAdmins})(Company);
 

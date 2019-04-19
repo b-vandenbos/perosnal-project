@@ -13,6 +13,8 @@ export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const GET_ALL_ADMINS = 'GET_ALL_ADMINS';
 export const LOGOUT = 'LOGOUT';
 export const UPDATE_ADMIN_USER = 'UPDATE_ADMIN_USER';
+export const UPDATE_USER = 'UPDATE_USER';
+export const DELETE_USER = 'DELETE_USER';
 
 export function addUser(user) {
     let data = axios.post('/auth/register', user).then(res => res.data);
@@ -70,6 +72,22 @@ export function updateAdminUser(userInfo) {
     };
 };
 
+export function updateUser(user) {
+    let data = axios.put('/update-user', user).then(res => res.data);
+    return {
+        type: UPDATE_USER,
+        payload: data
+    };
+};
+
+export function deleteUser(id) {
+    let data = axios.delete(`/delete-user/${id}`).then(res => res.data);
+    return {
+        type: DELETE_USER,
+        payload: data
+    };
+};
+
 
 export default function reducer(state = initialState, action) {
     switch(action.type) {
@@ -87,6 +105,10 @@ export default function reducer(state = initialState, action) {
             return {...state, user: {}};
         case UPDATE_ADMIN_USER + '_FULFILLED':
             return {...state, user: action.payload.user, allAdmins: action.payload.allAdmins};
+        case UPDATE_USER + '_FULFILLED':
+            return {...state, allUsers: action.payload.allUsers, allAdmins: action.payload.allAdmins};
+        case DELETE_USER + '_FULFILLED':
+            return {...state, allUsers: action.payload.allUsers, allAdmins: action.payload.allAdmins};
         default:
             return state;
     };

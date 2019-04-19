@@ -6,8 +6,10 @@ import {updateSurveyItem, deleteSurveyItem} from './../../../../ducks/surveyRedu
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCheck);
+library.add(faMinusCircle);
 
 class SurveyItem extends Component {
     constructor(props) {
@@ -69,7 +71,7 @@ class SurveyItem extends Component {
                         onChange={e => this.watchText(e.target.value)}/>
                 <select className='survey-item-dimension edit'
                         name='survey-item-dimension-edit'
-                        value={this.state.q_dimension}
+                        value={this.state.q_dimension_id}
                         onChange={e => this.watchDimension(e.target.value)}>
                     <option value='' selected disabled hidden>Select Dimension</option>
                     {dimensions}
@@ -85,7 +87,7 @@ class SurveyItem extends Component {
                 <div className='survey-item-text' onClick={this.editMode}>{item.q_text}</div>
                 {item.q_category ? <div className='survey-item-category'>{item.q_category}</div> : null}
                 <button className='survey-item-delete'
-                        onClick={() => this.props.deleteSurveyItem(item)}>X</button>
+                        onClick={() => this.props.deleteSurveyItem(item)}><FontAwesomeIcon icon='minus-circle' /></button>
             </div>
         )
     }

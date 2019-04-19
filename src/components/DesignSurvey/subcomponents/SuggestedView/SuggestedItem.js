@@ -6,8 +6,10 @@ import {deleteSuggestedItem, transferSurveyItem} from './../../../../ducks/surve
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCheck);
+library.add(faMinusCircle);
 
 
 class SuggestedItem extends Component {
@@ -23,7 +25,7 @@ render() {
                 <button className='suggested-item-delete'
                         onClick={() => this.props.transferSurveyItem(item)}><FontAwesomeIcon icon="check" /></button>
                 <button className='suggested-item-delete'
-                        onClick={() => this.props.deleteSuggestedItem(item)}>X</button>
+                        onClick={() => this.props.deleteSuggestedItem(item)}><FontAwesomeIcon icon='minus-circle' /></button>
             </div>
         </div>
     )

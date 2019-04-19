@@ -81,12 +81,12 @@ class Admin extends Component {
         let {allCompany} = this.props.company;
         let users = allUsers.map(user => {
             if (user.user_name.toLowerCase().includes(this.state.userSearchInput) && user.company_name.toLowerCase().includes(this.state.companySearchInput)) {
-                return <User key={user.id} user={user} />
+                return <User key={user.id} person={user} />
             }
         })
         let admins = allAdmins.map(user => {
             if (user.user_name.toLowerCase().includes(this.state.userSearchInput) && user.company_name.toLowerCase().includes(this.state.companySearchInput)) {
-                return <User key={user.id} user={user} />
+                return <User key={user.id} person={user} />
             }
         })
         let companyOptions = allCompany.map(company => {
@@ -156,9 +156,9 @@ class Admin extends Component {
                                             onChange={e => this.watchAdmin(e.target.value)}/>
                                     <span className='checkmark'></span>
                                 </label>
-                        </div>
                                 <button className='add-user-button'
                                         onClick={() => this.addUser()}>Add User</button>
+                            </div>
                         </div>
                     </div>
                 </div>

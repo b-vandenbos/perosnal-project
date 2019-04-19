@@ -5,6 +5,7 @@ import './userdashboard.css';
 import Headline from './Headline/Headline';
 import {connect} from 'react-redux';
 import {getUser, addUserImage, logout} from './../../ducks/userReducer';
+import {getHeadlines} from './../../ducks/headlineReducer';
 
 class UserDashboard extends Component {
     constructor() {
@@ -22,6 +23,7 @@ class UserDashboard extends Component {
 
     componentDidMount() {
         this.props.getUser();
+        this.props.getHeadlines();
     }
 
     watchImage(val) {
@@ -50,6 +52,9 @@ class UserDashboard extends Component {
   
     render() {
         const {user} = this.props.user;
+
+        let {data} = this.props.headlines.headlines;
+        console.log(data);
         return (
             <div className='user-dashboard'>
                 <div className='user-info'>
@@ -84,8 +89,9 @@ class UserDashboard extends Component {
 
 const mapState = (reduxState) => {
     return {
-        user: reduxState.user
+        user: reduxState.user,
+        headlines: reduxState.headlines
     }
 }
 
-export default connect(mapState, {getUser, addUserImage, logout})(UserDashboard);
+export default connect(mapState, {getUser, addUserImage, logout, getHeadlines})(UserDashboard);

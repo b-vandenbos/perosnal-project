@@ -12,7 +12,7 @@
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     list-style: none;
     box-sizing: border-box;
@@ -28,6 +28,7 @@
     align-items: center;
     text-align: center;
     color: #53575a;
+    cursor: pointer;
 }
 
 .user-list-button {
@@ -45,4 +46,47 @@
 
 .user-list-button:focus {
     outline: none;
+}
+
+.user-edit-input {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    width: 200px;
+    height: 30px;
+    border: 1px solid rgb(84, 87, 90);
+    color: rgb(84,87,90);
+    text-align: center;
+}
+
+.user-edit-input:focus {
+    outline: 0;
+}
+
+#user-edit {
+    display: flex;
+    justify-content: space-around;
+}
+
+.user-edit-button {
+    border: none;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: rgb(84,87,90);
+    background: none;
+    width: 25px;
+}
+
+.user-edit-button:hover {
+    color: rgb(0,77,113);
+}
+
+#delete:hover {
+    color: #ee7625;
+}
+
+
+
+.user-edit-button:focus {
+    outline: 0;
 }

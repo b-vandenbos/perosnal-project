@@ -1,13 +1,25 @@
 import React, {Component} from 'react';
 import './headline.css';
+import {connect} from 'react-redux';
+import {getHeadlines} from './../../../ducks/headlineReducer';
 
-export default class Headline extends Component {
+class Headline extends Component {
+
     
     render() {
+    
         return (
             <div className='headline'>
-            Headlines go here
+            
             </div>
         )
     }
 }
+
+const mapState = (reduxState) => {
+    return {
+        headlines: reduxState.headlines
+    }
+}
+
+export default connect(mapState, {getHeadlines})(Headline);

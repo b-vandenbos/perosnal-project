@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './user.css';
 import {connect} from 'react-redux';
-import {updateUser, deleteUser} from './../../../ducks/userReducer';
+import {updateUser, deleteUser, forgotPassword} from './../../../ducks/userReducer';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -58,7 +58,7 @@ class User extends Component {
                 <li onClick={() => this.setState({edit: !this.state.edit})}>{person.user_name}</li>
                 <li onClick={() => this.setState({edit: !this.state.edit})}>{person.user_email}</li>
                 <li onClick={() => this.setState({edit: !this.state.edit})}>{person.company_name}</li>
-                <li id='user-edit'><button className='user-list-button'>Reset</button>
+                <li>
                     <button id='delete'
                             className='user-edit-button'
                             onClick={() => this.props.deleteUser(person.id)}>
@@ -79,7 +79,7 @@ class User extends Component {
                                     value={this.state.company}
                                     onChange={e => this.watchCompany(e.target.value)}>
                     {companyOptions}
-                </select>
+                </select>                
                 <li id='user-edit'>
                     <button className='user-edit-button'
                             onClick={() => this.submitEdit(person)}><FontAwesomeIcon icon='check' /></button>
@@ -102,4 +102,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {updateUser, deleteUser})(User);
+export default connect(mapState, {updateUser, deleteUser, forgotPassword})(User);

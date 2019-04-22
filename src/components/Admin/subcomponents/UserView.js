@@ -107,7 +107,7 @@ class Admin extends Component {
                             <li>User Name</li>
                             <li>Email Address</li>
                             <li>{this.state.adminView ? 'Last Viewed' : 'Company'}</li>
-                            <li>Password Reset</li>
+                            <li>Delete User</li>
                         </ul>
                         {this.state.adminView ? admins : users}
                     </div>

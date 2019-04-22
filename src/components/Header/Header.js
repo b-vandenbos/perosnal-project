@@ -19,6 +19,7 @@ class Header extends Component {
     
     render() {
         const {user} = this.props.user;
+        const {user_image} = user;
         return (
             <div className='header'>
                 <div className='header-nav-menu'>
@@ -32,7 +33,8 @@ class Header extends Component {
                         {user.isadmin ? <div className='header-user-name'>Viewing: {user.company_name}</div> : null}
                         <div className='header-logout-button' onClick={() => this.logout()}>Logout</div>
                     </div>
-                    <img className='header-user-image' src={user.user_image || logo} alt='' />
+                    <div className='header-user-image'
+                            style={{backgroundImage: `url(${user_image || logo})`}}></div>
                 </div>
                 
             </div>

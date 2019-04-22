@@ -41,7 +41,6 @@ module.exports = {
     deleteUser: async (req, res) => {
         const db = req.app.get('db');
         const {id} = req.params;
-        console.log(id);
         await db.delete_user(id);
         let allUsers = await db.get_all_users();
         let allAdmins = await db.get_all_admins();

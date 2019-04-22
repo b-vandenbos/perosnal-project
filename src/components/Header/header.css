@@ -99,8 +99,11 @@ Link {
 
 .header-user-image {
     height: 60%;
-    width: 100h;
-    object-fit: cover;
+    width: 0;
+    padding-right: 10.5%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
     border-radius: 50%;
     border: 1px solid #53575a;
 }

@@ -30,13 +30,14 @@ app.use(session({
 app.post('/auth/register', authController.register);
 app.post('/auth/login', authController.login);
 app.post('/auth/password-reset', authController.resetPassword);
+app.put('/auth/user/forgot-password/:user_email', authController.resetPasswordEmail);
 app.get('/auth/user', authController.userData);
 app.get('/auth/logout', authController.logout);
 
 app.post('/company', companyController.newCompany);
 app.get('/company', companyController.getAllCompany);
 app.put('/company/:id', companyController.updateCompany);
-// app.delete('/company/:id', companyController.deleteCompany);
+app.delete('/company/:id', companyController.deleteCompany);
 
 app.get('/users', userController.getAllUsers);
 app.get('/admins', userController.getAllAdmins);
@@ -59,4 +60,4 @@ app.post('/add-dimension', surveyController.addDimension);
 app.get('/discussion', discussionController.getDiscussion);
 app.post('/discussion', discussionController.createMessage);
 
-app.get('https://rxapi.decwise.com/manager/engagement/all', headlineController.getHeadlines);
+app.put('/headlines/nav/:num', headlineController.updateHeadline);

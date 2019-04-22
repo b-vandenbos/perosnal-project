@@ -7,6 +7,7 @@ import {getSuggested, getSurvey, getDimensions} from './../../ducks/surveyReduce
 import {getUser, getAllUsers} from './../../ducks/userReducer';
 import {getDiscussion} from './../../ducks/discussionReducer';
 import {getAllCompany} from './../../ducks/companyReducer';
+import {getHeadlines} from './../../ducks/headlineReducer';
 
 class CreatePassword extends Component {
     constructor() {
@@ -34,6 +35,7 @@ class CreatePassword extends Component {
         const res = await axios.post('/auth/password-reset', {user_email, password});
         if (res.data.loggedIn) {
             await this.props.getUser();
+            await this.props.getHeadlines();
             this.props.getAllUsers();
             this.props.getAllCompany();
             this.props.getSuggested();
@@ -55,7 +57,6 @@ class CreatePassword extends Component {
     }
 
     render() {
-        console.log(this.props.user);
         return (
             <div className='login'>
                 <div className='login-frame'>
@@ -78,8 +79,9 @@ const mapState = (reduxState) => {
     return {
         survey: reduxState.survey,
         user: reduxState.user,
-        discussion: reduxState.discussion
+        discussion: reduxState.discussion,
+        headlines: reduxState.headlines
     }
 }
 
-export default connect(mapState, {getUser, getAllUsers, getSuggested, getSurvey, getDimensions, getDiscussion, getAllCompany})(CreatePassword);
+export default connect(mapState, {getHeadlines, getUser, getAllUsers, getSuggested, getSurvey, getDimensions, getDiscussion, getAllCompany})(CreatePassword);

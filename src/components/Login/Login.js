@@ -4,9 +4,10 @@ import dwlogo from './survey-wise-logo.svg';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {getSuggested, getSurvey, getDimensions} from './../../ducks/surveyReducer';
-import {getUser, getAllUsers, getAllAdmins} from './../../ducks/userReducer';
+import {getUser, getAllUsers, getAllAdmins, forgotPassword} from './../../ducks/userReducer';
 import {getDiscussion} from './../../ducks/discussionReducer';
 import {getAllCompany} from './../../ducks/companyReducer';
+import {getHeadlines} from './../../ducks/headlineReducer';
 
 class Login extends Component {
     constructor() {
@@ -15,7 +16,7 @@ class Login extends Component {
         this.state = {
             user_email: '',
             password: '',
-            companyId: ''
+            checkEmail: false,
         }
 
         this.login = this.login.bind(this);
@@ -43,6 +44,7 @@ class Login extends Component {
         }
         if (res.data.loggedIn) {
             await this.props.getUser();
+            await this.props.getHeadlines();
             this.props.getAllUsers();
             this.props.getAllAdmins();
             this.props.getAllCompany();
@@ -50,9 +52,8 @@ class Login extends Component {
             this.props.getSurvey();
             this.props.getDimensions();
             this.props.getDiscussion();
-
             await this.props.history.push('/dashboard');
-        } 
+        }
     }
 
     enterPressed(event) {
@@ -66,6 +67,7 @@ class Login extends Component {
             <div className='login'>
                 <div className='login-frame'>
                 <img className='login-logo' name='dw-logo' src={dwlogo} alt='dw-logo'/>
+                {this.state.checkEmail ? <div className='forgot-password-notice'>Check your email for a new temporary password and enter it below.</div> : null}
                     <input  className='login-input'
                             name='email'
                             value={this.state.user_email}
@@ -80,6 +82,13 @@ class Login extends Component {
                             onChange={e => this.watchPassword(e.target.value)}
                             onKeyPress={this.enterPressed} />
                     <button id='login-button' className='login-button' onClick={() => this.login()}>Login</button>
+                    <div    className='forgot-password'
+                            onClick={() => {
+                                    this.props.forgotPassword(this.state.user_email);
+                                    this.setState({checkEmail: true})
+                                }}>
+                            Forgot password?
+                    </div>
                 </div>
             </div>
         )
@@ -94,4 +103,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {getUser, getAllUsers, getAllAdmins, getSuggested, getSurvey, getDimensions, getDiscussion, getAllCompany})(Login);
+export default connect(mapState, {forgotPassword, getHeadlines, getUser, getAllUsers, getAllAdmins, getSuggested, getSurvey, getDimensions, getDiscussion, getAllCompany})(Login);

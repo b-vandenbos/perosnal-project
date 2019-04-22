@@ -8,9 +8,12 @@
 
 .discussion-message-image {
     height: 30px;
-    width: 100h;
+    width: 30px;
     margin: 0 10px 0 5px;
     border-radius: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 .discussion-message-content {

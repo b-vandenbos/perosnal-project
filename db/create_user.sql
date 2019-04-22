@@ -1,11 +1,13 @@
 INSERT INTO users (
     company_id,
+    delete_id,
     user_name,
     user_email,
     passwordSet,
     password,
     isAdmin
 ) VALUES (
+    $1,
     $1,
     $2,
     $3,

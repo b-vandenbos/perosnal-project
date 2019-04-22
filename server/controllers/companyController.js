@@ -35,16 +35,20 @@ module.exports = {
         res.status(200).send(allCompanies);
     },
 
-    // deleteCompany: async (req, res) => {
-    //     const db = req.app.get('db');
-    //     let {id} = req.params;
-    //     let user_id = req.session.user.id;
-    //     await db.assign_new_compid(user_id);
-    //     let user = await db.get_user_by_email(req.session.user.user_email);
-    //     req.session.user = user;
-    //     await db.delete_company(id);
-    //     let allCompanies = await db.get_all_company();
-    //     res.status(200).send(allCompanies);
-    // }
+    deleteCompany: async (req, res) => {
+        const db = req.app.get('db');
+        let {id} = req.params;
+        let user_id = req.session.user.id;
+        await db.delete_company(id);
+        await db.assign_new_compid(user_id);
+        let user = await db.get_user_by_email(req.session.user.user_email);
+        req.session.user = user;
+        let updatedUser = req.session.user;
+        console.log(updatedUser);
+        // let allCompanies = await db.get_all_company();
+        let allAdmins = await db.get_all_admins();
+        let allUsers = await db.get_all_users();
+        res.status(200).send({updatedUser, allUsers, allAdmins});
+    }
     
 }

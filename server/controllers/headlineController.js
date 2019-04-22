@@ -1,8 +1,8 @@
 
 module.exports = { 
 
-    getHeadlines: (req, res) => {
-        let headlines = res;
-        res.status(200).send(headlines);       
+    updateHeadline: (req, res) => {
+        let {num} = req.params;
+        res.status(200).send(num);
     }
 };

@@ -14,4 +14,4 @@ DELETE FROM dimension
 WHERE dimension.company_id = $1;
 
 DELETE FROM users
-WHERE users.company_id = $1 AND users.isadmin = 'false';
+WHERE users.delete_id = $1;

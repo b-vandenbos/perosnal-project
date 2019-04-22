@@ -1,0 +1,119 @@
+.headline {
+    width: 100%;
+    height: 98%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headline-title {
+    font-family: 'Open Sans Light', sans-serif;
+    color: white;
+    font-size: 30px;
+    background: rgb(0,77,113);
+    height: 50px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 10px;
+}
+
+.headline-descrip {
+    width: 98%;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    margin: 10px auto 30px;
+    line-height: 1.5em;
+    color: #53575a;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(84,87,90);
+}
+
+.headline-middle-section {
+    width: 98%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.headline-section-title {
+    text-transform: uppercase;
+    font-family: 'Open Sans Semibold', sans-serif;
+    font-size: 16px;
+    color: rgb(0,77,113);
+    margin-bottom: 10px;
+}
+
+.headline-section-content {
+    width: 95%;
+    margin: 0;
+    color: #53575a;
+    background: none;
+}
+
+.headline-item {
+    margin-bottom: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+}
+
+.think-frame {
+    width: 50%;
+}
+
+.act-frame {
+    width: 50%;
+}
+
+.media-section {
+    width: 98%;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid rgb(84,87,90);
+    padding-top: 5px;
+}
+
+.media-item-frame {
+    width: 98%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.media-item {
+    border: 1px solid rgb(84, 87, 90);
+    color: rgb(0,77,113);
+    width: 225px;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+}
+
+.media-item:hover {
+    background: rgb(0,77,113);
+    color: white;
+}
+
+.media-icon {
+    height: 70%;
+    margin: 0 8px 0 5px;
+    padding-right: 10px;
+}
+
+.media-title {
+    margin-right: 5px;
+    border: none;
+    font-size: 11px;
+}
+
+a {
+    text-decoration: none;
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    margin-right: 5px;
+}

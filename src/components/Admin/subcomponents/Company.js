@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import './company.css';
 import logo from './mask-star.svg';
 import {connect} from 'react-redux';
-import {updateCompany} from './../../../ducks/companyReducer';
-import {getAllUsers, getAllAdmins, getUser} from './../../../ducks/userReducer';
+import {updateCompany, getAllCompany} from './../../../ducks/companyReducer';
+import {getAllUsers, getAllAdmins, getUser, deleteCompany} from './../../../ducks/userReducer';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -44,9 +44,10 @@ class Company extends Component {
 
     // async deleteCompany(id) {
     //     await this.props.deleteCompany(id);
-    //     await this.props.getUser();
-    //     await this.props.getAllUsers();
-    //     await this.props.getAllAdmins();
+    //     // await this.props.getUser();
+    //     // await this.props.getAllUsers();
+    //     // await this.props.getAllAdmins();
+    //     await this.props.getAllCompany();
     // }
   
     render() {
@@ -58,10 +59,9 @@ class Company extends Component {
                 <div className='company-label-frame'>
                     <div    className='company-label'
                             onClick={() => this.setState({edit: !this.state.edit})}>{comp.company_name}</div>
-                    <button className='delete-company-button'
-                            onClick={() => alert('delete company')}><FontAwesomeIcon icon='minus-circle' /></button>
-                </div>
+                    <button className='delete-company-button'><FontAwesomeIcon icon='minus-circle' /></button>
             </div>
+                </div>
             ) : (
                 <div className='company-edit'>
                     <div className='company-edit-row1'>
@@ -91,9 +91,10 @@ class Company extends Component {
 
 const mapState = (reduxState) => {
     return {
-        company: reduxState.company
+        company: reduxState.company,
+        user: reduxState.user
     };
 };
 
-export default connect(mapState, {updateCompany, getUser, getAllUsers, getAllAdmins})(Company);
+export default connect(mapState, {updateCompany, getAllCompany, deleteCompany, getUser, getAllUsers, getAllAdmins})(Company);
 

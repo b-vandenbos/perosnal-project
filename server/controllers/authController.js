@@ -151,5 +151,100 @@ module.exports = {
         req.session.destroy();
         let user = {};
         res.status(200).send(user);
+    },
+
+    resetPasswordEmail: async (req, res) => {
+        const {user_email} = req.params;        
+        
+        const db = req.app.get('db');
+        
+            let options = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',1,2,3,4,5,6,7,8,9,0];
+            let passwordArr = [];
+            for (var i = 0; i < 8; i++) {
+                let index = Math.floor(Math.random() * 37);
+                passwordArr.push(options[index]);
+            };
+            let password = passwordArr.join('');
+
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(password, salt);
+        await db.forgot_password([hash, user_email]);
+        let admins = await db.get_all_admins();
+        let users = await db.get_all_users();        
+        
+        const transporter = nodemailer.createTransport({
+            service: SERVICE,
+            auth: {
+                user: EMAIL_USER,
+              pass: EMAIL_PASSWORD
+            }
+          })
+          
+          let output = `
+          
+          <div style="  height:55px;
+                        background-color:rgb(0,77,113);
+                        font-family: 'Open Sans Light', sans-serif;
+                        font-size: 18px">
+                      <h1 style="   color:white;
+                                    margin-left: 5px;
+                                    text-align: center;">
+                            SurveyWise
+                        </h1>
+            </div>
+          <p style="font-family: 'Open Sans', sans-serif;
+                      font-size: 14px;
+                      color: rgb(84,87,90)">
+                Hello.<br><br>Having trouble logging in? To reset your password, use your username and the temporary password provided below.
+          </p>
+          <ul style="   list-style: none;
+                        font-family: 'Open Sans', sans-serif;
+                        font-size: 14px;
+                        color: rgb(84,87,90)">
+                <li style="list-style: none;"><strong>Username: ${user_email}</strong></li>
+                <li style="list-style: none;"><strong>Temporary Password: ${password}</strong></li>
+          </ul><br><br>
+          <a href=''
+                style=" font-family: 'Open Sans Light', sans-serif;
+                        font-size:18px;
+                        background: rgb(0,77,113);
+                        color: white;
+                        border-radius: 5px;
+                        padding: 10px;
+                        text-align: center;
+                        display: block;
+                        margin: auto;
+                        width: 300px;
+                        cursor: pointer">Reset Password</a>
+                <p style="  font-family: 'Open Sans', sans-serif;
+                            font-size: 14px;
+                            color: rgb(84,87,90)"><br><br>
+                      If you have any questions or have trouble logging in, please respond to this email.
+                </p>
+                <p style="  font-family: 'Open Sans', sans-serif;
+                            font-size: 14px;
+                            color: rgb(84,87,90)">
+                    
+                    DecisionWise
+                </p>
+          `
+          
+          const mailOptions = {
+            from: `SurveyWise <vandenbos.b@gmail.com>`,
+            to: `${user_email}`,
+            subject: `Password Reset: SurveyWise.`,
+            text: output,
+            html: output,
+            replyTo: `SurveyWise <vandenbos.b@gmail.com>`
+        }
+          transporter.sendMail(mailOptions, function(err, res) {
+              if (err) {
+              console.error('there was an error: ', err);
+            } else {
+              console.log('here is the res: ', res)
+            }
+          })
+
+          return res.status(200).send({users, admins});
     }
 }

@@ -61,3 +61,21 @@
 .login-button:focus {
     outline: none;
 }
+
+.forgot-password {
+    margin-top: 10px;
+    padding: 0;
+    font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+    color: rgb(0,77,113);
+}
+
+.forgot-password:hover {
+    cursor: pointer;
+}
+
+.forgot-password-notice {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    color: #ee7625;
+}

@@ -23,8 +23,8 @@ module.exports = {
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
         await db.create_user([company_id, user_name, user_email, hash, isadmin]);
-        let admins = await db.get_all_admins();
-        let users = await db.get_all_users();
+        let allAdmins = await db.get_all_admins();
+        let allUsers = await db.get_all_users();
         let companyArr = await db.get_company_by_id(Number(company_id));
         let companyName = companyArr[0].company_name;
         
@@ -103,7 +103,7 @@ module.exports = {
             }
           })
 
-          return res.status(200).send({users, admins});
+          return res.status(200).send({allUsers, allAdmins});
     },
 
     login: async (req, res) => {
@@ -169,8 +169,8 @@ module.exports = {
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
         await db.forgot_password([hash, user_email]);
-        let admins = await db.get_all_admins();
-        let users = await db.get_all_users();        
+        let allAdmins = await db.get_all_admins();
+        let allUsers = await db.get_all_users();        
         
         const transporter = nodemailer.createTransport({
             service: SERVICE,
@@ -245,6 +245,6 @@ module.exports = {
             }
           })
 
-          return res.status(200).send({users, admins});
+          return res.status(200).send({allUsers, allAdmins});
     }
 }

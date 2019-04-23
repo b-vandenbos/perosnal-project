@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import icon from './single-neutral-circle.svg';
 import './userdashboard.css';
 import Headline from './Headline/Headline';
+import UserImage from './UserImage';
+
 import {connect} from 'react-redux';
 import {getUser, addUserImage, logout} from './../../ducks/userReducer';
 import {headlineIndex} from './../../ducks/headlineReducer';
@@ -11,6 +12,7 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faChevronRight} from '@fortawesome/free-solid-svg-icons';
 import {faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+
 
 library.add(faChevronRight);
 library.add(faChevronLeft);
@@ -23,7 +25,8 @@ class UserDashboard extends Component {
             addImage: false,
             user_image: '',
             headlines: [],
-            headlineIndex: this.props.headlines.headlineIndex
+            headlineIndex: this.props.headlines.headlineIndex,
+            isUploading: true
         }
 
         this.logout = this.logout.bind(this);
@@ -96,31 +99,16 @@ class UserDashboard extends Component {
   
     render() {
         const {user} = this.props.user;
-        const {user_image} = user;
         return (
             <div className='user-dashboard'>
                 <div className='user-info'>
-                    {/* <img    className='user-image'
-                            name='user-image'
-                            src={user.user_image || icon}
-                            alt=''
-                            onClick={this.toggleAdd}/> */}
-                    <div className='user-image'
-                            name='user-image'
-                            onClick={this.toggleAdd}
-                            style={{backgroundImage: `url(${user_image || icon})`}}></div>
-                            
-                    {this.state.addImage ? <input   className='user-image-input'
-                                                    placeholder='upload profile image'
-                                                    value={this.state.user_image}
-                                                    onChange={e => this.watchImage(e.target.value)}
-                                                    onKeyPress={this.addImage}/> : null}
+                    <UserImage />
                     <div className='user-welcome'>
                         <h1>Welcome, {user.user_name}.</h1>
                     </div>
                     <div className='user-links'>
                         <Link to={`/design-survey`} className='user-link-style'>Design Your Survey</Link>
-                        {this.props.user.user.isadmin ? <Link to={'/admin'} className= 'user-link-style'>Admin</Link> : null}
+                        {user.isadmin ? <Link to={'/admin'} className= 'user-link-style'>Admin</Link> : null}
                     </div>
                     <button className='user-logout-button' onClick={() => this.logout()}>Logout</button>
                 </div>

@@ -27,6 +27,8 @@ app.use(session({
     resave: false
 }));
 
+
+
 app.post('/auth/register', authController.register);
 app.post('/auth/login', authController.login);
 app.post('/auth/password-reset', authController.resetPassword);
@@ -37,14 +39,14 @@ app.get('/auth/logout', authController.logout);
 app.post('/company', companyController.newCompany);
 app.get('/company', companyController.getAllCompany);
 app.put('/company/:id', companyController.updateCompany);
-app.delete('/company/:id', companyController.deleteCompany);
 
 app.get('/users', userController.getAllUsers);
 app.get('/admins', userController.getAllAdmins);
-app.post('/add-image', userController.addUserImage);
 app.put('/update-admin', userController.updateAdminUser);
 app.put('/update-user', userController.updateUser);
 app.delete('/delete-user/:id', userController.deleteUser);
+app.get('/sign-s3', userController.addImage);
+app.post('/user-image', userController.addUserImage);
 
 app.get('/survey', surveyController.getSurvey);
 app.get('/dimensions', surveyController.getDimensions);

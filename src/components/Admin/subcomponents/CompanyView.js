@@ -14,8 +14,7 @@ class CompanyView extends Component {
 
         this.state = {
             company_name: '',
-            company_logo: '',
-            searchInput: '',
+            searchInput: ''
         };
 
         this.addCompany = this.addCompany.bind(this);
@@ -28,10 +27,6 @@ class CompanyView extends Component {
 
     watchName(val) {
         this.setState({company_name: val});
-    }
-
-    watchLogo(val) {
-        this.setState({company_logo: val});
     }
 
     watchInput(val) {
@@ -78,16 +73,11 @@ class CompanyView extends Component {
                             placeholder='search for a company'
                             onChange={e => this.watchInput(e.target.value)} />
                     <p>OR</p>
-                    <input  className='company-input'
-                            name='company-name'
-                            value={this.state.company_name}
-                            placeholder='company name'
-                            onChange={e => this.watchName(e.target.value)}/>
-                    <input  className='company-input'
-                            name='company-logo'
-                            value={this.state.company_logo}
-                            placeholder='company logo'
-                            onChange={e => this.watchLogo(e.target.value)}/>
+                        <input  className='company-input'
+                                name='company-name'
+                                value={this.state.company_name}
+                                placeholder='company name'
+                                onChange={e => this.watchName(e.target.value)}/>
                     <button className='add-company-button'
                             onClick={() => this.addCompany({company_name, company_logo})}>Add Company</button>
                 </div>

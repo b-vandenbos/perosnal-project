@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import './company.css';
+import {v4 as randomString} from 'uuid';
+import Dropzone from 'react-dropzone';
 import logo from './mask-star.svg';
+import axios from 'axios';
 import {connect} from 'react-redux';
 import {updateCompany, getAllCompany} from './../../../ducks/companyReducer';
-import {getAllUsers, getAllAdmins, getUser, deleteCompany} from './../../../ducks/userReducer';
+import {getAllUsers, getAllAdmins, getUser} from './../../../ducks/userReducer';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -26,7 +29,6 @@ class Company extends Component {
         };
 
         this.updateCompany = this.updateCompany.bind(this);
-        // this.deleteCompany = this.deleteCompany.bind(this);
     };
 
    async updateCompany(event) {
@@ -42,13 +44,47 @@ class Company extends Component {
         }
     };
 
-    // async deleteCompany(id) {
-    //     await this.props.deleteCompany(id);
-    //     // await this.props.getUser();
-    //     // await this.props.getAllUsers();
-    //     // await this.props.getAllAdmins();
-    //     await this.props.getAllCompany();
-    // }
+    getSignedRequest = ([file]) => {
+        this.setState({isUploading: true});
+        const fileName = `${randomString()}-${file.name.replace(/\s/g, '-')}`;
+
+        axios.get('/sign-s3', {
+            params: {
+                'file-name': fileName,
+                'file-type': file.type
+            }
+        })
+            .then(response => {
+                const {signedRequest, url} = response.data;
+                this.uploadFile(file, signedRequest, url);
+            })
+            .catch(err => console.log(err));
+    }
+
+    uploadFile = (file, signedRequest, url) => {
+        const options = {
+            headers: {
+                'Content-Type': file.type
+            }
+        };
+
+        axios.put(signedRequest, file, options)
+            .then(response => {
+                this.setState({company_logo: url})
+                let {id} = this.props.comp;
+                let {company_name, company_logo} = this.state;
+                let updatedComp = {id, company_name, company_logo};
+                this.props.updateCompany(updatedComp);
+                this.props.getAllUsers();
+                this.props.getAllAdmins();
+                this.props.setActive(this.props.comp);
+                this.setState({edit: !this.state.edit});
+            })
+            .catch(err => {
+                this.setState({isUploading: false});
+                console.log(err);
+            })
+    }
   
     render() {
         let {comp, setActive} = this.props;
@@ -65,18 +101,30 @@ class Company extends Component {
             ) : (
                 <div className='company-edit'>
                     <div className='company-edit-row1'>
-                        <input  className='company-edit-input row1'
-                                value={this.state.company_logo}
-                                onChange={e => this.setState({company_logo: e.target.value})}
-                                onKeyPress={this.updateCompany}/>
                         <button className='company-edit-undo'
                                 onClick={() => this.setState({edit: !this.state.edit, company_name: this.props.comp.company_name, company_logo: this.props.comp.company_logo})}>
                                 <FontAwesomeIcon icon='undo' />
                         </button>
                     </div>
-                    <img    className='company-edit-image'
-                            src={this.state.company_logo || logo}
-                            alt='logo' />
+
+                    <Dropzone   
+                                onDropAccepted={this.getSignedRequest}
+                                accept='image/*'
+                                multiple={false}>
+                        {({ getRootProps, getInputProps, isDragActive }) => {
+                            return (
+                                <div className='compImg' {...getRootProps()}>
+                                    <input {...getInputProps()} />
+                                    {isDragActive ? (
+                                        <img className='company-edit-image' src={logo} alt='logo'/>
+                                    ) : (
+                                        <img className='company-edit-image' src={comp.company_logo || logo} alt='logo'/>
+                                    )}
+                                </div>
+                            );
+                        }}
+                    </Dropzone>
+                    
                     <input  className='company-edit-input'
                             value={this.state.company_name}
                             onChange={e => this.setState({company_name: e.target.value})}
@@ -96,5 +144,5 @@ const mapState = (reduxState) => {
     };
 };
 
-export default connect(mapState, {updateCompany, getAllCompany, deleteCompany, getUser, getAllUsers, getAllAdmins})(Company);
+export default connect(mapState, {updateCompany, getAllCompany, getUser, getAllUsers, getAllAdmins})(Company);
 

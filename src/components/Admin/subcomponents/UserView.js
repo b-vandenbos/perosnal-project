@@ -17,7 +17,6 @@ class Admin extends Component {
             user_company: '',
             checked: false,
             adminView: false
-            // user_password: ''
         };
 
         this.getUserList = this.getUserList.bind(this);
@@ -53,10 +52,6 @@ class Admin extends Component {
     watchAdmin() {
         this.setState({checked: !this.state.checked});
     }
-
-    // watchPassword(val) {
-    //     this.setState({user_password: val})
-    // }
 
     async addUser() {
         let {user_name, user_email, user_company, checked} = this.state;
@@ -136,11 +131,6 @@ class Admin extends Component {
                                     placeholder='user email'
                                     onChange={e => this.watchUserEmail(e.target.value)}/>
                             <div className='user-input-row3'>
-                                {/* <input  className='user-input row3-password'
-                                        name='user-password'
-                                        value={this.state.user_password}
-                                        placeholder='temporary password'
-                                        onChange={e => this.watchPassword(e.target.value)}/> */}
                                 <select className='user-select-company'
                                     name='user-select-company'
                                     placeholder='select company'

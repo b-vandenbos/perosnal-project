@@ -38,6 +38,10 @@ body {
     background-position: center center;
 }
 
+.user-image:focus {
+    outline: 0;
+}
+
 .user-image-input {
     width: 60%;
     margin: 10px auto;
@@ -165,3 +169,4 @@ body {
 .nav-button:focus {
     outline: 0;
 }
+

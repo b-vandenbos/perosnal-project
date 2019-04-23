@@ -55,12 +55,23 @@
     background: rgb(0,77,113);
 }
 
-.company-edit-image {
+.compImg {
+    display: flex;
+    height: 70%;
     width: 90%;
-    height: 65%;
+
+}
+
+.company-edit-image {
+    width: 100%;
+    height: 100%;
     background: white;
     object-fit: contain;
     border-radius: 10px;
+}
+
+.company-edit-image:hover {
+    cursor: pointer;
 }
 
 .company-edit-input {
@@ -80,7 +91,7 @@
 
 .company-edit-row1 {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     width: 100%;
 }
 

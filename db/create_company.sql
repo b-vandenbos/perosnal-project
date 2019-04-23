@@ -1,9 +1,7 @@
 INSERT INTO company (
-    company_name,
-    company_logo
+    company_name
 ) VALUES (
-    $1,
-    $2
+    $1
 )
 
 RETURNING id;

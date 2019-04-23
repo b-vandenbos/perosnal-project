@@ -9,6 +9,7 @@ import {connect} from 'react-redux';
 
 class DesignSurvey extends Component {
 
+
     render() {
     
         return (

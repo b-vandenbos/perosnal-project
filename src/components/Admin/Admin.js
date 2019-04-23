@@ -4,8 +4,15 @@ import Footer from '../Footer/Footer';
 import CompanyView from './subcomponents/CompanyView';
 import UserView from './subcomponents/UserView';
 import './admin.css';
+import {connect} from 'react-redux';
 
-export default class Admin extends Component {
+class Admin extends Component {
+
+    async componentDidMount() {
+     if (!this.props.user.user.isadmin) {
+         this.props.history.push('/dashboard');
+     }   
+    }
 
     render() {
         return (
@@ -20,3 +27,11 @@ export default class Admin extends Component {
         )
     }
 }
+
+const mapState = (reduxState) => {
+    return {
+        user: reduxState.user
+    }
+}
+
+export default connect(mapState, {})(Admin);

@@ -23,6 +23,7 @@ export function addUser(user) {
 
 export function addUserImage(user) {
     let data = axios.post('/add-image', user).then(res => res.data);
+    console.log(data);
     return {
         type: UPDATE_USER,
         payload: data

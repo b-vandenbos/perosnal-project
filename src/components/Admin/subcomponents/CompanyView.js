@@ -67,19 +67,22 @@ class CompanyView extends Component {
                     {companies}
                 </div>
                 <div className='company-add-container'>
-                    <input  className='company-input' 
-                            name='company-searchbar'
-                            value={this.state.searchInput}
-                            placeholder='search for a company'
-                            onChange={e => this.watchInput(e.target.value)} />
-                    <p>OR</p>
+                    <div className='company-add-container-frame'>
+                        <input  className='company-input' 
+                                name='company-searchbar'
+                                value={this.state.searchInput}
+                                placeholder='search for a company'
+                                onChange={e => this.watchInput(e.target.value)} />
+                    </div>
+                    <div className='company-add-container-frame'>
                         <input  className='company-input'
                                 name='company-name'
                                 value={this.state.company_name}
                                 placeholder='company name'
                                 onChange={e => this.watchName(e.target.value)}/>
-                    <button className='add-company-button'
+                        <button className='add-company-button'
                             onClick={() => this.addCompany({company_name, company_logo})}>Add Company</button>
+                    </div>
                 </div>
             </div>
             </div>

@@ -49,6 +49,7 @@ class UserImage extends Component {
                 this.setState({isUploading: false, user_image: url})
                 const {id} = this.props.user.user;
                 let userImage = {user_image: url, id};
+                console.log()
                 this.props.addUserImage(userImage);
             })
             .catch(err => {

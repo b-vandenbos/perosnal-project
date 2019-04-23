@@ -46,9 +46,9 @@ module.exports = {
     addUserImage: async (req, res) => {
         const db = req.app.get('db');
         const {id, user_image} = req.body;
-        let user = await db.add_user_image([user_image, id]);
-        console.log(user);
-        res.status(200).send(user);
+        await db.add_user_image([user_image, id]);
+        req.session.user.user_image = user_image;
+        res.status(200).send(req.session.user);
     },
 
     addImage: (req, res) => {

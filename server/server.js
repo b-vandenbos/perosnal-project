@@ -46,7 +46,7 @@ app.put('/update-admin', userController.updateAdminUser);
 app.put('/update-user', userController.updateUser);
 app.delete('/delete-user/:id', userController.deleteUser);
 app.get('/sign-s3', userController.addImage);
-app.post('/user-image', userController.addUserImage);
+app.post('/add-image', userController.addUserImage);
 
 app.get('/survey', surveyController.getSurvey);
 app.get('/dimensions', surveyController.getDimensions);

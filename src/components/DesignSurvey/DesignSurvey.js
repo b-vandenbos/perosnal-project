@@ -37,4 +37,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {})(DesignSurvey);
+export default connect(mapState)(DesignSurvey);

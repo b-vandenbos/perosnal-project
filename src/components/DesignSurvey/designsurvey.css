@@ -28,7 +28,7 @@
     height: 35px;
     margin: 0 auto;
     font-family: 'Open Sans Light', sans-serif;
-    font-size: 24px;
+    font-size: 130%;
     text-transform: uppercase;
     color: rgb(0,77,113);
 }
@@ -250,7 +250,7 @@
 
 .dimension-title {
     font-family: 'Open Sans Light', sans-serif;
-    font-size: 24px;
+    font-size: 130%;
     text-transform: uppercase;
     color: rgb(0,77,113);
 }

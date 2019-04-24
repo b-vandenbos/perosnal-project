@@ -11,4 +11,5 @@ DELETE FROM dimension
     AND company_id = $2;
 
 SELECT * FROM dimension
-    WHERE company_id = $2;
+    WHERE company_id = $2
+    ORDER by index asc;

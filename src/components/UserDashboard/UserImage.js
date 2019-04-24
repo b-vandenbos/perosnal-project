@@ -61,7 +61,8 @@ class UserImage extends Component {
     render() {
         const {user_image} = this.props.user.user;
         return (
-            <Dropzone   onDropAccepted={this.getSignedRequest}
+            <Dropzone   className='dropzone'
+                        onDropAccepted={this.getSignedRequest}
                         accept='image/*'
                         multiple={false}>
                     {({ getRootProps, getInputProps, isDragActive }) => {

@@ -44,6 +44,7 @@
 
 .company-edit {
     width: 200px;
+    min-width: 200px;
     height: 90%;
     display: flex;
     flex-direction: column;
@@ -103,6 +104,10 @@
     background: none;
     font-weight: 800;
     color: white;
+}
+
+.company-edit-undo:focus {
+    outline: 0;
 }
 
 .delete-company-button {

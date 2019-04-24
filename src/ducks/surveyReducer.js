@@ -109,6 +109,14 @@ export function deleteDimension(dimension) {
     };
 };
 
+export function reorderDimensions(dimension) {
+    let data = axios.put('/reorder-dimension', dimension).then(res => res.data);
+    return {
+        type: UPDATE_DIMENSIONS_AND_SURVEY_AND_SUGGESTED,
+        payload: data
+    };
+};
+
 export default function reducer(state = initialState, action) {
     switch(action.type) {
         case UPDATE_DIMENSIONS + '_FULFILLED':

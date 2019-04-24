@@ -108,7 +108,15 @@ module.exports = {
     deleteDimension: async (req, res) => {
         let {company_id, id} = req.body;
         const db = req.app.get('db');
-        let dimensions = await db.delete_dimension([id, company_id]);
+        let rawDimensions = await db.delete_dimension([id, company_id]);
+            for (let j = 0; j < rawDimensions.length; j++) {
+                let compId = rawDimensions[j].company_id;
+                let dimId = rawDimensions[j].id;
+                let indexVal = j + 1;
+                db.set_dimension_index(compId, dimId, indexVal);
+            }
+        let dimensions = await db.get_dimensions_by_company_id(company_id);
+
         let rawSurvey = await db.get_survey_by_company_id(company_id);
             for (let i = 0; i < rawSurvey.length; i++) {
                     let compId = rawSurvey[i].company_id;
@@ -119,5 +127,26 @@ module.exports = {
         let survey = await db.get_survey_by_company_id(company_id);
         let suggested = await db.get_suggested_by_company_id(company_id);
         res.status(200).send({dimensions, survey, suggested});
+    },
+
+    reorderDimensions: async (req, res) => {
+        let {change, company_id, id, index} = req.body;
+        const db = req.app.get('db');
+        if (change === -1) {
+            await db.move_up_dimension([change, id, index, company_id]);
+        } else if (change === 1) {
+            await db.move_down_dimension([change, id, index, company_id]);
+        };
+        const dimensions = await db.get_dimensions_by_company_id(company_id);
+        const rawSurvey = await db.get_survey_after_qupdate(company_id);
+            for (let i = 0; i < rawSurvey.length; i++) {
+                let compId = rawSurvey[i].company_id;
+                let qId = rawSurvey[i].id;
+                let indexVal = i + 1;
+                db.set_item_index(compId, qId, indexVal);
+            }
+            let survey = await db.get_survey_by_company_id(company_id);
+            let suggested = await db.get_suggested_by_company_id(company_id);
+            res.status(200).send({dimensions, survey, suggested});
     }
 }

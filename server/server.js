@@ -60,6 +60,7 @@ app.post('/transfer-item', surveyController.transferSurveyItem);
 app.post('/add-dimension', surveyController.addDimension);
 app.put('/reorder', surveyController.reorderItems);
 app.put('/delete-dimension', surveyController.deleteDimension);
+app.put('/reorder-dimension', surveyController.reorderDimensions);
 
 app.get('/discussion', discussionController.getDiscussion);
 app.post('/discussion', discussionController.createMessage);

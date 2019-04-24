@@ -95,7 +95,7 @@ class Company extends Component {
                 <div className='company-label-frame'>
                     <div    className='company-label'
                             onClick={() => this.setState({edit: !this.state.edit})}>{comp.company_name}</div>
-                    <button className='delete-company-button'><FontAwesomeIcon icon='minus-circle' /></button>
+                    {comp.company_name !== 'DecisionWise' ? <button className='delete-company-button'><FontAwesomeIcon icon='minus-circle' /></button> : null }
             </div>
                 </div>
             ) : (

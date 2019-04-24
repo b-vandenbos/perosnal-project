@@ -31,7 +31,7 @@
     overflow-x: scroll;
 }
     .company-display::-webkit-scrollbar {
-        width: 2px;
+        height: 10px;
   }
     .company-display::-webkit-scrollbar-track {
         background: none; 

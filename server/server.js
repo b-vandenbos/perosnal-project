@@ -58,6 +58,8 @@ app.get('/suggested', surveyController.getSuggested);
 app.post('/delete-suggested/:id', surveyController.deleteSuggestedItem);
 app.post('/transfer-item', surveyController.transferSurveyItem);
 app.post('/add-dimension', surveyController.addDimension);
+app.put('/reorder', surveyController.reorderItems);
+app.put('/delete-dimension', surveyController.deleteDimension);
 
 app.get('/discussion', discussionController.getDiscussion);
 app.post('/discussion', discussionController.createMessage);

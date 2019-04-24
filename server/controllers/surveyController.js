@@ -22,10 +22,23 @@ module.exports = {
 
     updateSurveyItem: async (req, res) => {
         const {id} = req.params;
-        const {q_id, q_dimension_id,q_text, q_category, company_id} = req.body;
+        const {q_id, q_dimension_id, q_text, q_category, company_id} = req.body;
         const db = req.app.get('db');
-        let survey = await db.update_survey_item([id, q_id, q_dimension_id, q_text, q_category, company_id]);
+
+        await db.update_survey_item([id, q_id, q_dimension_id, q_text, q_category, company_id]);
+
+        let rawSurvey = await db.get_survey_after_qupdate(company_id);
+
+            for (let i = 0; i < rawSurvey.length; i++) {
+                    let compId = rawSurvey[i].company_id;
+                    let qId = rawSurvey[i].id;
+                    let indexVal = i + 1;
+                    db.set_item_index(compId, qId, indexVal);
+            }
+       
+        let survey = await db.get_survey_by_company_id(company_id);
         res.status(200).send(survey);
+
     },
 
     addSurveyItem: async (req, res) => {
@@ -37,9 +50,9 @@ module.exports = {
 
     deleteSurveyItem: async (req, res) => {
         const {id} = req.params;
-        const {company_id} = req.body;
+        const {company_id, index} = req.body;
         const db = req.app.get('db');
-        let survey = await db.delete_survey_item([id, company_id]);
+        let survey = await db.delete_survey_item([id, company_id, index]);
         res.status(200).send(survey);
     },
 
@@ -54,7 +67,12 @@ module.exports = {
     transferSurveyItem: async (req, res) => {
         const db = req.app.get('db');
         const {company_id, user_id, q_id, q_dimension_id, q_text, q_category, id} = req.body;
-        let survey = await db.move_suggested_to_survey([company_id, user_id, q_id, q_dimension_id, q_text, q_category]);
+        let newItemArr = await db.move_suggested_to_survey([company_id, user_id, q_id, q_dimension_id, q_text, q_category]);
+        let newItem = newItemArr[0];
+        let newItemComp = newItem.company_id;
+        let newItemIndex = newItem.index;
+        let newItemDim = newItem.q_dimension_id;
+        let survey = await db.update_index_after_add([newItemComp, newItemIndex, newItemDim]);
         let suggested = await db.delete_suggested_item([id, company_id]);
         res.status(200).send({survey, suggested});
     },
@@ -72,5 +90,34 @@ module.exports = {
         const db = req.app.get('db');
         let dimensions = await db.update_dimension([id, company_id, updatedDimension]);
         res.status(200).send(dimensions);
+    },
+
+    reorderItems: async (req, res) => {
+        let {change, id, index, company_id, q_dimension_id} = req.body;
+        const db = req.app.get('db');
+        if (change === -1) {
+            let survey = await db.move_up_survey_item([change, id, index, company_id, q_dimension_id]);
+            res.status(200).send(survey);
+        } 
+        else if (change === 1) {
+            let survey = await db.move_down_survey_item([change, id, index, company_id, q_dimension_id]);
+            res.status(200).send(survey);
+        }
+    },
+
+    deleteDimension: async (req, res) => {
+        let {company_id, id} = req.body;
+        const db = req.app.get('db');
+        let dimensions = await db.delete_dimension([id, company_id]);
+        let rawSurvey = await db.get_survey_by_company_id(company_id);
+            for (let i = 0; i < rawSurvey.length; i++) {
+                    let compId = rawSurvey[i].company_id;
+                    let qId = rawSurvey[i].id;
+                    let indexVal = i + 1;
+                    db.set_item_index(compId, qId, indexVal);
+            }
+        let survey = await db.get_survey_by_company_id(company_id);
+        let suggested = await db.get_suggested_by_company_id(company_id);
+        res.status(200).send({dimensions, survey, suggested});
     }
 }

@@ -13,9 +13,8 @@ INSERT INTO survey (
     $4,
     $5,
     $6,
-    ((SELECT max(index) FROM survey WHERE company_id = $1) + 1)
+    ((SELECT max(index) FROM survey WHERE company_id = $1 AND q_dimension_id = $4) + 1)
 );
 
 SELECT * FROM survey
-WHERE company_id = $1
-ORDER BY survey.index asc;
+WHERE q_text = $5;

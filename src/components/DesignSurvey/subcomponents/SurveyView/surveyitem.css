@@ -9,6 +9,12 @@
     padding: 5px 0;
 }
 
+.survey-item-left {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
 .survey-item-id {
     width: 25px;
     margin-left: 5px;
@@ -65,5 +71,30 @@
 }
 
 .survey-item-edit:focus {
+    outline: 0;
+}
+
+.change-order {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 20px;
+    height: 100%;
+    border-right: 1px solid rgb(0,77,113);
+}
+
+.change-order-button {
+    border: none;
+    background: none;
+    font-size: 10px;
+    color: rgb(84,87,90);
+}
+
+.change-order-button:hover {
+    cursor: pointer;
+    color: rgb(0,77,113);
+}
+
+.change-order-button:focus {
     outline: 0;
 }

@@ -10,6 +10,7 @@ export const UPDATE_DIMENSIONS = 'UPDATE_DIMENSIONS';
 export const UPDATE_SURVEY = 'UPDATE_SURVEY';
 export const UPDATE_SUGGESTED = 'UPDATE_SUGGESTED';
 export const UPDATE_SURVEY_AND_SUGGESTED = 'UPDATE_SURVEY_AND_SUGGESTED';
+export const UPDATE_DIMENSIONS_AND_SURVEY_AND_SUGGESTED = 'UPDATE_DIMENSIONS_AND_SURVEY_AND_SUGGESTED';
 
 
 export function getSurvey() {
@@ -92,6 +93,22 @@ export function updateDimension(updateInfo) {
     };
 };
 
+export function reorderItems(surveyItem) {
+    let data = axios.put(`/reorder`, surveyItem).then(res => res.data);
+    return {
+        type: UPDATE_SURVEY,
+        payload: data
+    };
+};
+
+export function deleteDimension(dimension) {
+    let data = axios.put(`/delete-dimension`, dimension).then(res => res.data);
+    return {
+        type: UPDATE_DIMENSIONS_AND_SURVEY_AND_SUGGESTED,
+        payload: data
+    };
+};
+
 export default function reducer(state = initialState, action) {
     switch(action.type) {
         case UPDATE_DIMENSIONS + '_FULFILLED':
@@ -102,6 +119,8 @@ export default function reducer(state = initialState, action) {
             return {...state, suggested: action.payload};
         case UPDATE_SURVEY_AND_SUGGESTED + '_FULFILLED':
             return {...state, survey: action.payload.survey, suggested: action.payload.suggested};
+        case UPDATE_DIMENSIONS_AND_SURVEY_AND_SUGGESTED + '_FULFILLED':
+            return {survey: action.payload.survey, suggested: action.payload.suggested, dimensions: action.payload.dimensions};
         default:
             return state;
     }

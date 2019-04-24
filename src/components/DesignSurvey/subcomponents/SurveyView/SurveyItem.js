@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
 import './surveyitem.css';
 import {connect} from 'react-redux';
-import {updateSurveyItem, deleteSurveyItem} from './../../../../ducks/surveyReducer';
+import {updateSurveyItem, deleteSurveyItem, reorderItems} from './../../../../ducks/surveyReducer';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCheck);
 library.add(faMinusCircle);
+library.add(faChevronUp);
+library.add(faChevronDown);
 
 class SurveyItem extends Component {
     constructor(props) {
@@ -25,6 +29,7 @@ class SurveyItem extends Component {
 
         this.editMode = this.editMode.bind(this);
         this.submitEdit = this.submitEdit.bind(this);
+        this.changeOrder = this.changeOrder.bind(this);
     }
 
     editMode() {
@@ -55,6 +60,12 @@ class SurveyItem extends Component {
         this.setState({edit: false});
     }
 
+    async changeOrder(item, change) {
+        let surveyItem = {...item, change};
+        this.props.reorderItems(surveyItem);
+    }
+    
+
     render() {
         let dimensions = this.props.survey.dimensions.map((dimension, index) => {
             return <option  key={index} value={dimension.id}>{dimension.q_dimension}</option>
@@ -84,8 +95,14 @@ class SurveyItem extends Component {
             </div>
             ) : (
             <div className='survey-item'>
-                <div className='survey-item-text' onClick={this.editMode}>{item.q_text}</div>
-                {item.q_category ? <div className='survey-item-category'>{item.q_category}</div> : null}
+                <div className='survey-item-left'>
+                    <div className='change-order'>
+                        {(item.index !== 1) ? <button className='change-order-button' onClick={() => this.changeOrder(item, -1)}><FontAwesomeIcon icon='chevron-up' /></button> : null}
+                        {(item.index !== this.props.survey.survey.length) ? <button className='change-order-button' onClick={() => this.changeOrder(item, 1)}><FontAwesomeIcon icon='chevron-down' /></button> : null}
+                    </div>
+                    <div className='survey-item-text' onClick={this.editMode}>{item.q_text}</div>
+                    {item.q_category ? <div className='survey-item-category'>{item.q_category}</div> : null}
+                </div>
                 <button className='survey-item-delete'
                         onClick={() => this.props.deleteSurveyItem(item)}><FontAwesomeIcon icon='minus-circle' /></button>
             </div>
@@ -99,4 +116,4 @@ const mapState = (reduxState) => {
     }
 }
 
-export default connect(mapState, {updateSurveyItem, deleteSurveyItem})(SurveyItem);
+export default connect(mapState, {updateSurveyItem, deleteSurveyItem, reorderItems})(SurveyItem);

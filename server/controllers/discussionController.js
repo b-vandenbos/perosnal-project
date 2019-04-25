@@ -1,7 +1,3 @@
-const moment = require('react-moment');
-const DeviceInfo = rquire('react-native-device-info');
-
-
 module.exports = {
     getDiscussion: async (req, res) => {
         let {company_id} = req.session.user;

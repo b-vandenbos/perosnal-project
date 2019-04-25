@@ -30,7 +30,21 @@ class DiscussionView extends Component {
             let {message} = this.state;
             let {company_id, id} = this.props.user.user;
             let date = new Date();
-            let newMessage = {company_id, user_id: id, message, date};
+                let monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                let month = monthName[date.getMonth()].toString();
+                let day = date.getDate().toString();
+                let hours = date.getHours();
+                    hours = hours % 12;
+                    hours = hours ? hours : 12;
+                    hours = hours.toString();
+                let minutes = date.getMinutes();
+                    minutes = minutes < 10 ? '0'+minutes : minutes;
+                    minutes = minutes.toString();
+
+            let message_date = `${month} ${day}`;
+            let message_time = `${hours}:${minutes}`;
+            
+            let newMessage = {company_id, user_id: id, message, message_date, message_time};
             await this.props.newMessage(newMessage);
             this.setState({message: ''});
             this.discussionScrollbar();

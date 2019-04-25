@@ -16,6 +16,7 @@ const {SERVER_PORT, SESSION_SECRET, CONNECTION_STRING} = process.env;
 
 
 app.use(express.json());
+app.use( express.static( `${__dirname}/../build` ) );
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db);
     app.listen(SERVER_PORT, () => console.log(`The server is listening on port ${SERVER_PORT}`));

@@ -30,6 +30,8 @@ class DiscussionView extends Component {
             let {message} = this.state;
             let {company_id, id} = this.props.user.user;
 
+            let date = new Date();
+            let monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
             let month = monthName[date.getMonth()];
         let day = date.getDate();
             var hours = date.getHours();

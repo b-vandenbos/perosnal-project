@@ -38,6 +38,9 @@ class UserDashboard extends Component {
     }
 
     componentDidMount() {
+        if (!this.props.user.user.loggedIn) {
+            this.props.history.push('/');
+        }
         this.props.getUser();
         this.organizeHeadlines();
     }

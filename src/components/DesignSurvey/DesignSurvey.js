@@ -11,6 +11,12 @@ import {connect} from 'react-redux';
 
 class DesignSurvey extends Component {
 
+    componentDidMount() {
+        if (!this.props.user.user.loggedIn) {
+            this.props.history.push('/');
+        }
+    }
+
 
     render() {
     

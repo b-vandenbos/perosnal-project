@@ -8,8 +8,10 @@ import {connect} from 'react-redux';
 
 class Admin extends Component {
 
-    async componentDidMount() {
-     if (!this.props.user.user.isadmin) {
+    componentDidMount() {
+    if (!this.props.user.user.loggedIn) {
+        this.props.history.push('/');
+    } else if (!this.props.user.user.isadmin) {
          this.props.history.push('/dashboard');
      }   
     }

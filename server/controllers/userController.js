@@ -18,8 +18,12 @@ module.exports = {
     updateAdminUser: async (req, res) => {
         const db = req.app.get('db');
         const{id, company_id} = req.body;
-        const updatedAdmin = await db.set_admin_company([id, company_id]);
-        req.session.user = updatedAdmin[0];
+        await db.set_admin_company([id, company_id]);
+        let newComp = await db.get_company_by_id(company_id);
+        let comp = newComp[0];
+        let newCompName = comp.company_name;
+        req.session.user.company_id = company_id;
+        req.session.user.company_name = newCompName;
         let user = req.session.user;
         let allAdmins = await db.get_all_admins();
         res.status(200).send({user, allAdmins});

@@ -13,7 +13,7 @@ module.exports = {
             let monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         let month = monthName[date.getMonth()];
         let day = date.getDate();
-            var hours = date.getHours() - (offset / 60);
+            var hours = date.getHours() + (offset / 60);
             var minutes = date.getMinutes();
             var ampm = hours >= 12 ? 'pm' : 'am';
             hours = hours % 12;

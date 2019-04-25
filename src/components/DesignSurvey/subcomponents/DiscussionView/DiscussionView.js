@@ -43,7 +43,7 @@ class DiscussionView extends Component {
         let time = hours + ':' + minutes + ' ' + ampm;
         const message_date = `${month} ${day}`;
         const message_time = time;
-
+            console.log(message_date, message_time);
             let newMessage = {company_id, user_id: id, message, message_date, message_time};
 
             await this.props.newMessage(newMessage);

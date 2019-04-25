@@ -8,12 +8,12 @@ module.exports = {
 
     createMessage: async (req, res) => {
         const {company_id, user_id, message} = req.body;
-            let dateUTC = new Date();
-            let date = dateUTC.toLocaleTimeString();
+            let date = new Date();
+            let offset = date.getTimezoneOffset();
             let monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         let month = monthName[date.getMonth()];
         let day = date.getDate();
-            var hours = date.getHours();
+            var hours = date.getHours() - (offset / 60);
             var minutes = date.getMinutes();
             var ampm = hours >= 12 ? 'pm' : 'am';
             hours = hours % 12;

@@ -90,7 +90,7 @@ module.exports = {
           const mailOptions = {
             from: `SurveyWise <surveywise19@gmail.com>`,
             to: `${user_email}`,
-            subject: `Welcome to SurveyWise. TEST`,
+            subject: `Welcome to SurveyWise.`,
             text: output,
             html: output,
             replyTo: `${user.user_email}`

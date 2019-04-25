@@ -61,7 +61,7 @@ module.exports = {
                 <li style="list-style: none;"><strong>Username: ${user_email}</strong></li>
                 <li style="list-style: none;"><strong>Temporary Password: ${password}</strong></li>
           </ul><br><br>
-          <a href='surveydw.com'
+          <a href='www.surveydw.com'
                 style=" font-family: 'Open Sans Light', sans-serif;
                         font-size:18px;
                         background: rgb(0,77,113);
@@ -88,7 +88,7 @@ module.exports = {
           `
           
           const mailOptions = {
-            from: `SurveyWise <vandenbos.b@gmail.com>`,
+            from: `SurveyWise <surveywise19@gmail.com>`,
             to: `${user_email}`,
             subject: `Welcome to SurveyWise.`,
             text: output,
@@ -204,7 +204,7 @@ module.exports = {
                 <li style="list-style: none;"><strong>Username: ${user_email}</strong></li>
                 <li style="list-style: none;"><strong>Temporary Password: ${password}</strong></li>
           </ul><br><br>
-          <a href='surveydw.com'
+          <a href='www.surveydw.com'
                 style=" font-family: 'Open Sans Light', sans-serif;
                         font-size:18px;
                         background: rgb(0,77,113);
@@ -230,12 +230,12 @@ module.exports = {
           `
           
           const mailOptions = {
-            from: `SurveyWise <vandenbos.b@gmail.com>`,
+            from: `SurveyWise <surveywise19@gmail.com>`,
             to: `${user_email}`,
             subject: `Password Reset: SurveyWise.`,
             text: output,
             html: output,
-            replyTo: `SurveyWise <vandenbos.b@gmail.com>`
+            replyTo: `SurveyWise <surveywise19@gmail.com>`
         }
           transporter.sendMail(mailOptions, function(err, res) {
               if (err) {

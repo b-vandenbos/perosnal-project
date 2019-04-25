@@ -7,8 +7,8 @@ module.exports = {
     },
 
     createMessage: async (req, res) => {
-        const {company_id, user_id, message} = req.body;
-            let date = new Date();
+        const {company_id, user_id, message, date} = req.body;
+            // let date = new Date();
             
             let monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         let month = monthName[date.getMonth()];

@@ -133,9 +133,8 @@ module.exports = {
         const db = req.app.get('db');
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
-        const userArr = await db.user_password_reset(hash, user_email);
-        let user = userArr[0];
-        req.session.user = user;
+        await db.user_password_reset(hash, user_email);
+        req.session.user.loggedIn = true;
         res.status(200).send({message: 'Password Has Been Reset', user: req.session.user, loggedIn: true});
     },
 

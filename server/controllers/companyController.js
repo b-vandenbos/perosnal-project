@@ -33,5 +33,19 @@ module.exports = {
         let {id} = req.params;
         let allCompanies = await db.update_company([id, company_name, company_logo]);
         res.status(200).send(allCompanies);
+    },
+
+    deleteCompanyInfo: async (req, res) => {
+        const db = req.app.get('db');
+        let deletedId = req.params.id;
+        let userComp = await db.get_company_by_name('DecisionWise');
+        let newId = userComp[0].id;
+        req.session.user.company_name = 'DecisionWise';
+        req.session.user.company_id = newId;
+        let user = req.session.user;
+        let allAdmins = await db.update_all_admin_company_id([newId, deletedId])
+        await db.delete_company(deletedId);
+        let allUsers = await db.get_all_users();
+        res.status(200).send({user, allAdmins, allUsers});
     }
 }

@@ -39,6 +39,7 @@ app.get('/auth/logout', authController.logout);
 app.post('/company', companyController.newCompany);
 app.get('/company', companyController.getAllCompany);
 app.put('/company/:id', companyController.updateCompany);
+app.delete('/company-delete-info/:id', companyController.deleteCompanyInfo);
 
 app.get('/users', userController.getAllUsers);
 app.get('/admins', userController.getAllAdmins);

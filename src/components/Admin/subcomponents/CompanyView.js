@@ -3,7 +3,7 @@ import Company from './Company';
 import '../admin.css';
 import {connect} from 'react-redux';
 import {getAllCompany, addNewCompany, setActiveCompany} from './../../../ducks/companyReducer';
-import {updateAdminUser, getAllUsers, getAllAdmins} from './../../../ducks/userReducer';
+import {updateAdminUser, getAllUsers, getAllAdmins, deleteCompanyInfo} from './../../../ducks/userReducer';
 import {getSurvey, getDimensions, getSuggested} from './../../../ducks/surveyReducer';
 import {getDiscussion} from './../../../ducks/discussionReducer';
 
@@ -19,6 +19,7 @@ class CompanyView extends Component {
 
         this.addCompany = this.addCompany.bind(this);
         this.selectActiveCompany = this.selectActiveCompany.bind(this);
+        this.deleteCompany = this.deleteCompany.bind(this);
     }
 
     componentDidMount() {
@@ -51,12 +52,17 @@ class CompanyView extends Component {
         this.props.getAllAdmins();
     }
 
+    async deleteCompany(id) {
+        await this.props.deleteCompanyInfo(id);
+        await this.props.getAllCompany();
+    }
+
     render() {
         let {company_name, company_logo} = this.state;
         let {allCompany} = this.props.company;
         let companies = allCompany.map((company) => {
             if (company.company_name.toLowerCase().includes(this.state.searchInput)) {
-                return <Company key={company.id} comp={company} setActive={this.selectActiveCompany}/>
+                return <Company key={company.id} comp={company} setActive={this.selectActiveCompany} deleteCompany={this.deleteCompany}/>
             }
         })
         
@@ -97,4 +103,4 @@ const mapState = (reduxState) => {
     };
 };
 
-export default connect(mapState, {getAllUsers, getAllAdmins, getDiscussion, getSurvey, getDimensions, getSuggested, updateAdminUser, getAllCompany, addNewCompany, setActiveCompany})(CompanyView);
+export default connect(mapState, {deleteCompanyInfo, getAllUsers, getAllAdmins, getDiscussion, getSurvey, getDimensions, getSuggested, updateAdminUser, getAllCompany, addNewCompany, setActiveCompany})(CompanyView);

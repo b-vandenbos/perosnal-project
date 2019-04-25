@@ -87,15 +87,15 @@ class Company extends Component {
     }
   
     render() {
-        let {comp, setActive} = this.props;
+        let {comp, setActive, deleteCompany} = this.props;
         return (
             !this.state.edit ? (
-            <div className='company' onClick={() => setActive(comp)}>
-                <img className='company-image' src={comp.company_logo || logo} alt={comp.company_name}/>
+            <div className='company'>
+                <img className='company-image' src={comp.company_logo || logo} alt={comp.company_name} onClick={() => setActive(comp)}/>
                 <div className='company-label-frame'>
                     <div    className='company-label'
                             onClick={() => this.setState({edit: !this.state.edit})}>{comp.company_name}</div>
-                    {comp.company_name !== 'DecisionWise' ? <button className='delete-company-button'><FontAwesomeIcon icon='minus-circle' /></button> : null }
+                    {comp.company_name !== 'DecisionWise' ? <button className='delete-company-button' onClick={() => deleteCompany(comp.id)}><FontAwesomeIcon icon='minus-circle' /></button> : null }
             </div>
                 </div>
             ) : (

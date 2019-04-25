@@ -11,6 +11,7 @@ export const UPDATE_ALLUSERS = 'UPDATE_ALLUSERS';
 export const UPDATE_ALLADMINS = 'UPDATE_ALLADMINS';
 export const UPDATE_ALLUSERS_ALLADMINS = 'UPDATE_ALLUSERS_ALLADMINS';
 export const UPDATE_USER_ALLADMINS = 'UPDATE_USER_ALLADMINS';
+export const UPDATE_USER_ALLUSERS_ALLADMINS = 'UPDATE_USER_ALLUSERS_ALLADMINS';
 export const LOGOUT = 'LOGOUT';
 
 export function addUser(user) {
@@ -92,7 +93,14 @@ export function forgotPassword(user_email) {
         type: UPDATE_ALLUSERS_ALLADMINS,
         payload: data
     };
+};
 
+export function deleteCompanyInfo(id) {
+    let data = axios.delete(`/company-delete-info/${id}`).then(res => res.data);
+    return {
+        type: UPDATE_USER_ALLUSERS_ALLADMINS,
+        payload: data
+    };
 };
 
 export default function reducer(state = initialState, action) {
@@ -107,6 +115,8 @@ export default function reducer(state = initialState, action) {
                 return {...state, user: action.payload.user, allAdmins: action.payload.allAdmins};
             case UPDATE_ALLUSERS_ALLADMINS + '_FULFILLED':
                 return {...state, allUsers: action.payload.allUsers, allAdmins: action.payload.allAdmins};
+            case UPDATE_USER_ALLUSERS_ALLADMINS + '_FULFILLED':
+                return {...state, allUsers: action.payload.allUsers, allAdmins: action.payload.allAdmins, user: action.payload.user};
             case LOGOUT + '_FULFILLED':
                 return {...state, user: {}};
             default:

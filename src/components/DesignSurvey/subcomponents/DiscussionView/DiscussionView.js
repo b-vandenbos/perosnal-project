@@ -30,7 +30,7 @@ class DiscussionView extends Component {
             let {message} = this.state;
             let {company_id, id} = this.props.user.user;
             let date = new Date();
-            let newMessage = {company_id, user_id: id, message, date};
+            let newMessage = {company_id, user_id: id, message};
             await this.props.newMessage(newMessage);
             this.setState({message: ''});
             this.discussionScrollbar();

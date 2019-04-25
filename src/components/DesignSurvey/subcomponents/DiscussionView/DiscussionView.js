@@ -34,6 +34,7 @@ class DiscussionView extends Component {
                 let month = monthName[date.getMonth()].toString();
                 let day = date.getDate().toString();
                 let hours = date.getHours();
+                var ampm = hours >+ 12 ? 'pm' : 'am';
                     hours = hours % 12;
                     hours = hours ? hours : 12;
                     hours = hours.toString();
@@ -42,7 +43,7 @@ class DiscussionView extends Component {
                     minutes = minutes.toString();
 
             let message_date = `${month} ${day}`;
-            let message_time = `${hours}:${minutes}`;
+            let message_time = `${hours}:${minutes} ${ampm}`;
             
             let newMessage = {company_id, user_id: id, message, message_date, message_time};
             await this.props.newMessage(newMessage);

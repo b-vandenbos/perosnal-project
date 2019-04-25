@@ -1,3 +1,7 @@
+const moment = require('react-moment');
+const DeviceInfo = rquire('react-native-device-info');
+
+
 module.exports = {
     getDiscussion: async (req, res) => {
         let {company_id} = req.session.user;
@@ -7,8 +11,8 @@ module.exports = {
     },
 
     createMessage: async (req, res) => {
-        const {company_id, user_id, message, offset} = req.body;
-            let date = new Date();
+        const {company_id, user_id, message, date} = req.body;
+            // let date = new Date();
             
             let monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         let month = monthName[date.getMonth()];

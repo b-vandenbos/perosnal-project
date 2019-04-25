@@ -29,8 +29,8 @@ class DiscussionView extends Component {
         if (event.key === 'Enter') {
             let {message} = this.state;
             let {company_id, id} = this.props.user.user;
-            let offset = new Date().getTimezoneOffset();
-            let newMessage = {company_id, user_id: id, message, offset};
+            let date = new Date();
+            let newMessage = {company_id, user_id: id, message, date};
             await this.props.newMessage(newMessage);
             this.setState({message: ''});
             this.discussionScrollbar();

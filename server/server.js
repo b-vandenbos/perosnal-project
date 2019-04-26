@@ -35,6 +35,7 @@ server = app.listen(SERVER_PORT, () =>
 io = socket(server);
 
 io.on('connection', (socket) => {
+    console.log('connected socket');
 
     socket.on('SEND_DISCUSSION', function(data) {
         io.emit('RECEIVE_DISCUSSION', data);
@@ -78,6 +79,10 @@ io.on('connection', (socket) => {
 
     socket.on('DELETE_COMPANY', function(data) {
         io.emit('RECEIVE_DELETED_COMPANY_INFO', data);
+    });
+
+    socket.on('disconnect', function() {
+        console.log('Socket disconnected');
     });
 
 })

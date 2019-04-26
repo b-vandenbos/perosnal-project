@@ -3,7 +3,7 @@ import '../../designsurvey.css';
 import DiscussionMessage from './DiscussionMessage';
 import {connect} from 'react-redux';
 import {getDiscussion, newMessage} from './../../../../ducks/discussionReducer';
-
+import io from 'socket.io-client';
 
 class DiscussionView extends Component {
     constructor() {
@@ -13,8 +13,12 @@ class DiscussionView extends Component {
             message: ''
         }
 
+        this.socket = io('localhost:4000');
+
         this.createMessage = this.createMessage.bind(this);
+
     }
+       
     componentDidMount() {
         this.props.getDiscussion();
         this.discussionScrollbar();
@@ -27,25 +31,27 @@ class DiscussionView extends Component {
 
     async createMessage(event) {
         if (event.key === 'Enter') {
+            
             let {message} = this.state;
             let {company_id, id} = this.props.user.user;
             let date = new Date();
-                let monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                let month = monthName[date.getMonth()].toString();
-                let day = date.getDate().toString();
-                let hours = date.getHours();
-                var ampm = hours >+ 12 ? 'pm' : 'am';
-                    hours = hours % 12;
-                    hours = hours ? hours : 12;
-                    hours = hours.toString();
-                let minutes = date.getMinutes();
-                    minutes = minutes < 10 ? '0'+minutes : minutes;
-                    minutes = minutes.toString();
-
+            let monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            let month = monthName[date.getMonth()].toString();
+            let day = date.getDate().toString();
+            let hours = date.getHours();
+            var ampm = hours >+ 12 ? 'pm' : 'am';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            hours = hours.toString();
+            let minutes = date.getMinutes();
+            minutes = minutes < 10 ? '0'+minutes : minutes;
+            minutes = minutes.toString();
+            
             let message_date = `${month} ${day}`;
             let message_time = `${hours}:${minutes} ${ampm}`;
             
             let newMessage = {company_id, user_id: id, message, message_date, message_time};
+            
             await this.props.newMessage(newMessage);
             this.setState({message: ''});
             this.discussionScrollbar();

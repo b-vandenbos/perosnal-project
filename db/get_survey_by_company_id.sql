@@ -2,4 +2,4 @@ SELECT survey.id, survey.index, q_id, q_text, q_category, q_dimension, q_dimensi
 FROM survey
 JOIN dimension ON dimension.id = survey.q_dimension_id
 WHERE survey.company_id = $1
-ORDER BY survey.index asc;
+ORDER BY dimension.index asc, survey.index asc;

@@ -30,7 +30,7 @@ class Company extends Component {
             company_logo: this.props.comp.company_logo
         };
 
-        this.socket = io('localhost:4000');
+        this.socket = io('/');
 
         this.updateCompany = this.updateCompany.bind(this);
     };

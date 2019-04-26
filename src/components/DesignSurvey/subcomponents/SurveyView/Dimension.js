@@ -26,7 +26,7 @@ class Dimension extends Component {
             survey: this.props.survey.survey
         };
 
-        this.socket = io('localhost:4000');
+        this.socket = io('/');
         this.socket.on('RECEIVE_SURVEY', function(data) {
             receiveSurvey(data);
         });

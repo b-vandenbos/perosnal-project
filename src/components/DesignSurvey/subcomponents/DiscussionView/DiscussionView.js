@@ -14,7 +14,7 @@ class DiscussionView extends Component {
             discussion: this.props.discussion.discussion
         };
 
-        this.socket = io('localhost:4000');
+        this.socket = io('/');
         this.socket.on('RECEIVE_DISCUSSION', function(data) {
             addMessage(data);
         });

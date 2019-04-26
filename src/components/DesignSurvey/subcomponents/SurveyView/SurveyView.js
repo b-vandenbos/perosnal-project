@@ -16,7 +16,7 @@ class SurveyView extends Component {
             dimensions: this.props.survey.dimensions
         };
         
-        this.socket = io('localhost:4000');
+        this.socket = io('/');
         this.socket.on('RECEIVE_DIMENSIONS', function(data) {
             updateDimensions(data);
         });

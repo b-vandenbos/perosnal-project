@@ -25,7 +25,7 @@ class User extends Component {
             company: this.props.person.company_id
         };
 
-        this.socket = io('localhost:4000');
+        this.socket = io('/');
 
         this.submitEdit = this.submitEdit.bind(this);
         this.deleteUser = this.deleteUser.bind(this);

@@ -17,7 +17,7 @@ class SuggestedView extends Component {
             suggested: this.props.survey.suggested
         }
 
-        this.socket = io('localhost:4000');
+        this.socket = io('/');
         this.socket.on('RECEIVE_SUGGESTED', function(data) {
            getSuggested(data);
         });

@@ -28,7 +28,7 @@ class SurveyItem extends Component {
             q_id: this.props.item.q_id
         };
 
-        this.socket = io('localhost:4000');
+        this.socket = io('/');
 
         this.editMode = this.editMode.bind(this);
         this.submitEdit = this.submitEdit.bind(this);

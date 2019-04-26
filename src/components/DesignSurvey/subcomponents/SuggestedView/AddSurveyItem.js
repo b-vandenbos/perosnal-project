@@ -15,7 +15,7 @@ class AddSurveyItem extends Component {
             q_text: ''
         }
 
-        this.socket = io('localhost:4000');
+        this.socket = io('/');
 
         this.addSurveyItem = this.addSurveyItem.bind(this);
         this.cancel = this.cancel.bind(this);

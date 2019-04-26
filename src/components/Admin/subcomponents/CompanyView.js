@@ -19,7 +19,7 @@ class CompanyView extends Component {
             allCompany: this.props.company.allCompany
         };
 
-        this.socket = io('localhost:4000');
+        this.socket = io('/');
         this.socket.on('RECEIVE_COMPANY', function(data) {
             getAllCompany(data);
         });

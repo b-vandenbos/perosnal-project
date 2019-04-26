@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import io from 'socket.io-client';
 import Company from './Company';
 import '../admin.css';
 import {connect} from 'react-redux';
@@ -9,13 +10,32 @@ import {getDiscussion} from './../../../ducks/discussionReducer';
 
 
 class CompanyView extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             company_name: '',
-            searchInput: ''
+            searchInput: '',
+            allCompany: this.props.company.allCompany
         };
+
+        this.socket = io('localhost:4000');
+        this.socket.on('RECEIVE_COMPANY', function(data) {
+            getAllCompany(data);
+        });
+        this.socket.on('RECEIVE_COMPANY_USERS_ADMINS', function(data) {
+            getAllCompany(data.allCompany.action.payload);
+        });
+        this.socket.on('RECEIVE_COMPANY_IMAGE', function(data) {
+            getAllCompany(data.allCompany);
+        })
+        this.socket.on('RECEIVE_DELETED_COMPANY_INFO', function(data) {
+            getAllCompany(data.allCompany);
+        });
+
+        const getAllCompany = data => {
+            this.setState({allCompany: data});
+        }
 
         this.addCompany = this.addCompany.bind(this);
         this.selectActiveCompany = this.selectActiveCompany.bind(this);
@@ -37,7 +57,9 @@ class CompanyView extends Component {
 
     async addCompany() {
         let {company_name, company_logo} = this.state;
-        await this.props.addNewCompany({company_name, company_logo});
+        let allCompany = await this.props.addNewCompany({company_name, company_logo});
+        await this.socket.emit('SEND_COMPANY', allCompany.value);
+        
         this.setState({company_name: '', company_logo: ''});
     }
 
@@ -53,13 +75,17 @@ class CompanyView extends Component {
     }
 
     async deleteCompany(id) {
-        await this.props.deleteCompanyInfo(id);
-        await this.props.getAllCompany();
+        let userData = await this.props.deleteCompanyInfo(id);
+        let compData = await this.props.getAllCompany();
+        let allAdmins = userData.value.allAdmins;
+        let allUsers = userData.value.allUsers;
+        let allCompany = compData.value;
+        let allData = {allAdmins, allUsers, allCompany};
+        await this.socket.emit('DELETE_COMPANY', allData);
     }
 
     render() {
-        let {company_name, company_logo} = this.state;
-        let {allCompany} = this.props.company;
+        let {company_name, company_logo, allCompany} = this.state;
         let companies = allCompany.map((company) => {
             if (company.company_name.toLowerCase().includes(this.state.searchInput)) {
                 return <Company key={company.id} comp={company} setActive={this.selectActiveCompany} deleteCompany={this.deleteCompany}/>

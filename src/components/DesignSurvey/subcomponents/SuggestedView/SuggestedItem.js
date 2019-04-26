@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import io from 'socket.io-client';
 import './suggesteditem.css';
 import {connect} from 'react-redux';
 import {deleteSuggestedItem, transferSurveyItem} from './../../../../ducks/surveyReducer';
@@ -13,6 +14,24 @@ library.add(faMinusCircle);
 
 
 class SuggestedItem extends Component {
+    constructor() {
+        super();
+
+        this.socket = io('localhost:4000');
+
+        this.deleteSuggestedItem = this.deleteSuggestedItem.bind(this);
+        this.transferSuggestedItem = this.transferSuggestedItem.bind(this);
+    }
+
+    async deleteSuggestedItem(item) {
+        let suggestedItems = await this.props.deleteSuggestedItem(item);
+        await this.socket.emit('SEND_SUGGESTED', suggestedItems.value);
+    }
+
+    async transferSuggestedItem(item) {
+        let suggestedItems = await this.props.transferSurveyItem(item);
+        await this.socket.emit('SEND_SUGGESTED_AND_SURVEY', suggestedItems.value);
+    }
 
 render() {
     const {item} = this.props;
@@ -23,9 +42,9 @@ render() {
                 <div className='suggested-item-text'>{item.q_text}</div>
                 {item.q_category ? <div className='suggested-item-category'>{item.q_category}</div> : null}
                 <button className='suggested-item-delete'
-                        onClick={() => this.props.transferSurveyItem(item)}><FontAwesomeIcon icon="check" /></button>
+                        onClick={() => this.transferSuggestedItem(item)}><FontAwesomeIcon icon="check" /></button>
                 <button className='suggested-item-delete'
-                        onClick={() => this.props.deleteSuggestedItem(item)}><FontAwesomeIcon icon='minus-circle' /></button>
+                        onClick={() => this.deleteSuggestedItem(item)}><FontAwesomeIcon icon='minus-circle' /></button>
             </div>
         </div>
     )

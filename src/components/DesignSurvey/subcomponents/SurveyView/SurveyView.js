@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import io from 'socket.io-client';
 import '../../designsurvey.css';
 import Dimension from './Dimension';
 import {connect} from 'react-redux';
@@ -6,13 +7,27 @@ import {getDimensions, addDimension} from './../../../../ducks/surveyReducer';
 
 
 class SurveyView extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             addDimension: false,
-            newDimension: ''
+            newDimension: '',
+            dimensions: this.props.survey.dimensions
         };
+        
+        this.socket = io('localhost:4000');
+        this.socket.on('RECEIVE_DIMENSIONS', function(data) {
+            updateDimensions(data);
+        });
+        this.socket.on('RECEIVE_DIM_SURVEY_SUGGESTED', function(data) {
+            updateDimensions(data.dimensions);
+        });
+
+        const updateDimensions = data => {
+            this.setState({dimensions: data});
+        }
+
 
         this.addToggle = this.addToggle.bind(this);
         this.addDimension = this.addDimension.bind(this);
@@ -35,15 +50,16 @@ class SurveyView extends Component {
             let {newDimension} = this.state;
             let {company_id} = this.props.user.user;
             let newDim = {company_id, newDimension};
-            await this.props.addDimension(newDim);
+            let dimensions = await this.props.addDimension(newDim);
+            await this.socket.emit('SEND_DIMENSIONS', dimensions.value);
             this.setState({addDimension: false, newDimension: ''});
         };
     };
     
     render() {
-        const {dimensions} = this.props.survey;
+        const {dimensions} = this.state;
         let dimensionsList = dimensions.map(dimension => {
-                return <Dimension key={dimension.id} dimension={dimension}/>
+                return <Dimension key={`dim${dimension.id}`} dimension={dimension}/>
         })
         
         return (

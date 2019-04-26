@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import io from 'socket.io-client';
 import '../../designsurvey.css';
 import SuggestedItem from './SuggestedItem';
 import AddSurveyItem from './AddSurveyItem';
@@ -8,12 +9,29 @@ import {getUser} from './../../../../ducks/userReducer';
 
 
 class SuggestedView extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         
         this.state = {
-            addNew: false
+            addNew: false,
+            suggested: this.props.survey.suggested
         }
+
+        this.socket = io('localhost:4000');
+        this.socket.on('RECEIVE_SUGGESTED', function(data) {
+           getSuggested(data);
+        });
+        this.socket.on('RECEIVE_SUGGESTED_AND_SURVEY', function(data) {
+            getSuggested(data.suggested);
+        });
+        this.socket.on('RECEIVE_DIM_SURVEY_SUGGESTED', function(data) {
+            getSuggested(data.suggested);
+        })
+        
+        const getSuggested = data => {
+            this.setState({suggested: data})
+        }
+
 
         this.addNewToggle = this.addNewToggle.bind(this);
     }
@@ -28,9 +46,9 @@ class SuggestedView extends Component {
 
     
     render() {
-        const {suggested} = this.props.survey;        
-        let suggestedSurvey = suggested.map((item, index) => {
-            return <SuggestedItem key={index} item={item} />
+        const {suggested} = this.state;        
+        let suggestedSurvey = suggested.map(item => {
+            return <SuggestedItem key={`sug${item.id}`} item={item} />
         })
     
         return (

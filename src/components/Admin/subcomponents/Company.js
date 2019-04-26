@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import io from 'socket.io-client';
 import './company.css';
 import {v4 as randomString} from 'uuid';
 import Dropzone from 'react-dropzone';
+import GridLoader from 'react-spinners';
 import logo from './mask-star.svg';
 import axios from 'axios';
 import {connect} from 'react-redux';
@@ -28,6 +30,8 @@ class Company extends Component {
             company_logo: this.props.comp.company_logo
         };
 
+        this.socket = io('localhost:4000');
+
         this.updateCompany = this.updateCompany.bind(this);
     };
 
@@ -36,16 +40,19 @@ class Company extends Component {
             let {id} = this.props.comp;
             let {company_name, company_logo} = this.state;
             let updatedComp = {id, company_name, company_logo};
-            await this.props.updateCompany(updatedComp);
-            await this.props.getAllUsers();
-            await this.props.getAllAdmins();
+            let allCompany = await this.props.updateCompany(updatedComp);
+            let allUsers = await this.props.getAllUsers();
+            let allAdmins = await this.props.getAllAdmins();
+            let allData = {allCompany, allUsers, allAdmins};
+
+            await this.socket.emit('SEND_COMPANY_USERS_ADMINS', allData);
+
             this.props.setActive(this.props.comp);
             this.setState({edit: !this.state.edit});
         }
     };
 
     getSignedRequest = ([file]) => {
-        this.setState({isUploading: true});
         const fileName = `${randomString()}-${file.name.replace(/\s/g, '-')}`;
 
         axios.get('/sign-s3', {
@@ -61,14 +68,14 @@ class Company extends Component {
             .catch(err => console.log(err));
     }
 
-    uploadFile = (file, signedRequest, url) => {
+    uploadFile = async (file, signedRequest, url) => {
         const options = {
             headers: {
                 'Content-Type': file.type
             }
         };
 
-        axios.put(signedRequest, file, options)
+        await axios.put(signedRequest, file, options)
             .then(response => {
                 this.setState({company_logo: url})
                 let {id} = this.props.comp;
@@ -77,13 +84,26 @@ class Company extends Component {
                 this.props.updateCompany(updatedComp);
                 this.props.getAllUsers();
                 this.props.getAllAdmins();
+
                 this.props.setActive(this.props.comp);
                 this.setState({edit: !this.state.edit});
             })
             .catch(err => {
-                this.setState({isUploading: false});
                 console.log(err);
-            })
+            });
+
+            let ac = await this.props.getAllCompany();
+                let allCompany = ac.value;
+            let au = await this.props.getAllUsers();
+                let allUsers = au.value;
+            let aa = await this.props.getAllAdmins();
+                let allAdmins = aa.value;
+            let allData = {allCompany, allUsers, allAdmins};
+            await this.socket.emit('SEND_COMPANY_IMAGE', allData);
+    }
+
+    deleteCompany(id) {
+        this.props.deleteCompany(id);
     }
   
     render() {

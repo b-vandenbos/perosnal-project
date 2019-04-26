@@ -1,22 +1,29 @@
 import React, {Component} from 'react';
+import io from 'socket.io-client';
 import '../../designsurvey.css';
 import DiscussionMessage from './DiscussionMessage';
 import {connect} from 'react-redux';
 import {getDiscussion, newMessage} from './../../../../ducks/discussionReducer';
-import io from 'socket.io-client';
 
 class DiscussionView extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         
         this.state = {
-            message: ''
-        }
+            message: '',
+            discussion: this.props.discussion.discussion
+        };
 
         this.socket = io('localhost:4000');
+        this.socket.on('RECEIVE_DISCUSSION', function(data) {
+            addMessage(data);
+        });
+
+        const addMessage = data => {
+            this.setState({discussion: data});
+        }
 
         this.createMessage = this.createMessage.bind(this);
-
     }
        
     componentDidMount() {
@@ -31,9 +38,10 @@ class DiscussionView extends Component {
 
     async createMessage(event) {
         if (event.key === 'Enter') {
+            event.preventDefault();
             
             let {message} = this.state;
-            let {company_id, id} = this.props.user.user;
+            let {company_id, id, user_image} = this.props.user.user;
             let date = new Date();
             let monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
             let month = monthName[date.getMonth()].toString();
@@ -50,9 +58,11 @@ class DiscussionView extends Component {
             let message_date = `${month} ${day}`;
             let message_time = `${hours}:${minutes} ${ampm}`;
             
-            let newMessage = {company_id, user_id: id, message, message_date, message_time};
+            let newMessage = {company_id, user_id: id, user_image, message, message_date, message_time};
+            let messages = await this.props.newMessage(newMessage);
+
+            await this.socket.emit('SEND_DISCUSSION', messages.value);
             
-            await this.props.newMessage(newMessage);
             this.setState({message: ''});
             this.discussionScrollbar();
         }
@@ -63,7 +73,7 @@ class DiscussionView extends Component {
     }
     
     render() {
-        let {discussion} = this.props.discussion;
+        let {discussion} = this.state;
   
         let discussions = discussion.map((message, index) => {
             return <DiscussionMessage key={index} message={message} />

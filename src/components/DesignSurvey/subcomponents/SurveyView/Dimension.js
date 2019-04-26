@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import io from 'socket.io-client';
 import SurveyItem from './SurveyItem';
 import {connect} from 'react-redux';
 import {getSurvey, updateDimension, deleteDimension, reorderDimensions} from './../../../..//ducks/surveyReducer';
@@ -20,11 +21,33 @@ class Dimension extends Component {
 
         this.state = {
             edit: false,
-            updatedDimension: this.props.dimension.q_dimension
+            updatedDimension: this.props.dimension.q_dimension,
+            dimensions: this.props.survey.dimensions,
+            survey: this.props.survey.survey
         };
+
+        this.socket = io('localhost:4000');
+        this.socket.on('RECEIVE_SURVEY', function(data) {
+            receiveSurvey(data);
+        });
+        this.socket.on('RECEIVE_SUGGESTED_AND_SURVEY', function(data) {
+            receiveSurvey(data.survey);
+        });
+        this.socket.on('RECEIVE_DIM_SURVEY_SUGGESTED', function(data) {
+            receiveSurvey(data.survey);
+            receiveDimensions(data.dimensions);
+        })
+
+        const receiveSurvey = data => {
+            this.setState({survey: data});
+        }
+        const receiveDimensions = data => {
+            this.setState({dimensions: data});
+        }
 
         this.updateDimension = this.updateDimension.bind(this);
         this.changeDimensionOrder = this.changeDimensionOrder.bind(this);
+        this.deleteDimension = this.deleteDimension.bind(this);
     };
 
     componentDidMount() {
@@ -40,19 +63,27 @@ class Dimension extends Component {
             let {id, company_id} = this.props.dimension;
             let {updatedDimension} = this.state;
             const updateInfo = {id, company_id, updatedDimension}
-            await this.props.updateDimension(updateInfo);
+            let dimensions = await this.props.updateDimension(updateInfo);
+
+            await this.socket.emit('SEND_DIMENSIONS', dimensions.value);
             this.setState({edit: !this.state.edit});
         }
     };
 
     async changeDimensionOrder(dimension, change) {
         let newDim = {...dimension, change};
-        this.props.reorderDimensions(newDim);
-    }
+        let allUpdated = await this.props.reorderDimensions(newDim);
+        await this.socket.emit('SEND_DIM_SURVEY_SUGGESTED', allUpdated.value);
+    };
+
+    async deleteDimension(dimension) {
+        let allUpdated = await this.props.deleteDimension(dimension);
+        await this.socket.emit('SEND_DIM_SURVEY_SUGGESTED', allUpdated.value);
+    };
 
     render() {
-        const {dimension, survey} = this.props;
-        const {dimensions} = this.props.survey;
+        const {dimension} = this.props;
+        const {dimensions, survey} = this.state;
         return (
             <div className='dimension'>
             <div className='dimension-title-bar'>
@@ -70,12 +101,12 @@ class Dimension extends Component {
                 } 
                 {(dimension.index !==1 && !this.state.edit) ? <button id='change-order' className='delete-dimension-button' onClick={() => this.changeDimensionOrder(dimension, -1)}><FontAwesomeIcon icon='chevron-up' /></button> : null}
                 {(dimension.index !==dimensions.length && !this.state.edit) ? <button id='change-order' className='delete-dimension-button' onClick={() => this.changeDimensionOrder(dimension, 1)}><FontAwesomeIcon icon='chevron-down' /></button> : null}
-                {!this.state.edit ? <button id='delete' className='delete-dimension-button' onClick={() => this.props.deleteDimension(dimension)}><FontAwesomeIcon icon='minus-circle' /></button> : null}                   
+                {!this.state.edit ? <button id='delete' className='delete-dimension-button' onClick={() => this.deleteDimension(dimension)}><FontAwesomeIcon icon='minus-circle' /></button> : null}                   
             </div>
                 {
-                    survey.survey.map(item => {
+                    survey.map(item => {
                         if (item.q_dimension_id === dimension.id) {
-                            return <SurveyItem key={item.id} item={item} dimensionId={dimension.id}/>
+                            return <SurveyItem key={`item${item.id}`} item={item} />
                         }
                     })
                 }

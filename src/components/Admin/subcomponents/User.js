@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import io from 'socket.io-client';
 import './user.css';
 import {connect} from 'react-redux';
 import {updateUser, deleteUser, forgotPassword} from './../../../ducks/userReducer';
@@ -24,7 +25,10 @@ class User extends Component {
             company: this.props.person.company_id
         };
 
+        this.socket = io('localhost:4000');
+
         this.submitEdit = this.submitEdit.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
     };
 
     watchName(val) {
@@ -43,8 +47,14 @@ class User extends Component {
         let {user_name, user_email, company} = this.state;
         let {id} = person;        
         let updatedUser = {id, user_name, user_email, company};
-        await this.props.updateUser(updatedUser);
+        let usersAdmins = await this.props.updateUser(updatedUser);
+        await this.socket.emit('SEND_USERS_ADMINS', usersAdmins.value);
         this.setState({edit: false});
+    }
+
+    async deleteUser(id) {
+        let usersAdmins = await this.props.deleteUser(id);
+        await this.socket.emit('SEND_USERS_ADMINS', usersAdmins.value);
     }
   
     render() {
@@ -61,7 +71,7 @@ class User extends Component {
                 <li>
                     <button id='delete'
                             className='user-edit-button'
-                            onClick={() => this.props.deleteUser(person.id)}>
+                            onClick={() => this.deleteUser(person.id)}>
                             <FontAwesomeIcon icon='user-minus' /></button>
                 </li>
             </ul>
@@ -87,7 +97,7 @@ class User extends Component {
                             onClick={() => this.setState({edit: !this.state.edit, user_name: this.props.person.user_name, user_email: this.props.person.user_email, company: this.props.person.company_id})}><FontAwesomeIcon icon='undo' /></button>
                     <button id='delete'
                             className='user-edit-button'
-                            onClick={() => this.props.deleteUser(person.id)}>
+                            onClick={() => this.deleteUser(person.id)}>
                             <FontAwesomeIcon icon='user-minus' /></button>
                 </li>
             </ul>

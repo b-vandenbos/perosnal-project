@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import io from 'socket.io-client';
 import './surveyitem.css';
 import {connect} from 'react-redux';
 import {updateSurveyItem, deleteSurveyItem, reorderItems} from './../../../../ducks/surveyReducer';
@@ -27,9 +28,12 @@ class SurveyItem extends Component {
             q_id: this.props.item.q_id
         };
 
+        this.socket = io('localhost:4000');
+
         this.editMode = this.editMode.bind(this);
         this.submitEdit = this.submitEdit.bind(this);
         this.changeOrder = this.changeOrder.bind(this);
+        this.deleteSurveyItem = this.deleteSurveyItem.bind(this);
     }
 
     editMode() {
@@ -56,13 +60,20 @@ class SurveyItem extends Component {
         let {q_id, q_dimension_id, q_text, q_category} = this.state;
         let {id, company_id} = item;
         let updatedSurveyItem = {id, q_id, q_dimension_id, q_text, q_category, company_id}
-        await this.props.updateSurveyItem(updatedSurveyItem);
+        let survey = await this.props.updateSurveyItem(updatedSurveyItem);
+        await this.socket.emit('SEND_SURVEY', survey.value);
         this.setState({edit: false});
     }
 
     async changeOrder(item, change) {
         let surveyItem = {...item, change};
-        this.props.reorderItems(surveyItem);
+        let survey = await this.props.reorderItems(surveyItem);
+        await this.socket.emit('SEND_SURVEY', survey.value);
+    }
+
+    async deleteSurveyItem(item) {
+        let surveyItems = await this.props.deleteSurveyItem(item);
+        await this.socket.emit('SEND_SURVEY', surveyItems.value);
     }
     
 
@@ -104,7 +115,7 @@ class SurveyItem extends Component {
                     {item.q_category ? <div className='survey-item-category'>{item.q_category}</div> : null}
                 </div>
                 <button className='survey-item-delete'
-                        onClick={() => this.props.deleteSurveyItem(item)}><FontAwesomeIcon icon='minus-circle' /></button>
+                        onClick={() => this.deleteSurveyItem(item)}><FontAwesomeIcon icon='minus-circle' /></button>
             </div>
         )
     }

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import io from 'socket.io-client';
 import User from './User';
 import '../admin.css';
 import {connect} from 'react-redux';
@@ -6,8 +7,8 @@ import {addUser, getAllUsers, getAllAdmins} from './../../../ducks/userReducer';
 import {getAllCompany} from './../../../ducks/companyReducer';
 
 class Admin extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             userSearchInput: '',
@@ -16,10 +17,38 @@ class Admin extends Component {
             user_email: '',
             user_company: '',
             checked: false,
-            adminView: false
+            adminView: false,
+            allUsers: this.props.user.allUsers,
+            allAdmins: this.props.user.allAdmins,
+            allCompany: this.props.company.allCompany
         };
 
-        this.getUserList = this.getUserList.bind(this);
+        this.socket = io('localhost:4000');
+        this.socket.on('RECEIVE_USERS_ADMINS', function(data) {
+            receiveUser(data);
+        });
+        this.socket.on('RECEIVE_COMPANY_USERS_ADMINS', function(data) {
+            receiveUpdates(data);
+        });
+        this.socket.on('RECEIVE_COMPANY_IMAGE', function(data) {
+            receiveUser(data);
+        });
+        this.socket.on('RECEIVE_DELETED_COMPANY_INFO', function(data) {
+            receiveDeletedUpdates(data);
+        })
+
+        const receiveUser = data => {
+            this.setState({allUsers: data.allUsers, allAdmins: data.allAdmins})
+        };
+
+        const receiveUpdates = data => {
+            this.setState({allCompany: data.allCompany.action.payload, allUsers: data.allUsers.action.payload, allAdmins: data.allAdmins.action.payload})
+        };
+
+        const receiveDeletedUpdates = data => {
+            this.setState({allCompany: data.allCompany, allUsers: data.allUsers, allAdmins: data.allAdmins});
+        };
+
         this.adminToggle = this.adminToggle.bind(this);
 
     }
@@ -57,14 +86,9 @@ class Admin extends Component {
         let {user_name, user_email, user_company, checked} = this.state;
         let isadmin = checked;
         let newUser = {company_id: user_company, user_name, user_email, isadmin};
-        await this.props.addUser(newUser);
+        let usersAdmins = await this.props.addUser(newUser);
+        await this.socket.emit('SEND_USERS_ADMINS', usersAdmins.value);
         this.setState({user_name: '', user_email: '', user_company: '', checked: false});
-    }
-
-    async getUserList() {
-        let {company_id} = this.props.company.activeCompany;
-        await this.props.getAllUsers(company_id);
-
     }
 
     adminToggle() {
@@ -72,8 +96,7 @@ class Admin extends Component {
     }
 
     render() {
-        let {allUsers, allAdmins} = this.props.user;
-        let {allCompany} = this.props.company;
+        let {allUsers, allAdmins, allCompany} = this.state;
         let users = allUsers.map(user => {
             if (user.user_name.toLowerCase().includes(this.state.userSearchInput) && user.company_name.toLowerCase().includes(this.state.companySearchInput)) {
                 return <User key={user.id} person={user} />

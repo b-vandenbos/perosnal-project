@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import io from 'socket.io-client';
 import './addsurveyitem.css';
 import {connect} from 'react-redux';
 import {getDimensions, addSurveyItem, getSuggested} from './../../../../ducks/surveyReducer';
@@ -14,6 +15,8 @@ class AddSurveyItem extends Component {
             q_text: ''
         }
 
+        this.socket = io('localhost:4000');
+
         this.addSurveyItem = this.addSurveyItem.bind(this);
         this.cancel = this.cancel.bind(this);
     }
@@ -22,7 +25,9 @@ class AddSurveyItem extends Component {
         let {q_id, q_dimension_id, q_category, q_text} = this.state;
         let {company_id, id} = this.props.user.user;
         let newItem = {company_id, user_id: id, q_id, q_dimension_id, q_category, q_text};
-        await this.props.addSurveyItem(newItem);
+        let suggestedItems = await this.props.addSurveyItem(newItem);
+
+        await this.socket.emit('SEND_SUGGESTED', suggestedItems.value);
         this.cancel();
         this.setState({q_id: '', q_dimension_id: '', q_category: '', q_text: ''});
     }

@@ -37,16 +37,6 @@ io = socket(server);
 
 io.on('connection', (socket) => {
     console.log('connected socket');
-    
-    function sendHeartbeat() {
-        setTimeout(sendHeartbeat, 8000);
-        io.emit('ping', {beat: 1});
-    };
-    setTimeout(sendHeartbeat, 8000);
-
-    socket.on('pong', function(data) {
-        console.log('Pong received from client');
-    });
 
     socket.on('SEND_DISCUSSION', function(data) {
         io.emit('RECEIVE_DISCUSSION', data);

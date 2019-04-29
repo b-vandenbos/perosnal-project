@@ -18,9 +18,6 @@ class SuggestedView extends Component {
         }
 
         this.socket = io('/');
-        this.socket.on('ping', function(data) {
-            this.socket.emit('pong', {beat:1});
-        });
         this.socket.on('RECEIVE_SUGGESTED', function(data) {
            getSuggested(data);
         });

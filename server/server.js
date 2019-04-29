@@ -3,7 +3,7 @@ const express = require('express');
 const massive = require('massive');
 const session = require('express-session');
 const app = express();
-const socket = require('socket.io');
+const socketIO = require('socket.io');
 
 const authController = require('./controllers/authController');
 const companyController = require('./controllers/companyController');
@@ -32,7 +32,7 @@ app.use(session({
 server = app.listen(SERVER_PORT, () => 
         console.log(`The server is listening on port ${SERVER_PORT}`))
 
-io = socket(server);
+io = socketIO(server);
 
 
 io.on('connection', (socket) => {

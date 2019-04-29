@@ -37,6 +37,10 @@ io = socket(server);
 io.on('connection', (socket) => {
     console.log('connected socket');
 
+    socket.on('pong', function(data) {
+        console.log('Pong received from client');
+    });
+
     socket.on('SEND_DISCUSSION', function(data) {
         io.emit('RECEIVE_DISCUSSION', data);
     });
@@ -85,7 +89,14 @@ io.on('connection', (socket) => {
         console.log('Socket disconnected');
     });
 
-})
+});
+
+function sendHeartbeat() {
+    setTimeout(sendHeartbeat, 8000);
+    io.sockets.emit('ping', {beat: 1});
+}
+
+setTimeout(sendHeartbeat, 8000);
 
 app.post('/auth/register', authController.register);
 app.post('/auth/login', authController.login);

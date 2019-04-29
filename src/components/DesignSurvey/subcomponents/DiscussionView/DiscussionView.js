@@ -15,6 +15,9 @@ class DiscussionView extends Component {
         };
 
         this.socket = io('/');
+        this.socket.on('ping', function(data) {
+            socket.emit('pong', {beat:1});
+        });
         this.socket.on('RECEIVE_DISCUSSION', function(data) {
             addMessage(data);
         });

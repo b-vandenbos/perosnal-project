@@ -34,8 +34,15 @@ server = app.listen(SERVER_PORT, () =>
 
 io = socket(server);
 
+
 io.on('connection', (socket) => {
     console.log('connected socket');
+    
+    function sendHeartbeat() {
+        setTimeout(sendHeartbeat, 8000);
+        io.emit('ping', {beat: 1});
+    };
+    setTimeout(sendHeartbeat, 8000);
 
     socket.on('pong', function(data) {
         console.log('Pong received from client');
@@ -90,13 +97,6 @@ io.on('connection', (socket) => {
     });
 
 });
-
-function sendHeartbeat() {
-    setTimeout(sendHeartbeat, 8000);
-    io.sockets.emit('ping', {beat: 1});
-}
-
-setTimeout(sendHeartbeat, 8000);
 
 app.post('/auth/register', authController.register);
 app.post('/auth/login', authController.login);

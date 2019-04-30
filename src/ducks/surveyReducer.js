@@ -10,6 +10,7 @@ export const UPDATE_DIMENSIONS = 'UPDATE_DIMENSIONS';
 export const UPDATE_SURVEY = 'UPDATE_SURVEY';
 export const UPDATE_SUGGESTED = 'UPDATE_SUGGESTED';
 export const UPDATE_SURVEY_AND_SUGGESTED = 'UPDATE_SURVEY_AND_SUGGESTED';
+export const UPDATE_DIMENSIONS_AND_SUGGESTED = 'UPDATE_DIMENSIONS_AND_SUGGESTED';
 export const UPDATE_DIMENSIONS_AND_SURVEY_AND_SUGGESTED = 'UPDATE_DIMENSIONS_AND_SURVEY_AND_SUGGESTED';
 
 
@@ -88,7 +89,7 @@ export function addDimension(newDim) {
 export function updateDimension(updateInfo) {
     let data = axios.put(`/dimensions/${updateInfo.id}`, updateInfo).then(res => res.data);
     return {
-        type: UPDATE_DIMENSIONS,
+        type: UPDATE_DIMENSIONS_AND_SUGGESTED,
         payload: data
     };
 };
@@ -127,6 +128,8 @@ export default function reducer(state = initialState, action) {
             return {...state, suggested: action.payload};
         case UPDATE_SURVEY_AND_SUGGESTED + '_FULFILLED':
             return {...state, survey: action.payload.survey, suggested: action.payload.suggested};
+        case UPDATE_DIMENSIONS_AND_SUGGESTED + '_FULFILLED':
+            return {...state, suggested: action.payload.suggested, dimensions: action.payload.dimensions};
         case UPDATE_DIMENSIONS_AND_SURVEY_AND_SUGGESTED + '_FULFILLED':
             return {survey: action.payload.survey, suggested: action.payload.suggested, dimensions: action.payload.dimensions};
         default:

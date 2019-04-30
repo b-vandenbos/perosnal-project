@@ -26,7 +26,10 @@ class SuggestedView extends Component {
         });
         this.socket.on('RECEIVE_DIM_SURVEY_SUGGESTED', function(data) {
             getSuggested(data.suggested);
-        })
+        });
+        this.socket.on('RECEIVE_DIMENSIONS', function(data) {
+            getSuggested(data.suggested);
+        });
         
         const getSuggested = data => {
             this.setState({suggested: data})

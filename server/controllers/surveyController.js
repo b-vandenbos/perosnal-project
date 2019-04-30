@@ -89,7 +89,8 @@ module.exports = {
         const {company_id, updatedDimension} = req.body;
         const db = req.app.get('db');
         let dimensions = await db.update_dimension([id, company_id, updatedDimension]);
-        res.status(200).send(dimensions);
+        const suggested = await db.get_suggested_by_company_id(company_id);
+        res.status(200).send({suggested, dimensions});
     },
 
     reorderItems: async (req, res) => {

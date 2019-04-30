@@ -54,6 +54,10 @@ io.on('connection', (socket) => {
         io.emit('RECEIVE_DIMENSIONS', data);
     });
 
+    socket.on('UPDATE_DIMENSIONS', function(data) {
+        io.emit('RECEIVE_UPDATED_DIMENSIONS', data);
+    });
+
     socket.on('SEND_SUGGESTED_AND_SURVEY', function(data) {
         io.emit('RECEIVE_SUGGESTED_AND_SURVEY', data);
     });

@@ -64,7 +64,7 @@ class Dimension extends Component {
             let {updatedDimension} = this.state;
             const updateInfo = {id, company_id, updatedDimension}
             let dimensions = await this.props.updateDimension(updateInfo);
-            await this.socket.emit('SEND_DIMENSIONS', dimensions.value);
+            await this.socket.emit('UPDATE_DIMENSIONS', dimensions.value);
             this.setState({edit: !this.state.edit});
         }
     };

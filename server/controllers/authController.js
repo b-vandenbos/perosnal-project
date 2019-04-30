@@ -61,7 +61,7 @@ module.exports = {
                 <li style="list-style: none;"><strong>Username: ${user_email}</strong></li>
                 <li style="list-style: none;"><strong>Temporary Password: ${password}</strong></li>
           </ul><br><br>
-          <a href="http://www.surveydw.com"
+          <a href="https://www.surveydw.com"
                 style=" font-family: 'Open Sans Light', sans-serif;
                         font-size:18px;
                         background: rgb(0,77,113);
@@ -203,7 +203,7 @@ module.exports = {
                 <li style="list-style: none;"><strong>Username: ${user_email}</strong></li>
                 <li style="list-style: none;"><strong>Temporary Password: ${password}</strong></li>
           </ul><br><br>
-          <a href="http://www.surveydw.com"
+          <a href="https://www.surveydw.com"
                 style=" font-family: 'Open Sans Light', sans-serif;
                         font-size:18px;
                         background: rgb(0,77,113);

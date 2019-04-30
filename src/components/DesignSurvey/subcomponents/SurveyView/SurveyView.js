@@ -18,7 +18,6 @@ class SurveyView extends Component {
         
         this.socket = io('/', {transports: ['websocket']});
         this.socket.on('RECEIVE_DIMENSIONS', function(data) {
-            console.log(data);
             updateDimensions(data);
         });
         this.socket.on('RECEIVE_DIM_SURVEY_SUGGESTED', function(data) {
@@ -27,6 +26,7 @@ class SurveyView extends Component {
 
         const updateDimensions = data => {
             this.setState({dimensions: data});
+            console.log(this.state.dimensions);
         }
 
 

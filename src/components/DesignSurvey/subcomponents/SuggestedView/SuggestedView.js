@@ -17,7 +17,7 @@ class SuggestedView extends Component {
             suggested: this.props.survey.suggested
         }
 
-        this.socket = io('/');
+        this.socket = io('/', {transports: ['websocket']});
         this.socket.on('RECEIVE_SUGGESTED', function(data) {
            getSuggested(data);
         });

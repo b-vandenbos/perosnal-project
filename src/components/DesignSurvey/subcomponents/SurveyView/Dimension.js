@@ -26,7 +26,7 @@ class Dimension extends Component {
             survey: this.props.survey.survey
         };
 
-        this.socket = io('/');
+        this.socket = io('/', {transports: ['websocket']});
         this.socket.on('RECEIVE_SURVEY', function(data) {
             receiveSurvey(data);
         });
@@ -64,7 +64,6 @@ class Dimension extends Component {
             let {updatedDimension} = this.state;
             const updateInfo = {id, company_id, updatedDimension}
             let dimensions = await this.props.updateDimension(updateInfo);
-
             await this.socket.emit('SEND_DIMENSIONS', dimensions.value);
             this.setState({edit: !this.state.edit});
         }

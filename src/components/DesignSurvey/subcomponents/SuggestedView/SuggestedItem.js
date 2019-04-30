@@ -17,7 +17,7 @@ class SuggestedItem extends Component {
     constructor() {
         super();
 
-        this.socket = io('/');
+        this.socket = io('/', {transports: ['websocket']});
 
         this.deleteSuggestedItem = this.deleteSuggestedItem.bind(this);
         this.transferSuggestedItem = this.transferSuggestedItem.bind(this);

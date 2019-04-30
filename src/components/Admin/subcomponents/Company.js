@@ -30,7 +30,7 @@ class Company extends Component {
             company_logo: this.props.comp.company_logo
         };
 
-        this.socket = io('/');
+        this.socket = io('/', {transports: ['websocket']});
 
         this.updateCompany = this.updateCompany.bind(this);
     };

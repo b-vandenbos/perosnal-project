@@ -36,7 +36,7 @@ io = socketIO(server);
 
 
 io.on('connection', (socket) => {
-    console.log('connected socket');
+    // console.log('socket connected');
 
     socket.on('SEND_DISCUSSION', function(data) {
         io.emit('RECEIVE_DISCUSSION', data);
@@ -82,9 +82,9 @@ io.on('connection', (socket) => {
         io.emit('RECEIVE_DELETED_COMPANY_INFO', data);
     });
 
-    socket.on('disconnect', function() {
-        console.log('Socket disconnected');
-    });
+    // socket.on('disconnect', function() {
+    //     console.log('Socket disconnected');
+    // });
 
 });
 

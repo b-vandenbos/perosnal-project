@@ -23,7 +23,7 @@ class Admin extends Component {
             allCompany: this.props.company.allCompany
         };
 
-        this.socket = io('/');
+        this.socket = io('/', {transports: ['websocket']});
         this.socket.on('RECEIVE_USERS_ADMINS', function(data) {
             receiveUser(data);
         });

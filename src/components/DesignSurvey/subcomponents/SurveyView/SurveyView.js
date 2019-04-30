@@ -16,9 +16,9 @@ class SurveyView extends Component {
             dimensions: this.props.survey.dimensions
         };
         
-        this.socket = io('/');
+        this.socket = io('/', {transports: ['websocket']});
         this.socket.on('RECEIVE_DIMENSIONS', function(data) {
-            updateDimensions(data.dimensions);
+            updateDimensions(data);
         });
         this.socket.on('RECEIVE_DIM_SURVEY_SUGGESTED', function(data) {
             updateDimensions(data.dimensions);
@@ -51,7 +51,8 @@ class SurveyView extends Component {
             let {company_id} = this.props.user.user;
             let newDim = {company_id, newDimension};
             let dimensions = await this.props.addDimension(newDim);
-            await this.socket.emit('SEND_DIMENSIONS', dimensions.value);
+            console.log(dimensions);
+            this.socket.emit('SEND_DIMENSIONS', dimensions.value);
             this.setState({addDimension: false, newDimension: ''});
         };
     };

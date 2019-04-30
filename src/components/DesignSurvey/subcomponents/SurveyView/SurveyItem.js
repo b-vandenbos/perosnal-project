@@ -25,10 +25,24 @@ class SurveyItem extends Component {
             q_text: this.props.item.q_text,
             q_category: this.props.item.q_category,
             q_dimension_id: this.props.item.q_dimension_id,
-            q_id: this.props.item.q_id
+            q_id: this.props.item.q_id,
+            dimensions: this.props.survey.dimensions
         };
 
         this.socket = io('/', {transports: ['websocket']});
+        this.socket.on('RECEIVE_DIMENSIONS', function(data) {
+            updateDimensions(data);
+        });
+        this.socket.on('RECEIVE_UPDATED_DIMENSIONS', function(data) {
+            updateDimensions(data.dimensions);
+        })
+        this.socket.on('RECEIVE_DIM_SURVEY_SUGGESTED', function(data) {
+            updateDimensions(data.dimensions);
+        });
+    
+        const updateDimensions = data => {
+            this.setState({dimensions: data});
+            };
 
         this.editMode = this.editMode.bind(this);
         this.submitEdit = this.submitEdit.bind(this);
@@ -78,7 +92,7 @@ class SurveyItem extends Component {
     
 
     render() {
-        let dimensions = this.props.survey.dimensions.map((dimension, index) => {
+        let dimensions = this.state.dimensions.map((dimension, index) => {
             return <option  key={index} value={dimension.id}>{dimension.q_dimension}</option>
         })
         const {item} = this.props;

@@ -2,20 +2,34 @@ import React, {Component} from 'react';
 import io from 'socket.io-client';
 import './addsurveyitem.css';
 import {connect} from 'react-redux';
-import {getDimensions, addSurveyItem, getSuggested} from './../../../../ducks/surveyReducer';
+import {getDimensions, addSurveyItem, getSuggested, UPDATE_DIMENSIONS} from './../../../../ducks/surveyReducer';
 
 class AddSurveyItem extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         
         this.state = {
             q_id: '',
             q_dimension_id: '',
             q_category: '',
-            q_text: ''
+            q_text: '',
+            dimensions: this.props.survey.dimensions
         }
 
         this.socket = io('/', {transports: ['websocket']});
+        this.socket.on('RECEIVE_DIMENSIONS', function(data) {
+            updateDimensions(data);
+        });
+        this.socket.on('RECEIVE_UPDATED_DIMENSIONS', function(data) {
+            updateDimensions(data.dimensions);
+        });
+        this.socket.on('RECEIVE_DIM_SURVEY_SUGGESTED', function(data) {
+            updateDimensions(data.dimensions);
+        })
+
+        const updateDimensions = data => {
+            this.setState({dimensions: data});
+        }
 
         this.addSurveyItem = this.addSurveyItem.bind(this);
         this.cancel = this.cancel.bind(this);
@@ -54,8 +68,8 @@ class AddSurveyItem extends Component {
     }
     
     render() {
-        const {survey} = this.props;
-        let dimensionOptions = survey.dimensions.map((dimension, index) => {
+        const {dimensions} = this.state;
+        let dimensionOptions = dimensions.map((dimension, index) => {
             return <option key={index} value={dimension.id}>{dimension.q_dimension}</option>
         })
         return (

@@ -15,8 +15,15 @@ class SurveyView extends Component {
             newDimension: '',
             dimensions: this.props.survey.dimensions
         };
+                
+        this.addToggle = this.addToggle.bind(this);
+        this.addDimension = this.addDimension.bind(this);
+    };
+    
+    componentDidMount() {
+        this.props.getDimensions();
         
-        this.socket = io('/', {transports: ['websocket']});
+        this.socket = io('/');
         this.socket.on('RECEIVE_DIMENSIONS', function(data) {
             updateDimensions(data);
         });
@@ -29,15 +36,7 @@ class SurveyView extends Component {
 
         const updateDimensions = data => {
             this.setState({dimensions: data});
-        }
-
-
-        this.addToggle = this.addToggle.bind(this);
-        this.addDimension = this.addDimension.bind(this);
-    };
-  
-    componentDidMount() {
-        this.props.getDimensions();
+            };
     };
 
     watchDimension(val) {

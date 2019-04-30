@@ -26,14 +26,6 @@ class Dimension extends Component {
             survey: this.props.survey.survey
         };
 
-        this.updateDimension = this.updateDimension.bind(this);
-        this.changeDimensionOrder = this.changeDimensionOrder.bind(this);
-        this.deleteDimension = this.deleteDimension.bind(this);
-    };
-
-    componentDidMount() {
-        this.props.getSurvey();
-
         this.socket = io('/', {transports: ['websocket']});
         this.socket.on('RECEIVE_SURVEY', function(data) {
             receiveSurvey(data);
@@ -45,13 +37,21 @@ class Dimension extends Component {
             receiveSurvey(data.survey);
             receiveDimensions(data.dimensions);
         })
-
+    
         const receiveSurvey = data => {
             this.setState({survey: data});
         }
         const receiveDimensions = data => {
             this.setState({dimensions: data});
         }
+
+        this.updateDimension = this.updateDimension.bind(this);
+        this.changeDimensionOrder = this.changeDimensionOrder.bind(this);
+        this.deleteDimension = this.deleteDimension.bind(this);
+    };
+
+    componentDidMount() {
+        this.props.getSurvey();
     };
 
     watchDimension(val) {

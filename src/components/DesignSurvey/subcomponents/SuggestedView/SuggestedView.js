@@ -17,12 +17,6 @@ class SuggestedView extends Component {
             suggested: this.props.survey.suggested
         }
 
-        this.addNewToggle = this.addNewToggle.bind(this);
-    }
-    componentDidMount() {
-        this.props.getUser();
-        this.props.getSuggested();
-
         this.socket = io('/', {transports: ['websocket']});
         this.socket.on('RECEIVE_SUGGESTED', function(data) {
            getSuggested(data);
@@ -39,7 +33,13 @@ class SuggestedView extends Component {
         
         const getSuggested = data => {
             this.setState({suggested: data})
-        }
+        };
+
+        this.addNewToggle = this.addNewToggle.bind(this);
+    }
+    componentDidMount() {
+        this.props.getUser();
+        this.props.getSuggested();
     }
 
     addNewToggle() {

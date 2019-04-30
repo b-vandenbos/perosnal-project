@@ -14,6 +14,15 @@ class DiscussionView extends Component {
             discussion: this.props.discussion.discussion
         };
 
+        this.socket = io('/', {transports: ['websocket']});
+        this.socket.on('RECEIVE_DISCUSSION', function(data) {
+            addMessage(data);
+        });
+    
+        const addMessage = data => {
+            this.setState({discussion: data});
+        };
+
         this.createMessage = this.createMessage.bind(this);
     }
        
@@ -21,14 +30,6 @@ class DiscussionView extends Component {
         this.props.getDiscussion();
         this.discussionScrollbar();
 
-        this.socket = io('/', {transports: ['websocket']});
-        this.socket.on('RECEIVE_DISCUSSION', function(data) {
-            addMessage(data);
-        });
-
-        const addMessage = data => {
-            this.setState({discussion: data});
-        }
     }
 
     discussionScrollbar() {

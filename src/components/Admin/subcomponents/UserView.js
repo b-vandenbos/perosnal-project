@@ -35,7 +35,14 @@ class Admin extends Component {
         });
         this.socket.on('RECEIVE_DELETED_COMPANY_INFO', function(data) {
             receiveDeletedUpdates(data);
-        })
+        });
+        this.socket.on('RECEIVE_COMPANY', function(data) {
+            getAllCompany(data);
+        });
+
+        const getAllCompany = data => {
+            this.setState({allCompany: data});
+        };
 
         const receiveUser = data => {
             this.setState({allUsers: data.allUsers, allAdmins: data.allAdmins})
